@@ -1,0 +1,22 @@
+# Dados do case: NUNCA versionar
+data/*
+!data/.gitkeep
+*.csv
+*.parquet
+*.xlsx
+
+# Credenciais
+.env
+*.json.key
+service-account*.json
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+dist/
+build/
