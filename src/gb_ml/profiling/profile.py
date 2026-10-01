@@ -217,3 +217,92 @@ def temporal_summary(
     if groups:
         return work.groupby(groups, dropna=False).apply(summarize, include_groups=False).reset_index()
     return summarize(work).to_frame().T
+
+
+def infer_date_columns(
+    df: pd.DataFrame,
+    *,
+    bq_schema: pd.DataFrame | None = None,
+    parse_threshold: float = 0.95,
+) -> list[str]:
+    """Identifica colunas temporais por schema do BigQuery, dtype ou parseabilidade."""
+    candidates: list[str] = []
+
+    if bq_schema is not None and not bq_schema.empty:
+        type_col = "field_type" if "field_type" in bq_schema.columns else None
+        name_col = "name" if "name" in bq_schema.columns else None
+        if type_col and name_col:
+            temporal_types = {"DATE", "DATETIME", "TIMESTAMP"}
+            for _, row in bq_schema.iterrows():
+                if str(row[type_col]).upper() in temporal_types:
+                    name = str(row[name_col])
+                    if name in df.columns and name not in candidates:
+                        candidates.append(name)
+
+    for column in df.columns:
+        if pd.api.types.is_datetime64_any_dtype(df[column]) and column not in candidates:
+            candidates.append(column)
+
+    # Fallback para DATE do BigQuery que eventualmente chega como object/dbdate.
+    for column in df.columns:
+        if column in candidates:
+            continue
+        s = df[column].dropna()
+        if s.empty:
+            continue
+        if not (
+            pd.api.types.is_object_dtype(s)
+            or pd.api.types.is_string_dtype(s)
+        ):
+            continue
+
+        sample = s.head(500)
+        parsed = pd.to_datetime(sample, errors="coerce")
+        parse_rate = parsed.notna().mean()
+        if parse_rate >= parse_threshold:
+            candidates.append(column)
+
+    return candidates
+
+
+def resolve_date_column(
+    df: pd.DataFrame,
+    *,
+    configured: str | None = None,
+    bq_schema: pd.DataFrame | None = None,
+) -> tuple[str | None, list[str], str]:
+    """Resolve a coluna temporal principal e informa a origem da decisão."""
+    if configured and configured in df.columns:
+        return configured, [configured], "config"
+
+    candidates = infer_date_columns(df, bq_schema=bq_schema)
+    if not candidates:
+        return None, [], "not_found"
+
+    if len(candidates) == 1:
+        return candidates[0], candidates, "inferred_type"
+
+    # Desempate por nomes que normalmente representam a data do fato.
+    hints = (
+        "data",
+        "date",
+        "dt",
+        "semana",
+        "week",
+        "mes",
+        "month",
+        "dia",
+        "day",
+        "timestamp",
+    )
+    scored = []
+    for column in candidates:
+        normalized = column.lower()
+        score = sum(1 for hint in hints if hint in normalized)
+        scored.append((score, column))
+
+    scored.sort(key=lambda x: (-x[0], candidates.index(x[1])))
+    if scored and scored[0][0] > 0:
+        return scored[0][1], candidates, "inferred_type_name_hint"
+
+    return candidates[0], candidates, "inferred_type_first_candidate"
