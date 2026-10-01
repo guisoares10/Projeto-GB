@@ -181,7 +181,16 @@ def outlier_report(
             "threshold": threshold if method.lower() == "mad" else iqr_multiplier,
         })
 
-    return pd.DataFrame.from_records(records)
+    columns_schema = [
+        "coluna",
+        "metodo",
+        "outliers",
+        "pct_outliers",
+        "limite_inferior",
+        "limite_superior",
+        "threshold",
+    ]
+    return pd.DataFrame.from_records(records, columns=columns_schema)
 
 
 def temporal_summary(
