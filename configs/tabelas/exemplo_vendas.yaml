@@ -1,8 +1,15 @@
 # Contrato ilustrativo. Substituir nomes e regras quando o case real chegar.
 table_name: exemplo_vendas
 
+target: vendas
+date_column: data
+
 grain:
   - data
+  - produto_id
+  - loja_id
+
+entity_keys:
   - produto_id
   - loja_id
 
@@ -37,3 +44,19 @@ columns:
     nullable: true
     min: 0
     bounds_severity: warn
+
+# Exemplo de catálogo temporal das features.
+# No case real, esta seção deve refletir o instante em que cada variável fica disponível.
+feature_availability:
+  produto_id:
+    available_at_prediction: true
+    detail: "Conhecido antes do horizonte de previsão."
+  loja_id:
+    available_at_prediction: true
+    detail: "Conhecido antes do horizonte de previsão."
+  preco:
+    available_at_prediction: true
+    detail: "Assumindo preço planejado/conhecido para o horizonte."
+  vendas:
+    available_at_prediction: false
+    detail: "É o target do período corrente; só fica conhecido após a realização."
