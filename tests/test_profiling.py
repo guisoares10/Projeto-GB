@@ -29,3 +29,44 @@ def test_temporal_summary_detecta_gap():
     report = temporal_summary(df, "data")
 
     assert report.loc[0, "periodos_faltantes"] == 1
+
+
+def test_resolve_date_column_inferida_por_dtype():
+    from gb_ml.profiling.profile import resolve_date_column
+
+    df = pd.DataFrame({
+        "data_semana": pd.to_datetime(["2025-01-01", "2025-01-08"]),
+        "vendas": [10, 20],
+    })
+
+    resolved, candidates, source = resolve_date_column(
+        df,
+        configured="data",
+    )
+
+    assert resolved == "data_semana"
+    assert "data_semana" in candidates
+    assert source.startswith("inferred_type")
+
+
+def test_resolve_date_column_prioriza_schema_bigquery():
+    from gb_ml.profiling.profile import resolve_date_column
+
+    df = pd.DataFrame({
+        "data_semana": ["2025-01-01", "2025-01-08"],
+        "codigo": ["A", "B"],
+    })
+    schema = pd.DataFrame({
+        "name": ["data_semana", "codigo"],
+        "field_type": ["DATE", "STRING"],
+    })
+
+    resolved, candidates, source = resolve_date_column(
+        df,
+        configured="data",
+        bq_schema=schema,
+    )
+
+    assert resolved == "data_semana"
+    assert candidates[0] == "data_semana"
+    assert source.startswith("inferred_type")
