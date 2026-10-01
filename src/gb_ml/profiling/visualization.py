@@ -128,7 +128,20 @@ def plot_outlier_boxplots(
         plt.show()
         plt.close(fig)
 
-    return pd.DataFrame(summaries)
+    columns_schema = [
+        "coluna",
+        "n_validos",
+        "outliers",
+        "pct_outliers",
+        "q1",
+        "q3",
+        "iqr",
+        "limite_inferior",
+        "limite_superior",
+        "min_outlier",
+        "max_outlier",
+    ]
+    return pd.DataFrame(summaries, columns=columns_schema)
 
 
 def plot_outlier_rate(
@@ -147,6 +160,18 @@ def plot_outlier_rate(
     ordered = report.sort_values("pct_outliers", ascending=True).copy()
 
     fig, ax = plt.subplots(figsize=figsize)
+    if ordered.empty:
+        ax.text(
+            0.5,
+            0.5,
+            "Nenhuma variável numérica elegível para análise de outliers.",
+            ha="center",
+            va="center",
+            transform=ax.transAxes,
+        )
+        ax.set_axis_off()
+        fig.tight_layout()
+        return fig, ax
     ax.barh(ordered["coluna"].astype(str), ordered["pct_outliers"] * 100)
     ax.set_title("Percentual de outliers por variável")
     ax.set_xlabel("% de observações classificadas como outlier")
