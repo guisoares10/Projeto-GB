@@ -1,4 +1,10 @@
-from .profile import outlier_report, profile_dataframe, temporal_summary
+from .profile import (
+    infer_date_columns,
+    outlier_report,
+    profile_dataframe,
+    resolve_date_column,
+    temporal_summary,
+)
 from .visualization import (
     iqr_limits,
     iqr_outlier_mask,
@@ -19,6 +25,8 @@ __all__ = [
     "profile_dataframe",
     "outlier_report",
     "temporal_summary",
+    "infer_date_columns",
+    "resolve_date_column",
     "iqr_limits",
     "iqr_outlier_mask",
     "plot_outlier_boxplot",
