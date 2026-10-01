@@ -1,0 +1,39 @@
+# Contrato ilustrativo. Substituir nomes e regras quando o case real chegar.
+table_name: exemplo_vendas
+
+grain:
+  - data
+  - produto_id
+  - loja_id
+
+defaults:
+  warn_null_pct: 0.05
+  error_null_pct: 0.30
+  warn_blank_pct: 0.01
+
+columns:
+  data:
+    type: datetime
+    nullable: false
+    date_no_future: true
+    future_severity: error
+
+  produto_id:
+    type: string
+    nullable: false
+
+  loja_id:
+    type: string
+    nullable: false
+
+  vendas:
+    type: numeric
+    nullable: false
+    min: 0
+    bounds_severity: error
+
+  preco:
+    type: numeric
+    nullable: true
+    min: 0
+    bounds_severity: warn
