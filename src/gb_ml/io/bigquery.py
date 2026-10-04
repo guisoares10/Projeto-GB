@@ -7,19 +7,27 @@ from typing import Iterable
 import pandas as pd
 
 
-def _client(project_id: str | None = None):
+def _client(
+    project_id: str | None = None,
+    location: str | None = None,
+):
     try:
         from google.cloud import bigquery
     except ImportError as exc:
         raise ImportError("Instale as dependências de BigQuery com: pip install -e '.[bq]'") from exc
-    return bigquery.Client(project=project_id)
+    return bigquery.Client(project=project_id, location=location)
 
 
-def estimate_query_bytes(sql: str, *, project_id: str | None = None) -> int:
+def estimate_query_bytes(
+    sql: str,
+    *,
+    project_id: str | None = None,
+    location: str | None = None,
+) -> int:
     """Faz dry-run e retorna os bytes que a query processaria."""
     from google.cloud import bigquery
 
-    client = _client(project_id)
+    client = _client(project_id, location=location)
     job_config = bigquery.QueryJobConfig(dry_run=True, use_query_cache=False)
     job = client.query(sql, job_config=job_config)
     return int(job.total_bytes_processed or 0)
@@ -30,20 +38,30 @@ def read_query(
     *,
     project_id: str | None = None,
     maximum_bytes_billed: int | None = None,
+    location: str | None = None,
 ) -> pd.DataFrame:
     """Executa uma query e retorna DataFrame, opcionalmente com limite de bytes faturados."""
     from google.cloud import bigquery
 
-    client = _client(project_id)
+    client = _client(project_id, location=location)
     job_config = bigquery.QueryJobConfig()
     if maximum_bytes_billed is not None:
         job_config.maximum_bytes_billed = int(maximum_bytes_billed)
-    return client.query(sql, job_config=job_config).to_dataframe()
+    return client.query(
+        sql,
+        job_config=job_config,
+        location=location,
+    ).to_dataframe()
 
 
-def table_metadata(table_id: str, *, project_id: str | None = None) -> tuple[dict, pd.DataFrame]:
+def table_metadata(
+    table_id: str,
+    *,
+    project_id: str | None = None,
+    location: str | None = None,
+) -> tuple[dict, pd.DataFrame]:
     """Retorna metadados gerais e schema de uma tabela."""
-    client = _client(project_id)
+    client = _client(project_id, location=location)
     table = client.get_table(table_id)
 
     metadata = {
@@ -73,6 +91,7 @@ def sample_table(
     where: str | None = None,
     project_id: str | None = None,
     maximum_bytes_billed: int | None = None,
+    location: str | None = None,
 ) -> pd.DataFrame:
     """Carrega uma amostra explícita de uma tabela para análise local."""
     if limit <= 0:
@@ -84,4 +103,9 @@ def sample_table(
         sql += f" WHERE {where}"
     sql += f" LIMIT {int(limit)}"
 
-    return read_query(sql, project_id=project_id, maximum_bytes_billed=maximum_bytes_billed)
+    return read_query(
+        sql,
+        project_id=project_id,
+        maximum_bytes_billed=maximum_bytes_billed,
+        location=location,
+    )
