@@ -57,7 +57,7 @@ def load_case_bigquery(
     """Carrega a fact curada diretamente do BigQuery."""
     from gb_ml.io import read_query
 
-    sql = f"SELECT * FROM \`{table_id}\` ORDER BY dt_hr_venda"
+    sql = f"SELECT * FROM `{table_id}` ORDER BY dt_hr_venda"
     df = read_query(
         sql,
         project_id=project_id,
