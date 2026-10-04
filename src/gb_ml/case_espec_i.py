@@ -52,12 +52,17 @@ def load_case_bigquery(
     table_id: str = "gms-prod-01.projeto_gb.fact_vendas",
     *,
     project_id: str = "gms-prod-01",
+    location: str = "us-east4",
 ) -> pd.DataFrame:
     """Carrega a fact curada diretamente do BigQuery."""
     from gb_ml.io import read_query
 
     sql = f"SELECT * FROM \`{table_id}\` ORDER BY dt_hr_venda"
-    df = read_query(sql, project_id=project_id)
+    df = read_query(
+        sql,
+        project_id=project_id,
+        location=location,
+    )
 
     missing = [column for column in EXPECTED_COLUMNS if column not in df.columns]
     if missing:
