@@ -33,6 +33,39 @@ A EDA usa `qt_material` como proxy principal de **demanda operacional em unidade
 `receita_aprovada` como KPI financeiro central. A etapa de modelagem documentará
 explicitamente a escolha do target e poderá comparar as duas visões.
 
+
+## Estratégia de EDA: BigQuery-first
+
+A análise exploratória segue uma divisão intencional de responsabilidades:
+
+```
+BigQuery / SQL
+    ↓
+Data Quality, filtros, regras, agregações e redução de volume
+    ↓
+Pandas / Python
+    ↓
+estatística, visualização, interpretação e Machine Learning
+```
+
+Exemplos executados diretamente no BigQuery:
+- nulos e domínios inválidos;
+- duplicidade no grão hora × canal × categoria;
+- identificação de categorias corrompidas com `SAFE_CAST`;
+- receita negativa;
+- cobertura temporal;
+- agregação diária;
+- thresholds de outlier por IQR;
+- preço médio ponderado;
+- potencial por dia da semana;
+- perfil intradiário e dia da semana × hora.
+
+Antes das consultas, o notebook faz `dry-run` para exibir uma estimativa dos bytes
+processados. Isso mantém explícita a preocupação com custo e performance no BigQuery.
+
+O Pandas recebe prioritariamente resultados agregados — por exemplo, a série diária —
+em vez de reproduzir no notebook operações que pertencem ao data warehouse.
+
 ## Seção 2 — Inovação e Arquitetura de IA
 
 Business case sobre análise de imagens/banners do site:
