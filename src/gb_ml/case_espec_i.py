@@ -10,8 +10,8 @@ import pandas as pd
 
 EXPECTED_COLUMNS = [
     "dt_hr_venda",
-    "DES_CANAL_VENDA_FINAL_AGRUP",
-    "DES_CATEGORIA_MATERIAL",
+    "des_canal_venda_final_agrup",
+    "des_categoria_material",
     "receita_aprovada",
     "nr_pedidos",
     "qt_material",
@@ -41,6 +41,7 @@ def load_case_csv(path: str | Path) -> pd.DataFrame:
         )
 
     df = pd.read_csv(path)
+    df.columns = [str(column).strip().lower() for column in df.columns]
     missing = [column for column in EXPECTED_COLUMNS if column not in df.columns]
     if missing:
         raise ValueError(f"Colunas obrigatórias ausentes no CSV: {missing}")
@@ -63,6 +64,7 @@ def load_case_bigquery(
         project_id=project_id,
         location=location,
     )
+    df.columns = [str(column).strip().lower() for column in df.columns]
 
     missing = [column for column in EXPECTED_COLUMNS if column not in df.columns]
     if missing:
@@ -88,11 +90,11 @@ def prepare_case_data(df: pd.DataFrame) -> pd.DataFrame:
         work[column] = pd.to_numeric(work[column], errors="coerce")
 
     category_numeric = pd.to_numeric(
-        work["DES_CATEGORIA_MATERIAL"].astype(str),
+        work["des_categoria_material"].astype(str),
         errors="coerce",
     )
     work["categoria_invalida"] = category_numeric.notna()
-    work["categoria_material_limpa"] = work["DES_CATEGORIA_MATERIAL"].where(
+    work["categoria_material_limpa"] = work["des_categoria_material"].where(
         ~work["categoria_invalida"],
         pd.NA,
     )
@@ -131,7 +133,7 @@ def prepare_case_data(df: pd.DataFrame) -> pd.DataFrame:
 def valid_categories(df: pd.DataFrame) -> list[str]:
     """Retorna as categorias textuais válidas identificadas no arquivo."""
     values = (
-        df.loc[~df["categoria_invalida"], "DES_CATEGORIA_MATERIAL"]
+        df.loc[~df["categoria_invalida"], "des_categoria_material"]
         .dropna()
         .astype(str)
         .unique()
@@ -143,8 +145,8 @@ def quality_summary(df: pd.DataFrame) -> pd.DataFrame:
     """Consolida os principais checks de qualidade específicos do case."""
     grain = [
         "dt_hr_venda",
-        "DES_CANAL_VENDA_FINAL_AGRUP",
-        "DES_CATEGORIA_MATERIAL",
+        "des_canal_venda_final_agrup",
+        "des_categoria_material",
     ]
 
     expected_start = pd.Timestamp("2025-11-01 00:00:00")
@@ -238,8 +240,8 @@ def quality_summary(df: pd.DataFrame) -> pd.DataFrame:
         },
         {
             "check": "canal_fora_dominio",
-            "status": "OK" if set(df["DES_CANAL_VENDA_FINAL_AGRUP"].unique()) <= VALID_CHANNELS else "ERRO",
-            "valor": sorted(df["DES_CANAL_VENDA_FINAL_AGRUP"].unique().tolist()),
+            "status": "OK" if set(df["des_canal_venda_final_agrup"].unique()) <= VALID_CHANNELS else "ERRO",
+            "valor": sorted(df["des_canal_venda_final_agrup"].unique().tolist()),
             "esperado": sorted(VALID_CHANNELS),
             "observacao": "Domínio informado: App/Site.",
         },
