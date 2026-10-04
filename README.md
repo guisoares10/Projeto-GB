@@ -70,11 +70,20 @@ data/                              dados locais — não versionados
 
 ## Dados
 
-Coloque o arquivo recebido em:
+A análise lê diretamente a tabela curada do BigQuery:
 
 ```
-data/Dados - Case Técnico Espec I.csv
+gms-prod-01.projeto_gb.fact_vendas
 ```
+
+A carga original é preservada em:
+
+```
+gms-prod-01.projeto_gb.stg_fact_vendas
+```
+
+O script `sql/01_prepare_fact_vendas.sql` documenta a criação da staging e o
+tratamento dos campos monetários.
 
 Os dados do case **não são versionados no repositório**.
 
@@ -83,7 +92,7 @@ Os dados do case **não são versionados no repositório**.
 ```bash
 python -m venv .venv
 source .venv/Scripts/activate   # Git Bash no Windows
-python -m pip install -e ".[ml,dev]"
+python -m pip install -e ".[bq,ml,dev]"
 ```
 
 Para executar os testes:
@@ -91,3 +100,16 @@ Para executar os testes:
 ```bash
 pytest -v
 ```
+
+
+## Autenticação local no BigQuery
+
+No computador de desenvolvimento, o notebook utiliza Application Default Credentials.
+Após instalar o Google Cloud CLI, autentique uma vez com:
+
+```bash
+gcloud auth application-default login
+gcloud config set project gms-prod-01
+```
+
+O notebook então acessa diretamente `gms-prod-01.projeto_gb.fact_vendas`.
