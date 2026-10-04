@@ -47,6 +47,23 @@ def load_case_csv(path: str | Path) -> pd.DataFrame:
     return df
 
 
+
+def load_case_bigquery(
+    table_id: str = "gms-prod-01.projeto_gb.fact_vendas",
+    *,
+    project_id: str = "gms-prod-01",
+) -> pd.DataFrame:
+    """Carrega a fact curada diretamente do BigQuery."""
+    from gb_ml.io import read_query
+
+    sql = f"SELECT * FROM \`{table_id}\` ORDER BY dt_hr_venda"
+    df = read_query(sql, project_id=project_id)
+
+    missing = [column for column in EXPECTED_COLUMNS if column not in df.columns]
+    if missing:
+        raise ValueError(f"Colunas obrigatórias ausentes no BigQuery: {missing}")
+    return df
+
 def prepare_case_data(df: pd.DataFrame) -> pd.DataFrame:
     """Tipa campos, cria flags de qualidade e features temporais do case."""
     work = df.copy()
