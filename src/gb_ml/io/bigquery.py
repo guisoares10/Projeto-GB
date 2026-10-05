@@ -7,15 +7,12 @@ from typing import Iterable
 import pandas as pd
 
 
-def _client(
-    project_id: str | None = None,
-    location: str | None = None,
-):
+def _client(project_id: str | None = None):
     try:
         from google.cloud import bigquery
     except ImportError as exc:
         raise ImportError("Instale as dependências de BigQuery com: pip install -e '.[bq]'") from exc
-    return bigquery.Client(project=project_id, location=location)
+    return bigquery.Client(project=project_id)
 
 
 def estimate_query_bytes(
@@ -27,7 +24,7 @@ def estimate_query_bytes(
     """Faz dry-run e retorna os bytes que a query processaria."""
     from google.cloud import bigquery
 
-    client = _client(project_id, location=location)
+    client = _client(project_id)
     job_config = bigquery.QueryJobConfig(dry_run=True, use_query_cache=False)
     job = client.query(sql, job_config=job_config)
     return int(job.total_bytes_processed or 0)
@@ -37,21 +34,19 @@ def read_query(
     sql: str,
     *,
     project_id: str | None = None,
+    location: str | None = None,
     maximum_bytes_billed: int | None = None,
     location: str | None = None,
 ) -> pd.DataFrame:
-    """Executa uma query e retorna DataFrame, opcionalmente com limite de bytes faturados."""
+    """Executa query e retorna DataFrame, com região e limite de bytes opcionais."""
     from google.cloud import bigquery
 
     client = _client(project_id, location=location)
     job_config = bigquery.QueryJobConfig()
+
     if maximum_bytes_billed is not None:
         job_config.maximum_bytes_billed = int(maximum_bytes_billed)
-    return client.query(
-        sql,
-        job_config=job_config,
-        location=location,
-    ).to_dataframe()
+    return client.query(sql, job_config=job_config).to_dataframe()
 
 
 def table_metadata(
@@ -70,16 +65,31 @@ def table_metadata(
         "num_bytes": int(table.num_bytes or 0),
         "created": table.created,
         "modified": table.modified,
-        "partitioning_type": type(table.time_partitioning).__name__ if table.time_partitioning else None,
-        "partition_field": table.time_partitioning.field if table.time_partitioning else None,
+        "location": location or client.location,
+        "partitioning_type": (
+            type(table.time_partitioning).__name__
+            if table.time_partitioning
+            else None
+        ),
+        "partition_field": (
+            table.time_partitioning.field
+            if table.time_partitioning
+            else None
+        ),
         "clustering_fields": list(table.clustering_fields or []),
     }
-    schema = pd.DataFrame([{
-        "name": field.name,
-        "field_type": field.field_type,
-        "mode": field.mode,
-        "description": field.description,
-    } for field in table.schema])
+
+    schema = pd.DataFrame(
+        [
+            {
+                "name": field.name,
+                "field_type": field.field_type,
+                "mode": field.mode,
+                "description": field.description,
+            }
+            for field in table.schema
+        ]
+    )
     return metadata, schema
 
 
@@ -90,6 +100,7 @@ def sample_table(
     columns: Iterable[str] | None = None,
     where: str | None = None,
     project_id: str | None = None,
+    location: str | None = None,
     maximum_bytes_billed: int | None = None,
     location: str | None = None,
 ) -> pd.DataFrame:
@@ -99,13 +110,10 @@ def sample_table(
 
     selected = "*" if not columns else ", ".join(f"`{c}`" for c in columns)
     sql = f"SELECT {selected} FROM `{table_id}`"
+
     if where:
         sql += f" WHERE {where}"
+
     sql += f" LIMIT {int(limit)}"
 
-    return read_query(
-        sql,
-        project_id=project_id,
-        maximum_bytes_billed=maximum_bytes_billed,
-        location=location,
-    )
+    return read_query(sql, project_id=project_id, maximum_bytes_billed=maximum_bytes_billed)
