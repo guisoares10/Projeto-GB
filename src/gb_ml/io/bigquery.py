@@ -7,12 +7,23 @@ from typing import Iterable
 import pandas as pd
 
 
-def _client(project_id: str | None = None, location: str | None = None):
+def _client(
+    project_id: str | None = None,
+    *,
+    location: str | None = None,
+):
+    """Cria client do BigQuery com projeto e região opcionais."""
     try:
         from google.cloud import bigquery
     except ImportError as exc:
-        raise ImportError("Instale as dependências de BigQuery com: pip install -e '.[bq]'") from exc
-    return bigquery.Client(project=project_id, location=location)
+        raise ImportError(
+            "Instale as dependências de BigQuery com: pip install -e '.[bq]'"
+        ) from exc
+
+    return bigquery.Client(
+        project=project_id,
+        location=location,
+    )
 
 
 def estimate_query_bytes(
@@ -25,8 +36,15 @@ def estimate_query_bytes(
     from google.cloud import bigquery
 
     client = _client(project_id, location=location)
-    job_config = bigquery.QueryJobConfig(dry_run=True, use_query_cache=False)
-    job = client.query(sql, job_config=job_config)
+    job_config = bigquery.QueryJobConfig(
+        dry_run=True,
+        use_query_cache=False,
+    )
+    job = client.query(
+        sql,
+        job_config=job_config,
+        location=location,
+    )
     return int(job.total_bytes_processed or 0)
 
 
@@ -45,7 +63,12 @@ def read_query(
 
     if maximum_bytes_billed is not None:
         job_config.maximum_bytes_billed = int(maximum_bytes_billed)
-    return client.query(sql, job_config=job_config).to_dataframe()
+
+    return client.query(
+        sql,
+        job_config=job_config,
+        location=location,
+    ).to_dataframe()
 
 
 def table_metadata(
