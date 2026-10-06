@@ -115,8 +115,9 @@ A carga original é preservada em:
 gms-prod-01.projeto_gb.stg_fact_vendas
 ```
 
-O script `sql/01_prepare_fact_vendas.sql` documenta a criação da staging e o
-tratamento dos campos monetários.
+A tabela tratada `fact_vendas` é gerada a partir dela, com `ROUND` nos campos
+monetários. As consultas usadas na análise ficam em `sql/`, numeradas na ordem
+de uso no notebook (`01_sql_overview.sql`, `02_sql_daily.sql`, ...).
 
 Os dados do case **não são versionados no repositório**.
 
