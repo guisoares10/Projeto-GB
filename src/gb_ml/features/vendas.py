@@ -17,7 +17,9 @@ HORIZONTE = 14
 LAGS = [14, 21, 28]
 JANELAS_MEDIA = [7, 28]
 
-COLUNAS_EVENTO = [f"evento_{e}" for e in EVENTOS] + ["campanha"]
+COLUNAS_EVENTO = [f"evento_{e}" for e in EVENTOS] + ["black_november", "campanha"]
+# Premissa: taxa média de desconto da semana por categoria, informada pelo time de desconto
+COLUNA_DESCONTO = "taxa_desconto_semana_categoria"
 COLUNAS_LAG = [f"lag_{l}" for l in LAGS] + [f"mm{j}_lag{HORIZONTE}" for j in JANELAS_MEDIA]
 
 
@@ -67,7 +69,7 @@ def matriz_linear(df: pd.DataFrame, interacao: bool = False) -> pd.DataFrame:
     Referências: segunda-feira, canal Site e a primeira categoria em ordem alfabética.
     """
     partes = [
-        df[["is_app", "taxa_desconto_dia", *COLUNAS_EVENTO]],
+        df[["is_app", COLUNA_DESCONTO, *COLUNAS_EVENTO]],
         _dummies(df, "dia_semana", "dia_semana", remover_primeira=True),
         _dummies(df, "des_categoria_material", "cat", remover_primeira=True),
     ]
@@ -80,7 +82,7 @@ def matriz_linear(df: pd.DataFrame, interacao: bool = False) -> pd.DataFrame:
 def matriz_arvore(df: pd.DataFrame, usar_lags: bool = True) -> pd.DataFrame:
     """Matriz das árvores: dummies de categoria, calendário numérico e (opcional) lags."""
     partes = [
-        df[["is_app", "dia_semana", "dia_mes", "taxa_desconto_dia", *COLUNAS_EVENTO]],
+        df[["is_app", "dia_semana", "dia_mes", COLUNA_DESCONTO, *COLUNAS_EVENTO]],
         _dummies(df, "des_categoria_material", "cat", remover_primeira=False),
     ]
     if usar_lags:

@@ -101,6 +101,41 @@ def buscar_parametros(
     return pd.DataFrame(resultados).sort_values("wape_serie").reset_index(drop=True)
 
 
+def folds_de_ajuste(inicio_rodada: pd.Timestamp, rodadas: int = 3, horizonte: int = HORIZONTE) -> pd.DataFrame:
+    """As `rodadas` janelas de `horizonte` dias imediatamente anteriores a `inicio_rodada`."""
+    inicio = pd.Timestamp(inicio_rodada) - pd.Timedelta(days=rodadas * horizonte)
+    fim = pd.Timestamp(inicio_rodada) - pd.Timedelta(days=1)
+    return gerar_folds(str(inicio.date()), str(fim.date()), horizonte)
+
+
+def backtest_com_ajuste(
+    df: pd.DataFrame,
+    folds: pd.DataFrame,
+    fabrica: Callable[..., AjustarPrever],
+    grade: dict[str, list],
+    rodadas_ajuste: int = 3,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Backtest em que cada rodada escolhe os hiperparâmetros só com o próprio passado.
+
+    Antes de prever uma rodada, a grade é testada nas `rodadas_ajuste` janelas
+    anteriores a ela (com dados até a véspera). A melhor combinação prevê a rodada.
+    Devolve as previsões e os parâmetros escolhidos em cada rodada.
+    """
+    previsoes, escolhidos = [], []
+    for _, fold in folds.iterrows():
+        passado = df[df["data"] < fold["inicio"]]
+        busca = buscar_parametros(passado, folds_de_ajuste(fold["inicio"], rodadas_ajuste), fabrica, grade)
+        parametros = {nome: _python(busca.loc[0, nome]) for nome in grade}
+        escolhidos.append({"rodada": fold["rodada"], **parametros, "wape_serie_ajuste": busca.loc[0, "wape_serie"]})
+        previsoes.append(rodar_backtest(df, folds[folds["rodada"] == fold["rodada"]], fabrica(**parametros)))
+    return pd.concat(previsoes, ignore_index=True), pd.DataFrame(escolhidos)
+
+
+def _python(valor):
+    """Converte escalares numpy (vindos do DataFrame da busca) para tipos Python."""
+    return valor.item() if isinstance(valor, np.generic) else valor
+
+
 def baseline(metodo: str) -> AjustarPrever:
     """Baselines por série, usando só o histórico anterior à rodada.
 

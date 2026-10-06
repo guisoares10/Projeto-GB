@@ -1,7 +1,9 @@
 from .backtest import (
+    backtest_com_ajuste,
     baseline,
     buscar_parametros,
     erro_por_rodada,
+    folds_de_ajuste,
     gerar_folds,
     metricas,
     resumo_backtest,
@@ -10,9 +12,11 @@ from .backtest import (
 from .modelos import ajustar_linear, arvore, criar_lightgbm, criar_xgboost, lightgbm, linear, xgboost
 
 __all__ = [
+    "backtest_com_ajuste",
     "baseline",
     "buscar_parametros",
     "erro_por_rodada",
+    "folds_de_ajuste",
     "gerar_folds",
     "metricas",
     "resumo_backtest",

@@ -1,7 +1,15 @@
-from .calendario import CAMPANHAS, EVENTOS, datas_eventos, features_calendario, tabela_eventos
+from .calendario import (
+    CAMPANHAS,
+    EVENTOS,
+    datas_eventos,
+    features_calendario,
+    periodo_black_november,
+    tabela_eventos,
+)
 from .vendas import (
     ALVO,
     CHAVE,
+    COLUNA_DESCONTO,
     COLUNAS_EVENTO,
     COLUNAS_LAG,
     HORIZONTE,
@@ -15,9 +23,11 @@ __all__ = [
     "EVENTOS",
     "datas_eventos",
     "features_calendario",
+    "periodo_black_november",
     "tabela_eventos",
     "ALVO",
     "CHAVE",
+    "COLUNA_DESCONTO",
     "COLUNAS_EVENTO",
     "COLUNAS_LAG",
     "HORIZONTE",

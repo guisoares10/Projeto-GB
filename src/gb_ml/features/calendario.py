@@ -1,8 +1,9 @@
 """Calendário comercial: datas comemorativas e campanhas usadas como features.
 
-As datas comemorativas são calculadas por regra, para qualquer ano. Assim,
-quando a próxima Black Friday chegar, a flag já existe sem precisar de ajuste.
-As campanhas não seguem regra fixa: são informadas pelo negócio (premissa).
+As datas comemorativas e a Black November são calculadas por regra, para
+qualquer ano. Assim, quando a próxima Black Friday chegar, as flags já existem
+sem precisar de ajuste. As demais campanhas não seguem regra fixa: são
+informadas pelo negócio (premissa).
 """
 
 from __future__ import annotations
@@ -14,9 +15,9 @@ import pandas as pd
 # Janela da flag: o próprio dia do evento e os DIAS_ANTES dias anteriores
 DIAS_ANTES = 7
 
-# Campanhas informadas pelo negócio (premissa): nome, início, fim (inclusive)
+# Campanhas pontuais informadas pelo negócio (premissa): nome, início, fim (inclusive).
+# A Black November não entra aqui: tem coluna própria, calculada por regra.
 CAMPANHAS = [
-    ("black_november", "2025-11-03", "2025-11-30"),
     ("campanha_maio", "2026-05-15", "2026-05-24"),
 ]
 
@@ -45,6 +46,13 @@ def datas_eventos(ano: int) -> dict[str, dt.date]:
 EVENTOS = list(datas_eventos(2000))
 
 
+def periodo_black_november(ano: int) -> tuple[dt.date, dt.date]:
+    """Black November: da primeira segunda-feira de novembro ao domingo após a Black Friday."""
+    inicio = _n_esimo_dia_semana(ano, 11, 0, 1)
+    fim = datas_eventos(ano)["black_friday"] + dt.timedelta(days=2)
+    return inicio, fim
+
+
 def tabela_eventos(anos: list[int], dias_antes: int = DIAS_ANTES) -> pd.DataFrame:
     """Uma linha por evento e ano, com a janela em que a flag fica ligada."""
     linhas = []
@@ -66,6 +74,7 @@ def features_calendario(datas: pd.Series, dias_antes: int = DIAS_ANTES) -> pd.Da
 
     - dia_semana (segunda=0) e dia_mes;
     - evento_<nome>: 1 entre (data - dias_antes) e a data do evento;
+    - black_november: 1 no período de periodo_black_november;
     - campanha: 1 dentro de qualquer período de CAMPANHAS.
     """
     datas = pd.to_datetime(datas)
@@ -80,6 +89,12 @@ def features_calendario(datas: pd.Series, dias_antes: int = DIAS_ANTES) -> pd.Da
         for _, linha in eventos[eventos["evento"] == evento].iterrows():
             flag |= datas.between(linha["inicio_flag"], linha["fim_flag"]).astype(int)
         saida[f"evento_{evento}"] = flag
+
+    black_november = pd.Series(0, index=datas.index)
+    for ano in anos:
+        inicio, fim = periodo_black_november(ano)
+        black_november |= datas.between(pd.Timestamp(inicio), pd.Timestamp(fim)).astype(int)
+    saida["black_november"] = black_november
 
     campanha = pd.Series(0, index=datas.index)
     for _, inicio, fim in CAMPANHAS:

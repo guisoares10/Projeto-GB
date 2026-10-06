@@ -5,7 +5,7 @@ import pandas as pd
 import pytest
 
 from gb_ml.features import datas_eventos, features_calendario, montar_features
-from gb_ml.model import baseline, gerar_folds, metricas, rodar_backtest
+from gb_ml.model import backtest_com_ajuste, baseline, folds_de_ajuste, gerar_folds, metricas, rodar_backtest
 
 
 def base_sintetica(dias: int = 60) -> pd.DataFrame:
@@ -20,7 +20,7 @@ def base_sintetica(dias: int = 60) -> pd.DataFrame:
                         "des_canal_venda_final_agrup": canal,
                         "des_categoria_material": categoria,
                         "qt_material": float(i + (100 if canal == "App" else 0)),
-                        "taxa_desconto_dia": 0.3,
+                        "taxa_desconto_semana_categoria": 0.3,
                     }
                 )
     return pd.DataFrame(linhas)
@@ -44,9 +44,16 @@ def test_ano_novo_usa_o_ano_seguinte():
     assert flags["evento_ano_novo"].tolist() == [0, 1]
 
 
-def test_campanha_black_november():
-    flags = features_calendario(pd.Series(pd.to_datetime(["2025-11-02", "2025-11-03", "2025-12-01"])))
-    assert flags["campanha"].tolist() == [0, 1, 0]
+def test_black_november_por_regra():
+    datas = pd.Series(pd.to_datetime(["2025-11-02", "2025-11-03", "2025-11-30", "2025-12-01", "2026-11-02", "2026-11-29"]))
+    flags = features_calendario(datas)
+    assert flags["black_november"].tolist() == [0, 1, 1, 0, 1, 1]
+    assert flags["campanha"].sum() == 0
+
+
+def test_campanha_pontual():
+    flags = features_calendario(pd.Series(pd.to_datetime(["2026-05-14", "2026-05-15", "2026-05-24"])))
+    assert flags["campanha"].tolist() == [0, 1, 1]
 
 
 def test_lag_usa_o_valor_de_14_dias_antes():
@@ -99,3 +106,27 @@ def test_baseline_mm7_usa_ultimos_7_dias():
     ]
     # treino até 31/01 (i = 30): média de i = 24..30 -> 27, mais 100 do canal App
     assert app_a["previsto"].unique().tolist() == [127.0]
+
+
+def test_folds_de_ajuste_terminam_na_vespera():
+    folds = folds_de_ajuste(pd.Timestamp("2026-04-01"), rodadas=3, horizonte=14)
+    assert len(folds) == 3
+    assert folds["inicio"].iloc[0] == pd.Timestamp("2026-02-18")
+    assert folds["fim"].iloc[-1] == pd.Timestamp("2026-03-31")
+
+
+def test_ajuste_por_rodada_so_usa_o_passado():
+    df = montar_features(base_sintetica(90))
+    folds = gerar_folds("2026-03-01", "2026-03-31", horizonte=14)
+    vistos = []
+
+    def fabrica(fator):
+        def ajustar_prever(treino, teste):
+            vistos.append((treino["data"].max(), teste["data"].min()))
+            return np.full(len(teste), treino["qt_material"].mean() * fator)
+        return ajustar_prever
+
+    previsoes, escolhidos = backtest_com_ajuste(df, folds, fabrica, {"fator": [0.5, 1.0]}, rodadas_ajuste=2)
+    assert all(fim_treino < inicio_teste for fim_treino, inicio_teste in vistos)
+    assert len(escolhidos) == len(folds)
+    assert set(previsoes["rodada"]) == set(folds["rodada"])
