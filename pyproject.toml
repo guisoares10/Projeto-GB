@@ -16,7 +16,7 @@ dependencies = [
 
 [project.optional-dependencies]
 bq = ["google-cloud-bigquery>=3.0", "db-dtypes", "bigframes"]
-ml = ["scikit-learn>=1.4", "lightgbm>=4.0", "shap>=0.44"]
+ml = ["scikit-learn>=1.4", "lightgbm>=4.0", "xgboost>=2.0", "statsmodels>=0.14", "shap>=0.44"]
 dev = ["pytest>=8.0"]
 
 [tool.setuptools.packages.find]

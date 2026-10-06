@@ -1,0 +1,88 @@
+"""Calendário comercial: datas comemorativas e campanhas usadas como features.
+
+As datas comemorativas são calculadas por regra, para qualquer ano. Assim,
+quando a próxima Black Friday chegar, a flag já existe sem precisar de ajuste.
+As campanhas não seguem regra fixa: são informadas pelo negócio (premissa).
+"""
+
+from __future__ import annotations
+
+import datetime as dt
+
+import pandas as pd
+
+# Janela da flag: o próprio dia do evento e os DIAS_ANTES dias anteriores
+DIAS_ANTES = 7
+
+# Campanhas informadas pelo negócio (premissa): nome, início, fim (inclusive)
+CAMPANHAS = [
+    ("black_november", "2025-11-03", "2025-11-30"),
+    ("campanha_maio", "2026-05-15", "2026-05-24"),
+]
+
+
+def _n_esimo_dia_semana(ano: int, mes: int, dia_semana: int, n: int) -> dt.date:
+    """n-ésima ocorrência de um dia da semana no mês (segunda=0 ... domingo=6)."""
+    primeiro = dt.date(ano, mes, 1)
+    deslocamento = (dia_semana - primeiro.weekday()) % 7
+    return primeiro + dt.timedelta(days=deslocamento + 7 * (n - 1))
+
+
+def datas_eventos(ano: int) -> dict[str, dt.date]:
+    """Datas comemorativas de um ano."""
+    return {
+        "ano_novo": dt.date(ano, 1, 1),
+        "dia_consumidor": dt.date(ano, 3, 15),
+        # segundo domingo de maio
+        "dia_maes": _n_esimo_dia_semana(ano, 5, 6, 2),
+        "dia_namorados": dt.date(ano, 6, 12),
+        # sexta-feira seguinte ao Thanksgiving (quarta quinta-feira de novembro)
+        "black_friday": _n_esimo_dia_semana(ano, 11, 3, 4) + dt.timedelta(days=1),
+        "natal": dt.date(ano, 12, 25),
+    }
+
+
+EVENTOS = list(datas_eventos(2000))
+
+
+def tabela_eventos(anos: list[int], dias_antes: int = DIAS_ANTES) -> pd.DataFrame:
+    """Uma linha por evento e ano, com a janela em que a flag fica ligada."""
+    linhas = []
+    for ano in anos:
+        for evento, data in datas_eventos(ano).items():
+            linhas.append(
+                {
+                    "evento": evento,
+                    "data": pd.Timestamp(data),
+                    "inicio_flag": pd.Timestamp(data - dt.timedelta(days=dias_antes)),
+                    "fim_flag": pd.Timestamp(data),
+                }
+            )
+    return pd.DataFrame(linhas)
+
+
+def features_calendario(datas: pd.Series, dias_antes: int = DIAS_ANTES) -> pd.DataFrame:
+    """Features de calendário para cada data (mesmo índice da série recebida).
+
+    - dia_semana (segunda=0) e dia_mes;
+    - evento_<nome>: 1 entre (data - dias_antes) e a data do evento;
+    - campanha: 1 dentro de qualquer período de CAMPANHAS.
+    """
+    datas = pd.to_datetime(datas)
+    saida = pd.DataFrame(index=datas.index)
+    saida["dia_semana"] = datas.dt.dayofweek
+    saida["dia_mes"] = datas.dt.day
+
+    anos = sorted(set(datas.dt.year) | {a + 1 for a in datas.dt.year})
+    eventos = tabela_eventos(anos, dias_antes)
+    for evento in EVENTOS:
+        flag = pd.Series(0, index=datas.index)
+        for _, linha in eventos[eventos["evento"] == evento].iterrows():
+            flag |= datas.between(linha["inicio_flag"], linha["fim_flag"]).astype(int)
+        saida[f"evento_{evento}"] = flag
+
+    campanha = pd.Series(0, index=datas.index)
+    for _, inicio, fim in CAMPANHAS:
+        campanha |= datas.between(pd.Timestamp(inicio), pd.Timestamp(fim)).astype(int)
+    saida["campanha"] = campanha
+    return saida

@@ -91,12 +91,15 @@ Essa seção será estruturada após a conclusão da modelagem da Seção 1.
 
 ```
 notebooks/
-  01_eda_data_quality.ipynb       EDA específica do case
+  analise_exploratoria.ipynb      análise exploratória e data quality
+  modelo_machine_learning.ipynb   previsão diária de qt_material (baselines, regressão, LightGBM, XGBoost, SHAP)
+sql/                              consultas numeradas na ordem de uso nos notebooks
 src/gb_ml/
   case_espec_i.py                 preparação e agregações específicas do arquivo
   dq/                             checks auxiliares
   profiling/                      utilitários de profiling/visualização
-  model/                          modelagem (próxima etapa)
+  features/                       calendário comercial (eventos, campanhas) e features da previsão
+  model/                          validação faseada, métricas, baselines e modelos
 tests/
 data/                              dados locais — não versionados
 ```
