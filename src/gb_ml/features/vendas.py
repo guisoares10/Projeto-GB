@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import re
 
+import numpy as np
 import pandas as pd
 
 from .calendario import EVENTOS, features_calendario
@@ -20,6 +21,8 @@ JANELAS_MEDIA = [7, 28]
 COLUNAS_EVENTO = [f"evento_{e}" for e in EVENTOS] + ["black_november", "campanha"]
 # Premissa: taxa média de desconto da semana por categoria, informada pelo time de desconto
 COLUNA_DESCONTO = "taxa_desconto_semana_categoria"
+# No modelo geral (sem categoria) a premissa é a taxa média da semana do total
+COLUNA_DESCONTO_GERAL = "taxa_desconto_semana"
 COLUNAS_LAG = [f"lag_{l}" for l in LAGS] + [f"mm{j}_lag{HORIZONTE}" for j in JANELAS_MEDIA]
 
 
@@ -63,28 +66,54 @@ def _dummies(df: pd.DataFrame, coluna: str, prefixo: str, remover_primeira: bool
     return dummies.set_index(df.index)
 
 
-def matriz_linear(df: pd.DataFrame, interacao: bool = False) -> pd.DataFrame:
+def colunas_desconto(df: pd.DataFrame) -> list[str]:
+    """Coluna de desconto presente na base (por categoria ou do total)."""
+    return [c for c in (COLUNA_DESCONTO, COLUNA_DESCONTO_GERAL) if c in df.columns]
+
+
+def matriz_linear(df: pd.DataFrame, interacao: bool = False, usar_lags: bool = False) -> pd.DataFrame:
     """Matriz da regressão linear: tudo em dummies, com uma categoria de referência.
 
     Referências: segunda-feira, canal Site e a primeira categoria em ordem alfabética.
+    Com `usar_lags`, entram os lags em log(1 + valor), na mesma escala do alvo em log.
     """
     partes = [
-        df[["is_app", COLUNA_DESCONTO, *COLUNAS_EVENTO]],
+        df[["is_app", *colunas_desconto(df), *COLUNAS_EVENTO]],
         _dummies(df, "dia_semana", "dia_semana", remover_primeira=True),
         _dummies(df, "des_categoria_material", "cat", remover_primeira=True),
     ]
     if interacao:
         cat = _dummies(df, "des_categoria_material", "app_x_cat", remover_primeira=True)
         partes.append(cat.mul(df["is_app"], axis=0))
+    if usar_lags:
+        partes.append(np.log1p(df[COLUNAS_LAG]))
     return pd.concat(partes, axis=1).astype(float)
 
 
 def matriz_arvore(df: pd.DataFrame, usar_lags: bool = True) -> pd.DataFrame:
     """Matriz das árvores: dummies de categoria, calendário numérico e (opcional) lags."""
     partes = [
-        df[["is_app", "dia_semana", "dia_mes", COLUNA_DESCONTO, *COLUNAS_EVENTO]],
+        df[["is_app", "dia_semana", "dia_mes", *colunas_desconto(df), *COLUNAS_EVENTO]],
         _dummies(df, "des_categoria_material", "cat", remover_primeira=False),
     ]
     if usar_lags:
         partes.append(df[COLUNAS_LAG])
     return pd.concat(partes, axis=1).astype(float)
+
+
+def base_geral(base: pd.DataFrame) -> pd.DataFrame:
+    """Soma a base dia × canal × categoria no total do dia (uma série só).
+
+    Canal e categoria viram "TOTAL", para que backtest e métricas funcionem sem
+    mudança. A premissa de desconto passa a ser a taxa média da semana do total
+    (segunda a domingo): desconto ÷ (receita + desconto).
+    """
+    total = (
+        base.assign(data=pd.to_datetime(base["data"]))
+        .groupby("data", as_index=False)[[ALVO, "receita_aprovada", "vlr_venda_desconto"]]
+        .sum()
+    )
+    semana = total.groupby(total["data"].dt.to_period("W-SUN"))
+    desconto = semana["vlr_venda_desconto"].transform("sum")
+    total[COLUNA_DESCONTO_GERAL] = desconto / (semana["receita_aprovada"].transform("sum") + desconto)
+    return total.assign(**{coluna: "TOTAL" for coluna in CHAVE})

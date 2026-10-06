@@ -92,7 +92,9 @@ Essa seção será estruturada após a conclusão da modelagem da Seção 1.
 ```
 notebooks/
   analise_exploratoria.ipynb      análise exploratória e data quality
-  modelo_machine_learning.ipynb   previsão diária de qt_material (baselines, regressão, LightGBM, XGBoost, SHAP)
+  modelo_machine_learning.ipynb         previsão diária por canal × categoria (modelo recomendado)
+  modelo_machine_learning_geral.ipynb   comparação: previsão diária do total (uma série)
+  modelo_machine_learning_hora.ipynb    comparação: previsão por hora × canal × categoria
 sql/                              consultas numeradas na ordem de uso nos notebooks
 src/gb_ml/
   case_espec_i.py                 preparação e agregações específicas do arquivo

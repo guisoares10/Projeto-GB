@@ -50,8 +50,9 @@ def rodar_backtest(df: pd.DataFrame, folds: pd.DataFrame, ajustar_prever: Ajusta
         treino = df[df["data"] < fold["inicio"]]
         teste = df[df["data"].between(fold["inicio"], fold["fim"])]
         previsto = np.clip(np.asarray(ajustar_prever(treino, teste), dtype=float), 0, None)
+        colunas = ["hora"] if "hora" in teste.columns else []
         saidas.append(
-            teste[["data", *CHAVE, ALVO]].assign(rodada=fold["rodada"], previsto=previsto)
+            teste[[*colunas, "data", *CHAVE, ALVO]].assign(rodada=fold["rodada"], previsto=previsto)
         )
     return pd.concat(saidas, ignore_index=True)
 
@@ -83,6 +84,31 @@ def erro_por_rodada(previsoes: pd.DataFrame) -> pd.DataFrame:
             }
         )
     return pd.DataFrame(linhas)
+
+
+def dias_ineditos(df: pd.DataFrame, folds: pd.DataFrame, colunas_evento: list[str]) -> pd.DatetimeIndex:
+    """Dias de teste com alguma flag ligada que nunca tinha aparecido antes da rodada."""
+    dias = set()
+    for _, fold in folds.iterrows():
+        passado = df[df["data"] < fold["inicio"]]
+        rodada = df[df["data"].between(fold["inicio"], fold["fim"])]
+        for coluna in colunas_evento:
+            if passado[coluna].sum() == 0:
+                dias.update(rodada.loc[rodada[coluna] == 1, "data"].unique())
+    return pd.DatetimeIndex(sorted(dias))
+
+
+def metricas_complementares(previsoes: pd.DataFrame, ineditos: pd.DatetimeIndex) -> dict[str, float]:
+    """WAPE do total do dia (todos os dias e sem eventos inéditos) e do total da semana."""
+    total = previsoes.groupby("data")[[ALVO, "previsto"]].sum()
+    fora = total[~total.index.isin(ineditos)]
+    semana = total.resample("W-SUN").sum()
+    return {
+        "wape_dia": metricas(total[ALVO], total["previsto"])["wape"],
+        "vies_dia": metricas(total[ALVO], total["previsto"])["vies"],
+        "wape_dia_sem_ineditos": metricas(fora[ALVO], fora["previsto"])["wape"],
+        "wape_semana": metricas(semana[ALVO], semana["previsto"])["wape"],
+    }
 
 
 def buscar_parametros(

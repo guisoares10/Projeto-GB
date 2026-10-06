@@ -23,22 +23,36 @@ def _volta(previsto: np.ndarray, alvo: str) -> np.ndarray:
     return np.expm1(previsto) if alvo == "log" else previsto
 
 
-def ajustar_linear(treino: pd.DataFrame, alvo: str = "log", interacao: bool = False):
-    """Ajusta a regressão linear (OLS, erros robustos HC1) e devolve o resultado do statsmodels."""
+def ajustar_linear(
+    treino: pd.DataFrame,
+    alvo: str = "log",
+    interacao: bool = False,
+    usar_lags: bool = False,
+    matriz=matriz_linear,
+):
+    """Ajusta a regressão linear (OLS, erros robustos HC1) e devolve o resultado do statsmodels.
+
+    `matriz` monta as features (diária por padrão; a horária vem de gb_ml.features).
+    Com lags, as linhas sem histórico suficiente (início da base) ficam fora do ajuste.
+    """
     import statsmodels.api as sm
 
-    X = matriz_linear(treino, interacao)
+    X = matriz(treino, interacao=interacao, usar_lags=usar_lags)
+    completas = X.notna().all(axis=1)
+    X = X[completas]
     # evento que ainda não aconteceu no treino (coluna toda zero) fica de fora
     X = sm.add_constant(X.loc[:, X.std() > 0], has_constant="add")
-    return sm.OLS(_alvo(treino[ALVO], alvo), X).fit(cov_type="HC1")
+    return sm.OLS(_alvo(treino.loc[completas, ALVO], alvo), X).fit(cov_type="HC1")
 
 
-def linear(alvo: str = "log", interacao: bool = False) -> AjustarPrever:
+def linear(
+    alvo: str = "log", interacao: bool = False, usar_lags: bool = False, matriz=matriz_linear
+) -> AjustarPrever:
     import statsmodels.api as sm
 
     def ajustar_prever(treino: pd.DataFrame, teste: pd.DataFrame) -> np.ndarray:
-        modelo = ajustar_linear(treino, alvo, interacao)
-        X = sm.add_constant(matriz_linear(teste, interacao), has_constant="add")
+        modelo = ajustar_linear(treino, alvo, interacao, usar_lags, matriz)
+        X = sm.add_constant(matriz(teste, interacao=interacao, usar_lags=usar_lags), has_constant="add")
         return _volta(modelo.predict(X[modelo.params.index]).to_numpy(), alvo)
 
     return ajustar_prever
@@ -59,15 +73,15 @@ def criar_xgboost(alvo: str = "log", **parametros):
 
 
 def arvore(
-    biblioteca: str, alvo: str = "log", usar_lags: bool = True, **parametros
+    biblioteca: str, alvo: str = "log", usar_lags: bool = True, matriz=matriz_arvore, **parametros
 ) -> AjustarPrever:
     """LightGBM ou XGBoost; `parametros` vão direto para o regressor."""
     criar = {"lightgbm": criar_lightgbm, "xgboost": criar_xgboost}[biblioteca]
 
     def ajustar_prever(treino: pd.DataFrame, teste: pd.DataFrame) -> np.ndarray:
         modelo = criar(alvo, **parametros)
-        modelo.fit(matriz_arvore(treino, usar_lags), _alvo(treino[ALVO], alvo))
-        return _volta(modelo.predict(matriz_arvore(teste, usar_lags)), alvo)
+        modelo.fit(matriz(treino, usar_lags=usar_lags), _alvo(treino[ALVO], alvo))
+        return _volta(modelo.predict(matriz(teste, usar_lags=usar_lags)), alvo)
 
     return ajustar_prever
 

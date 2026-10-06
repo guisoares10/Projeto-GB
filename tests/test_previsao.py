@@ -130,3 +130,58 @@ def test_ajuste_por_rodada_so_usa_o_passado():
     assert all(fim_treino < inicio_teste for fim_treino, inicio_teste in vistos)
     assert len(escolhidos) == len(folds)
     assert set(previsoes["rodada"]) == set(folds["rodada"])
+
+
+def test_base_geral_soma_series_e_calcula_desconto_da_semana():
+    from gb_ml.features import base_geral
+
+    base = base_sintetica(14).assign(receita_aprovada=70.0, vlr_venda_desconto=30.0)
+    geral = base_geral(base)
+    assert len(geral) == 14
+    assert geral["qt_material"].sum() == base["qt_material"].sum()
+    assert geral["taxa_desconto_semana"].round(6).eq(0.3).all()
+    assert (geral["des_categoria_material"] == "TOTAL").all()
+
+
+def base_horaria(dias: int = 35) -> pd.DataFrame:
+    horas = pd.date_range("2026-01-05", periods=24 * dias, freq="h")
+    linhas = []
+    for canal in ["App", "Site"]:
+        for i, hora in enumerate(horas):
+            linhas.append({
+                "hora": hora, "data": hora.normalize(), "des_canal_venda_final_agrup": canal,
+                "des_categoria_material": "A", "qt_material": float(i), "taxa_desconto_semana_categoria": 0.3,
+            })
+    return pd.DataFrame(linhas)
+
+
+def test_lag_horario_usa_a_mesma_hora_de_2_semanas_antes():
+    from gb_ml.features import montar_features_hora
+
+    df = montar_features_hora(base_horaria())
+    serie = df[df["des_canal_venda_final_agrup"] == "App"].set_index("hora")
+    assert serie.loc["2026-01-19 10:00", "lag_2sem_mesma_hora"] == serie.loc["2026-01-05 10:00", "qt_material"]
+    assert np.isnan(serie.loc["2026-01-25 10:00", "lag_3sem_mesma_hora"])
+
+
+def test_distribuir_por_hora_preserva_o_total_do_dia():
+    from gb_ml.features import distribuir_por_hora
+
+    h = base_horaria().assign(qt_material=lambda d: 1.0 + d["hora"].dt.hour)
+    folds = gerar_folds("2026-02-02", "2026-02-08", horizonte=7)
+    dia = (h[h["data"].between("2026-02-02", "2026-02-08")]
+           .groupby(["data", "des_canal_venda_final_agrup", "des_categoria_material"], as_index=False)["qt_material"].sum()
+           .assign(previsto=100.0, rodada=1))
+    por_hora = distribuir_por_hora(dia, h, folds)
+    somado = por_hora.groupby(["data", "des_canal_venda_final_agrup"])["previsto"].sum()
+    assert np.allclose(somado, 100.0)
+
+
+def test_dias_ineditos_pega_so_a_primeira_ocorrencia():
+    from gb_ml.model import dias_ineditos
+
+    df = pd.DataFrame({"data": pd.date_range("2026-01-01", periods=40), "evento_x": 0})
+    df.loc[df["data"].between("2026-01-05", "2026-01-06"), "evento_x"] = 1
+    df.loc[df["data"].between("2026-02-01", "2026-02-02"), "evento_x"] = 1
+    folds = gerar_folds("2026-01-03", "2026-02-09", horizonte=14)
+    assert list(dias_ineditos(df, folds, ["evento_x"])) == list(pd.to_datetime(["2026-01-05", "2026-01-06"]))
