@@ -2,7 +2,7 @@
 --
 -- Objetivo:
 -- 1) preservar a primeira carga em stg_fact_vendas;
--- 2) reconstruir fact_vendas com campos monetários decimais truncados a 2 casas;
+-- 2) reconstruir fact_vendas com campos monetários decimais e arredondados a 2 casas;
 -- 3) manter o processo idempotente e auditável.
 --
 -- Decisão de tipagem:
@@ -40,13 +40,13 @@ SELECT
 FROM `gms-prod-01.projeto_gb.stg_fact_vendas`;
 
 -- 3. Recria a fact tratada.
--- Primeiro convertemos para NUMERIC (decimal exato) e então truncamos para
+-- Primeiro convertemos para NUMERIC (decimal exato) e então arredondamos para
 -- duas casas, que é a granularidade de negócio adotada para moeda.
 CREATE OR REPLACE TABLE `gms-prod-01.projeto_gb.fact_vendas` AS
 SELECT
   * REPLACE (
-    TRUNC(SAFE_CAST(receita_aprovada AS NUMERIC), 2) AS receita_aprovada,
-    TRUNC(SAFE_CAST(vlr_venda_desconto AS NUMERIC), 2) AS vlr_venda_desconto
+    ROUND(SAFE_CAST(receita_aprovada AS NUMERIC), 2) AS receita_aprovada,
+    ROUND(SAFE_CAST(vlr_venda_desconto AS NUMERIC), 2) AS vlr_venda_desconto
   )
 FROM `gms-prod-01.projeto_gb.stg_fact_vendas`;
 
