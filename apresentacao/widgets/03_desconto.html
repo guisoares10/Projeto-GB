@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Receita e desconto</title>
+<style>
+  :root {
+    --verde: #1d9e75;
+    --verde-escuro: #137a5a;
+    --verde-claro: #e3f5ee;
+    --azul: #3d5a80;
+    --tinta: #1a1a1a;
+    --tinta-2: #4a4a4a;
+    --tinta-3: #7a7a7a;
+    --linha: #e3e3dc;
+    --fundo: #ffffff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    width: 1040px; height: 480px; background: var(--fundo);
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; color: var(--tinta);
+  }
+  .widget { display: grid; grid-template-columns: 580px 1fr; gap: 28px; height: 100%; padding: 6px 4px; }
+  .rotulo {
+    font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--verde); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+  }
+  .rotulo::after { content: ""; flex: 1; height: 1px; background: var(--linha); }
+  h3 { font-size: 19px; line-height: 1.25; font-weight: 700; margin-bottom: 4px; }
+  h3 .v { color: var(--verde); }
+  h3 .a { color: var(--azul); }
+  .legenda { display: flex; gap: 16px; font-size: 11.5px; color: var(--tinta-2); margin: 6px 0 2px; }
+  .legenda i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+  .nota { font-size: 12px; color: var(--tinta-2); line-height: 1.4; margin-top: 2px; }
+  .nota b { color: var(--tinta); }
+
+  svg text { font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; }
+  .grade { stroke: #eeeeea; }
+  .base { stroke: #b8b8b0; }
+  .eixo { font-size: 10.5px; fill: var(--tinta-3); }
+  .b-ped { fill: var(--verde); }
+  .b-rec { fill: var(--azul); }
+  .valor { font-size: 11.5px; font-weight: 700; fill: var(--tinta); }
+  .cat { font-size: 11.5px; font-weight: 700; fill: var(--tinta); }
+  .sub { font-size: 10.5px; fill: var(--tinta-3); }
+  .preco { font-size: 12px; font-weight: 700; fill: var(--tinta-2); }
+
+  .cards { display: grid; gap: 10px; }
+  .card { border: 1px solid var(--linha); border-radius: 8px; padding: 11px 14px; }
+  .card.destaque { background: var(--verde-claro); border-color: var(--verde-claro); }
+  .valor-g { font-size: 26px; font-weight: 700; color: var(--verde); line-height: 1.05; }
+  .valor-g small { font-size: 14px; }
+  .desc { font-size: 12.5px; color: var(--tinta-2); margin-top: 4px; line-height: 1.4; }
+  .desc b { color: var(--tinta); }
+  .comp { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 12.5px; }
+  .comp th { text-align: right; font-size: 11px; color: var(--tinta-3); font-weight: 700; padding: 0 0 4px; }
+  .comp th:first-child, .comp td:first-child { text-align: left; }
+  .comp td { padding: 4px 0; border-top: 1px solid var(--linha); text-align: right; color: var(--tinta-2); }
+  .comp td.app { color: var(--verde); font-weight: 700; }
+  .comp td.site { color: var(--tinta); font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="widget">
+
+  <section>
+    <div class="rotulo">Desconto, pedidos e receita</div>
+    <h3>Desconto de 26% → 55%: pedidos <span class="v">×4,9</span>, receita só <span class="a">×2,9</span></h3>
+    <div class="legenda"><span><i style="background:var(--verde)"></i>pedidos por dia</span><span><i style="background:var(--azul)"></i>receita por dia</span></div>
+    <svg viewBox="0 0 560 330" width="560" height="330"><line x1="34" x2="552" y1="256.0" y2="256.0" class="grade"/><text x="28" y="260.0" class="eixo" text-anchor="end">0×</text><line x1="34" x2="552" y1="214.9" y2="214.9" class="grade"/><text x="28" y="218.9" class="eixo" text-anchor="end">1×</text><line x1="34" x2="552" y1="173.8" y2="173.8" class="grade"/><text x="28" y="177.8" class="eixo" text-anchor="end">2×</text><line x1="34" x2="552" y1="132.7" y2="132.7" class="grade"/><text x="28" y="136.7" class="eixo" text-anchor="end">3×</text><line x1="34" x2="552" y1="91.6" y2="91.6" class="grade"/><text x="28" y="95.6" class="eixo" text-anchor="end">4×</text><line x1="34" x2="552" y1="50.5" y2="50.5" class="grade"/><text x="28" y="54.5" class="eixo" text-anchor="end">5×</text><path class="b-ped" d="M63.8,256 V218.9 Q63.8,214.9 67.8,214.9 H93.8 Q97.8,214.9 97.8,218.9 V256 Z"/><path class="b-rec" d="M99.8,256 V218.9 Q99.8,214.9 103.8,214.9 H129.8 Q133.8,214.9 133.8,218.9 V256 Z"/><text x="80.8" y="209.9" class="valor" text-anchor="middle">×1,0</text><text x="116.8" y="209.9" class="valor" text-anchor="middle">×1,0</text><text x="98.8" y="273" class="cat" text-anchor="middle">até 30%</text><text x="98.8" y="287" class="sub" text-anchor="middle">média 26%</text><text x="98.8" y="306" class="preco" text-anchor="middle">R$ 74</text><path class="b-ped" d="M193.2,256 V201.7 Q193.2,197.7 197.2,197.7 H223.2 Q227.2,197.7 227.2,201.7 V256 Z"/><path class="b-rec" d="M229.2,256 V212.3 Q229.2,208.3 233.2,208.3 H259.2 Q263.2,208.3 263.2,212.3 V256 Z"/><text x="210.2" y="192.7" class="valor" text-anchor="middle">×1,4</text><text x="246.2" y="203.3" class="valor" text-anchor="middle">×1,2</text><text x="228.2" y="273" class="cat" text-anchor="middle">30–40%</text><text x="228.2" y="287" class="sub" text-anchor="middle">média 34%</text><text x="228.2" y="306" class="preco" text-anchor="middle">R$ 57</text><path class="b-ped" d="M322.8,256 V191.0 Q322.8,187.0 326.8,187.0 H352.8 Q356.8,187.0 356.8,191.0 V256 Z"/><path class="b-rec" d="M358.8,256 V204.9 Q358.8,200.9 362.8,200.9 H388.8 Q392.8,200.9 392.8,204.9 V256 Z"/><text x="339.8" y="182.0" class="valor" text-anchor="middle">×1,7</text><text x="375.8" y="195.9" class="valor" text-anchor="middle">×1,3</text><text x="357.8" y="273" class="cat" text-anchor="middle">40–50%</text><text x="357.8" y="287" class="sub" text-anchor="middle">média 44%</text><text x="357.8" y="306" class="preco" text-anchor="middle">R$ 53</text><path class="b-ped" d="M452.2,256 V60.3 Q452.2,56.3 456.2,56.3 H482.2 Q486.2,56.3 486.2,60.3 V256 Z"/><path class="b-rec" d="M488.2,256 V142.1 Q488.2,138.1 492.2,138.1 H518.2 Q522.2,138.1 522.2,142.1 V256 Z"/><text x="469.2" y="51.3" class="valor" text-anchor="middle">×4,9</text><text x="505.2" y="133.1" class="valor" text-anchor="middle">×2,9</text><text x="487.2" y="273" class="cat" text-anchor="middle">acima de 50%</text><text x="487.2" y="287" class="sub" text-anchor="middle">média 55%</text><text x="487.2" y="306" class="preco" text-anchor="middle">R$ 35</text><line x1="34" x2="552" y1="256" y2="256" class="base"/><text x="4" y="306" class="sub">preço/item</text><text x="4" y="273" class="sub">desconto</text><text x="4" y="16" class="sub">crescimento por dia, em relação aos dias de desconto até 30%</text></svg>
+    <div class="nota">Dias agrupados pela taxa de desconto do dia. O desconto atrai volume, mas cada item sai mais barato: o <b>preço por item cai de R$ 74 para R$ 35</b> e o valor dado em desconto cresce <b>10×</b>. Na Black November (desconto de 55%), os pedidos foram 3,6× e a receita 2,5× a de um dia comum.</div>
+  </section>
+
+  <section>
+    <div class="rotulo">App × Site</div>
+    <div class="cards">
+      <div class="card destaque">
+        <div class="valor-g">78% <small>dos pedidos pelo App</small></div>
+        <div class="desc">E crescendo: de <b>74% em dezembro</b> para <b>80% em junho</b>.</div>
+      </div>
+      <div class="card">
+        <div class="valor-g">−10% <small>no preço por item no App</small></div>
+        <table class="comp">
+          <tr><th></th><th>App</th><th>Site</th></tr>
+          <tr><td>preço de tabela por item</td><td class="app">R$ 88</td><td class="site">R$ 89</td></tr>
+          <tr><td>taxa de desconto</td><td class="app">45%</td><td class="site">40%</td></tr>
+          <tr><td>preço pago por item</td><td class="app">R$ 48</td><td class="site">R$ 54</td></tr>
+        </table>
+        <div class="desc">Mesmos produtos, mesmo preço de tabela: <b>a diferença é o desconto</b>, maior no App em todos os meses.</div>
+      </div>
+      <div class="card">
+        <div class="desc"><b>Oportunidade:</b> o desconto maior funciona como incentivo para comprar pelo App — canal próprio que permite <b>fidelizar</b> o cliente e enviar <b>notificações de promoções</b>.</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

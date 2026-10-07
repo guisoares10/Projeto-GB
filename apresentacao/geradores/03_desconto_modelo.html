@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Receita e desconto</title>
+<style>
+  :root {
+    --verde: #1d9e75;
+    --verde-escuro: #137a5a;
+    --verde-claro: #e3f5ee;
+    --azul: #3d5a80;
+    --tinta: #1a1a1a;
+    --tinta-2: #4a4a4a;
+    --tinta-3: #7a7a7a;
+    --linha: #e3e3dc;
+    --fundo: #ffffff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    width: 1040px; height: 480px; background: var(--fundo);
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; color: var(--tinta);
+  }
+  .widget { display: grid; grid-template-columns: 580px 1fr; gap: 28px; height: 100%; padding: 6px 4px; }
+  .rotulo {
+    font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--verde); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+  }
+  .rotulo::after { content: ""; flex: 1; height: 1px; background: var(--linha); }
+  h3 { font-size: 19px; line-height: 1.25; font-weight: 700; margin-bottom: 4px; }
+  h3 .v { color: var(--verde); }
+  h3 .a { color: var(--azul); }
+  .legenda { display: flex; gap: 16px; font-size: 11.5px; color: var(--tinta-2); margin: 6px 0 2px; }
+  .legenda i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+  .nota { font-size: 12px; color: var(--tinta-2); line-height: 1.4; margin-top: 2px; }
+  .nota b { color: var(--tinta); }
+
+  svg text { font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; }
+  .grade { stroke: #eeeeea; }
+  .base { stroke: #b8b8b0; }
+  .eixo { font-size: 10.5px; fill: var(--tinta-3); }
+  .b-ped { fill: var(--verde); }
+  .b-rec { fill: var(--azul); }
+  .valor { font-size: 11.5px; font-weight: 700; fill: var(--tinta); }
+  .cat { font-size: 11.5px; font-weight: 700; fill: var(--tinta); }
+  .sub { font-size: 10.5px; fill: var(--tinta-3); }
+  .preco { font-size: 12px; font-weight: 700; fill: var(--tinta-2); }
+
+  .cards { display: grid; gap: 10px; }
+  .card { border: 1px solid var(--linha); border-radius: 8px; padding: 11px 14px; }
+  .card.destaque { background: var(--verde-claro); border-color: var(--verde-claro); }
+  .valor-g { font-size: 26px; font-weight: 700; color: var(--verde); line-height: 1.05; }
+  .valor-g small { font-size: 14px; }
+  .desc { font-size: 12.5px; color: var(--tinta-2); margin-top: 4px; line-height: 1.4; }
+  .desc b { color: var(--tinta); }
+  .comp { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 12.5px; }
+  .comp th { text-align: right; font-size: 11px; color: var(--tinta-3); font-weight: 700; padding: 0 0 4px; }
+  .comp th:first-child, .comp td:first-child { text-align: left; }
+  .comp td { padding: 4px 0; border-top: 1px solid var(--linha); text-align: right; color: var(--tinta-2); }
+  .comp td.app { color: var(--verde); font-weight: 700; }
+  .comp td.site { color: var(--tinta); font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="widget">
+
+  <section>
+    <div class="rotulo">Desconto, pedidos e receita</div>
+    <h3>Desconto de 26% → 55%: pedidos <span class="v">×4,9</span>, receita só <span class="a">×2,9</span></h3>
+    <div class="legenda"><span><i style="background:var(--verde)"></i>pedidos por dia</span><span><i style="background:var(--azul)"></i>receita por dia</span></div>
+    {{GRAFICO}}
+    <div class="nota">Dias agrupados pela taxa de desconto do dia. O desconto atrai volume, mas cada item sai mais barato: o <b>preço por item cai de R$ 74 para R$ 35</b> e o valor dado em desconto cresce <b>10×</b>. Na Black November (desconto de 55%), os pedidos foram 3,6× e a receita 2,5× a de um dia comum.</div>
+  </section>
+
+  <section>
+    <div class="rotulo">App × Site</div>
+    <div class="cards">
+      <div class="card destaque">
+        <div class="valor-g">78% <small>dos pedidos pelo App</small></div>
+        <div class="desc">E crescendo: de <b>74% em dezembro</b> para <b>80% em junho</b>.</div>
+      </div>
+      <div class="card">
+        <div class="valor-g">−10% <small>no preço por item no App</small></div>
+        <table class="comp">
+          <tr><th></th><th>App</th><th>Site</th></tr>
+          <tr><td>preço de tabela por item</td><td class="app">R$ 88</td><td class="site">R$ 89</td></tr>
+          <tr><td>taxa de desconto</td><td class="app">45%</td><td class="site">40%</td></tr>
+          <tr><td>preço pago por item</td><td class="app">R$ 48</td><td class="site">R$ 54</td></tr>
+        </table>
+        <div class="desc">Mesmos produtos, mesmo preço de tabela: <b>a diferença é o desconto</b>, maior no App em todos os meses.</div>
+      </div>
+      <div class="card">
+        <div class="desc"><b>Oportunidade:</b> o desconto maior funciona como incentivo para comprar pelo App — canal próprio que permite <b>fidelizar</b> o cliente e enviar <b>notificações de promoções</b>.</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
