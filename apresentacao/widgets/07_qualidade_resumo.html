@@ -14,11 +14,13 @@
   .rotulo::after { content: ""; flex: 1; height: 1px; background: var(--linha); }
   h3 { font-size: 19px; line-height: 1.25; margin-bottom: 14px; }
   h3 span { color: var(--verde); }
-  .colunas { display: grid; grid-template-columns: 1.45fr 1fr; gap: 22px; flex: 1; }
-  .bloco-tit { font-size: 12px; font-weight: 700; color: var(--tinta-2); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+  .colunas { display: grid; grid-template-columns: 1.45fr 1fr; grid-template-rows: auto auto; column-gap: 22px; row-gap: 0; }
+  .sub-t { display: block; font-size: 11px; font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--tinta-3); margin-top: 2px; }
+  .sub-t b { color: var(--tinta-2); }
+  .bloco-tit { font-size: 12px; font-weight: 700; color: var(--tinta-2); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; align-self: end; }
 
   .checks { display: flex; flex-direction: column; gap: 7px; }
-  .check { display: grid; grid-template-columns: 92px 1fr; gap: 12px; align-items: center; border: 1px solid var(--linha); border-radius: 9px; padding: 9px 12px; }
+  .check { display: grid; grid-template-columns: 92px 1fr; gap: 12px; align-items: center; border: 1px solid var(--linha); border-radius: 9px; padding: 13px 12px; }
   .selo { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; text-align: center; border-radius: 5px; padding: 4px 0; }
   .ok .selo { background: var(--verde-claro); color: var(--verde-escuro); }
   .erro .selo { background: var(--laranja-claro); color: var(--laranja); }
@@ -30,9 +32,10 @@
   .check p b { color: var(--tinta); }
   code { font-family: "Courier New", monospace; font-size: 11.5px; background: #f3f3ef; padding: 0 3px; border-radius: 3px; }
 
-  .out { background: #f7f7f4; border-radius: 10px; padding: 12px 16px; display: flex; flex-direction: column; }
+  .out { background: #f7f7f4; border-radius: 10px; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+  .out .tiles { flex: 1; } .out .extra { margin-top: 0; }
   .out .sub { font-size: 11.5px; color: var(--tinta-3); margin: -4px 0 10px; }
-  .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .tiles { display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 8px; }
   .tile { background: #fff; border-radius: 8px; padding: 10px 12px; }
   .tile .v { font-size: 26px; font-weight: 700; color: var(--tinta); line-height: 1; }
   .tile .v small { font-size: 12px; font-weight: 400; color: var(--tinta-3); margin-left: 3px; }
@@ -46,8 +49,6 @@
   .tile .p { font-size: 12px; font-weight: 700; color: var(--verde-escuro); margin-left: 6px; }
   .tile .d { font-size: 10.5px; color: var(--tinta-2); margin-top: 3px; }
   .out .sub b { color: var(--tinta-2); }
-  .leitura { margin-top: auto; border-left: 3px solid var(--verde); padding: 4px 0 2px 10px; font-size: 12px; line-height: 1.45; color: var(--tinta-2); }
-  .leitura b { color: var(--tinta); }
 </style>
 </head>
 <body>
@@ -55,19 +56,16 @@
   <div class="rotulo">Qualidade dos dados · resumo dos achados</div>
   <h3>Estrutura íntegra; <span>os problemas estão no conteúdo de algumas linhas</span></h3>
   <div class="colunas">
-    <div>
-      <div class="bloco-tit">Checagens na base (89.566 linhas)</div>
-      <div class="checks">
+    <div class="bloco-tit">Checagens na base (89.566 linhas)</div>
+    <div class="bloco-tit">Outliers diários (IQR) <span class="sub-t">casos fora do limite, contando só <b>fora de novembro</b></span></div>
+    <div class="checks">
         <div class="check ok"><span class="selo">OK</span><div><h4>Nulos</h4><p>Nenhuma coluna com valor nulo.</p></div></div>
         <div class="check ok"><span class="selo">OK</span><div><h4>Duplicidade no grão</h4><p>Nenhuma linha repetida em hora × canal × categoria.</p></div></div>
         <div class="check erro"><span class="selo">Erro</span><div><h4>Categoria inválida · <span class="num">5,96% das linhas</span></h4><p>5.341 linhas com número no lugar do nome da categoria (ex.: <code>0.545725091707833</code>), em todos os meses, canais e horas.</p></div></div>
         <div class="check erro"><span class="selo">Erro</span><div><h4>Receita negativa · <span class="num">3,92% das linhas</span></h4><p>3.513 linhas, <b>R$ 21 mi</b> em valor absoluto. Itens, pedidos e desconto vêm positivos.</p></div></div>
         <div class="check leve"><span class="selo">Atenção</span><div><h4>Precisão monetária no CSV</h4><p>Valores com resíduo de ponto flutuante (ex.: <code>3731.5600000000004</code>).</p></div></div>
-      </div>
     </div>
     <div class="out">
-      <div class="bloco-tit">Outliers diários (IQR)</div>
-      <div class="sub">casos fora do limite, contando só <b>fora de novembro</b></div>
       <div class="tiles">
         <div class="tile"><div class="v">2<small>dias</small><span class="p">0,9%</span></div><div class="n">Itens (target)</div><div class="m">26 no total · 24 em nov</div></div>
         <div class="tile"><div class="v">3<small>dias</small><span class="p">1,4%</span></div><div class="n">Pedidos</div><div class="m">25 no total · 22 em nov</div></div>
@@ -75,7 +73,6 @@
         <div class="tile"><div class="v">11<small>categoria-dias</small><span class="p">0,6%</span></div><div class="n">Taxa de desconto por categoria</div><div class="m">47 no total · 36 em nov</div></div>
       </div>
       <div class="extra"><b>Método IQR:</b> IQR = Q3 − Q1 (os 50% centrais). É outlier o valor abaixo de <b>Q1 − 1,5 × IQR</b> ou acima de <b>Q3 + 1,5 × IQR</b>.</div>
-      <div class="leitura">Fora da Black November, <b>no máximo 2% dos casos</b> são extremos. São <b>vendas reais</b>, não erros: não devem ser removidos.</div>
     </div>
   </div>
 </div>
