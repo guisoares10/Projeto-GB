@@ -1,56 +1,60 @@
-"""Gera o widget 03_desconto.html: desconto × pedidos × receita e App × Site.
+"""Gera o widget 03_desconto.html: desconto, pedidos e receita por mês (novembro em destaque) e App × Site.
 
-Números conferidos no BigQuery (fact_vendas, médias diárias por faixa de desconto do dia).
+Dados mensais em mensal_desconto.csv (consulta no BigQuery: pedidos, receita e desconto por mês).
 """
 import sys
 from pathlib import Path
 
-destino = Path(sys.argv[1])
+import pandas as pd
 
-# faixa: (rótulo, desconto médio, pedidos ×, receita ×, preço por item)
-faixas = [
-    ("até 30%", "26%", 1.00, 1.00, "R$ 74"),
-    ("30–40%", "34%", 1.42, 1.16, "R$ 57"),
-    ("40–50%", "44%", 1.68, 1.34, "R$ 53"),
-    ("acima de 50%", "55%", 4.86, 2.87, "R$ 35"),
+mensal = pd.read_csv(sys.argv[1])
+destino = Path(sys.argv[2])
+nomes = {"2025-11": "nov", "2025-12": "dez", "2026-01": "jan", "2026-02": "fev",
+         "2026-03": "mar", "2026-04": "abr", "2026-05": "mai", "2026-06": "jun"}
+
+nov = mensal[mensal["mes"] == "2025-11"].iloc[0]
+demais = mensal[mensal["mes"] != "2025-11"]
+tx_demais = demais["des"].sum() / (demais["rec"].sum() + demais["des"].sum())
+ped_demais = demais["ped"].sum() / demais["dias"].sum()
+rec_demais = demais["rec"].sum() / demais["dias"].sum()
+
+linhas = [
+    ("Taxa de desconto", "tx", lambda v: f"{v:.0%}", f"+{100 * (nov['tx'] - tx_demais):.0f} p.p.", 0.62),
+    ("Pedidos por dia", "ped_dia", lambda v: f"{v / 1e3:.0f} mil", f"+{100 * (nov['ped_dia'] / ped_demais - 1):.0f}%", 82_000),
+    ("Receita por dia", "rec_dia", lambda v: f"R$ {v / 1e6:.1f} mi".replace(".", ","), f"+{100 * (nov['rec_dia'] / rec_demais - 1):.0f}%", 4.8e6),
 ]
-W, H = 560, 330
-ML, MR, MT, MB = 34, 8, 30, 74
-pw, ph = W - ML - MR, H - MT - MB
-ymax = 5.5
-y = lambda v: MT + ph - v / ymax * ph
-grupo = pw / len(faixas)
-larg = 34
+
+W, H_LINHA, TOPO_ROT = 580, 104, 16
+ML = 118
+n = len(mensal)
+passo = (W - ML - 6) / n
+larg = passo * 0.62
 partes = []
-for v in [0, 1, 2, 3, 4, 5]:
-    partes.append(f'<line x1="{ML}" x2="{W-MR}" y1="{y(v):.1f}" y2="{y(v):.1f}" class="grade"/>')
-    partes.append(f'<text x="{ML-6}" y="{y(v)+4:.1f}" class="eixo" text-anchor="end">{v}×</text>')
-
-
-def barra(x, valor, classe):
-    topo = y(valor)
-    base = MT + ph
-    return (f'<path class="{classe}" d="M{x:.1f},{base} V{topo+4:.1f} Q{x:.1f},{topo:.1f} {x+4:.1f},{topo:.1f} '
-            f'H{x+larg-4:.1f} Q{x+larg:.1f},{topo:.1f} {x+larg:.1f},{topo+4:.1f} V{base} Z"/>')
-
-
-for i, (rot, tx, ped, rec, preco) in enumerate(faixas):
-    cx = ML + grupo * i + grupo / 2
-    x1, x2 = cx - larg - 1, cx + 1
-    partes.append(barra(x1, ped, "b-ped"))
-    partes.append(barra(x2, rec, "b-rec"))
-    for x, v in [(x1, ped), (x2, rec)]:
-        rotulo_valor = f"×{v:.1f}".replace(".", ",")
-        partes.append(f'<text x="{x+larg/2:.1f}" y="{y(v)-5:.1f}" class="valor" text-anchor="middle">{rotulo_valor}</text>')
-    partes.append(f'<text x="{cx:.1f}" y="{MT+ph+17}" class="cat" text-anchor="middle">{rot}</text>')
-    partes.append(f'<text x="{cx:.1f}" y="{MT+ph+31}" class="sub" text-anchor="middle">média {tx}</text>')
-    partes.append(f'<text x="{cx:.1f}" y="{MT+ph+50}" class="preco" text-anchor="middle">{preco}</text>')
-partes.append(f'<line x1="{ML}" x2="{W-MR}" y1="{MT+ph}" y2="{MT+ph}" class="base"/>')
-partes.append(f'<text x="{ML-30}" y="{MT+ph+50}" class="sub">preço/item</text>')
-partes.append(f'<text x="{ML-30}" y="{MT+ph+17}" class="sub">desconto</text>')
-partes.append(f'<text x="{ML-30}" y="{MT-14}" class="sub">crescimento por dia, em relação aos dias de desconto até 30%</text>')
-svg = f'<svg viewBox="0 0 {W} {H}" width="{W}" height="{H}">' + "".join(partes) + "</svg>"
+for k, (titulo, coluna, fmt, variacao, ymax) in enumerate(linhas):
+    y0 = k * H_LINHA
+    base = y0 + H_LINHA - 18
+    altura_max = H_LINHA - 18 - TOPO_ROT - 4
+    partes.append(f'<text x="0" y="{y0 + 38}" class="titulo-linha">{titulo}</text>')
+    partes.append(f'<text x="0" y="{y0 + 62}" class="seta">▲ {variacao}</text>')
+    partes.append(f'<text x="0" y="{y0 + 77}" class="seta-sub">em novembro</text>')
+    partes.append(f'<line x1="{ML}" x2="{W}" y1="{base}" y2="{base}" class="base"/>')
+    for i, r in mensal.iterrows():
+        x = ML + i * passo + (passo - larg) / 2
+        h = r[coluna] / ymax * altura_max
+        topo = base - h
+        classe = "b-nov" if r["mes"] == "2025-11" else "b-mes"
+        partes.append(
+            f'<path class="{classe}" d="M{x:.1f},{base} V{topo + 3:.1f} Q{x:.1f},{topo:.1f} {x + 3:.1f},{topo:.1f} '
+            f'H{x + larg - 3:.1f} Q{x + larg:.1f},{topo:.1f} {x + larg:.1f},{topo + 3:.1f} V{base} Z"/>'
+        )
+        partes.append(f'<text x="{x + larg / 2:.1f}" y="{topo - 4:.1f}" class="{"v-nov" if classe == "b-nov" else "v-mes"}" '
+                      f'text-anchor="middle">{fmt(r[coluna])}</text>')
+    if k == len(linhas) - 1:
+        for i, r in mensal.iterrows():
+            partes.append(f'<text x="{ML + i * passo + passo / 2:.1f}" y="{base + 14}" class="mes" text-anchor="middle">{nomes[r["mes"]]}</text>')
+H = len(linhas) * H_LINHA
+svg = f'<svg viewBox="0 -4 {W} {H + 4}" width="{W}" height="{H + 4}">' + "".join(partes) + "</svg>"
 
 modelo = Path(__file__).with_name("03_desconto_modelo.html").read_text(encoding="utf-8")
 destino.write_text(modelo.replace("{{GRAFICO}}", svg), encoding="utf-8")
-print("ok", destino)
+print("ok", destino, {"tx_demais": round(tx_demais, 3), "ped_demais": round(ped_demais), "rec_demais": round(rec_demais)})
