@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>App × Site</title>
+<style>
+  :root { --verde: #1d9e75; --verde-escuro: #137a5a; --verde-claro: #e3f5ee; --tinta: #1a1a1a; --tinta-2: #4a4a4a; --tinta-3: #7a7a7a; --linha: #e3e3dc; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 1040px; height: 200px; background: #fff; font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; color: var(--tinta); }
+  .widget { padding: 6px 4px; }
+  .rotulo { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--verde);
+            margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .rotulo::after { content: ""; flex: 1; height: 1px; background: var(--linha); }
+  .insight { background: var(--verde-claro); border-radius: 10px; padding: 16px 20px; display: grid;
+             grid-template-columns: 210px 300px 1fr; gap: 26px; align-items: center; }
+  .selo { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+          color: #fff; background: var(--verde); border-radius: 4px; padding: 2px 7px; margin-bottom: 6px; }
+  .valor-g { font-size: 30px; font-weight: 700; color: var(--verde); line-height: 1.05; }
+  .valor-g small { display: block; font-size: 14px; margin-top: 2px; }
+  .comp { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .comp th { text-align: right; font-size: 11px; color: var(--tinta-3); font-weight: 700; padding: 0 0 3px; }
+  .comp th:first-child, .comp td:first-child { text-align: left; }
+  .comp td { padding: 5px 0; border-top: 1px solid #cfe9de; text-align: right; color: var(--tinta-2); }
+  .comp td.app { color: var(--verde-escuro); font-weight: 700; }
+  .comp td.site { color: var(--tinta); font-weight: 700; }
+  .texto { font-size: 13px; color: var(--tinta-2); line-height: 1.45; }
+  .texto b { color: var(--tinta); }
+  .texto .tit { display: block; font-size: 11px; font-weight: 700; color: var(--verde-escuro); text-transform: uppercase; letter-spacing: .05em; margin: 6px 0 2px; }
+</style>
+</head>
+<body>
+<div class="widget">
+  <div class="rotulo">App × Site</div>
+  <div class="insight">
+    <div><span class="selo">Insight</span><div class="valor-g">~10% <small>mais barato no App</small></div></div>
+    <table class="comp">
+      <tr><th></th><th>App</th><th>Site</th></tr>
+      <tr><td>preço de tabela por item</td><td class="app">R$ 88</td><td class="site">R$ 89</td></tr>
+      <tr><td>taxa de desconto</td><td class="app">45%</td><td class="site">40%</td></tr>
+      <tr><td>preço pago por item</td><td class="app">R$ 48</td><td class="site">R$ 54</td></tr>
+    </table>
+    <div class="texto">
+      Mesmo preço de tabela; <b>o App recebe mais desconto em todos os meses</b> e concentra <b>78% dos pedidos</b>.
+      <span class="tit">Oportunidade</span>
+      Usar o preço menor como <b>alavanca para trazer o cliente ao App</b>: canal próprio, que permite <b>fidelizar</b>, <b>personalizar ofertas</b> e avisar sobre promoções por <b>notificação</b>.
+    </div>
+  </div>
+</div>
+</body>
+</html>

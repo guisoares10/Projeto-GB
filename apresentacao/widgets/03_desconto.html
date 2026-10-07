@@ -2,112 +2,72 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<title>Receita e desconto</title>
+<title>Desconto por estratégia</title>
 <style>
   :root {
-    --verde: #1d9e75;
-    --verde-escuro: #137a5a;
-    --verde-claro: #e3f5ee;
-    --tinta: #1a1a1a;
-    --tinta-2: #4a4a4a;
-    --tinta-3: #7a7a7a;
-    --linha: #e3e3dc;
-    --fundo: #ffffff;
+    --verde: #1d9e75; --verde-escuro: #137a5a; --verde-claro: #e3f5ee; --laranja: #b5562b;
+    --tinta: #1a1a1a; --tinta-2: #4a4a4a; --tinta-3: #7a7a7a; --linha: #e3e3dc; --fundo: #ffffff;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    width: 1040px; height: 480px; background: var(--fundo);
-    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; color: var(--tinta);
-  }
-  .widget { display: grid; grid-template-rows: auto 1fr; gap: 14px; height: 100%; padding: 6px 4px; }
-  .rotulo {
-    font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
-    color: var(--verde); margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
-  }
+  body { width: 1040px; height: 480px; background: var(--fundo);
+         font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; color: var(--tinta); }
+  .widget { display: flex; flex-direction: column; height: 100%; padding: 6px 4px; }
+  .rotulo { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--verde);
+            margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
   .rotulo::after { content: ""; flex: 1; height: 1px; background: var(--linha); }
-  .topo { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 6px; }
-  h3 { font-size: 18px; line-height: 1.25; font-weight: 700; }
+  h3 { font-size: 19px; line-height: 1.25; font-weight: 700; margin-bottom: 10px; }
   h3 span { color: var(--verde); }
-  .legenda-m { font-size: 11px; color: var(--tinta-3); }
 
-  /* matriz */
-  .matriz { width: 100%; border-collapse: separate; border-spacing: 3px; table-layout: fixed; }
-  .matriz th { font-size: 12px; color: var(--tinta-3); font-weight: 700; text-align: center; padding-bottom: 1px; }
-  .matriz th.grupo { font-size: 13px; color: var(--tinta); }
-  .matriz th.grupo span { display: block; font-size: 10px; font-weight: 400; color: var(--tinta-3); margin-top: 1px; }
+  .corpo { display: grid; grid-template-columns: 1fr 190px; gap: 18px; align-items: start; }
+  .matriz { width: 100%; border-collapse: separate; border-spacing: 5px 4px; table-layout: fixed; }
+  .matriz th { text-align: center; }
+  .matriz th.linha { width: 104px; text-align: left; font-size: 13px; color: var(--tinta); white-space: nowrap; }
+  .matriz th.grupo { font-size: 14px; color: var(--tinta); padding-bottom: 3px; }
+  .matriz th.grupo span { display: block; font-size: 10.5px; font-weight: 400; color: var(--tinta-3); margin-top: 2px; }
   .matriz th.nov, .matriz th.forte { color: var(--verde-escuro); }
-  .matriz td.forte { box-shadow: inset 0 0 0 1.5px #9fd8c3; }
-  .nota-base { font-size: 10.5px; color: var(--tinta-3); margin-top: 6px; line-height: 1.35; }
-  .nota-base b { color: var(--tinta-2); }
-  .matriz th.linha { width: 108px; text-align: left; font-size: 13px; color: var(--tinta); white-space: nowrap; }
-  .matriz th.base-cab { width: 100px; color: var(--tinta); }
-  .matriz th.base-cab span { display: block; font-size: 9.5px; font-weight: 400; color: var(--tinta-3); }
-  .matriz td { text-align: center; border-radius: 6px; padding: 4px 1px 3px; background: #f6f6f2; }
-  .matriz td.base { background: #ffffff; border: 1px dashed #c9c9c0; font-size: 13px; font-weight: 700; color: var(--tinta-2); }
+  .matriz td { text-align: center; border-radius: 7px; padding: 12px 2px 11px; background: #f6f6f2; }
   .matriz td.nov { background: var(--verde-claro); box-shadow: inset 0 0 0 1.5px var(--verde); }
-  .delta { font-size: 13px; font-weight: 700; white-space: nowrap; }
-  .seta { font-size: 10px; margin-right: 2px; }
+  .matriz td.forte { box-shadow: inset 0 0 0 1.5px #9fd8c3; }
+  .delta { font-size: 17px; font-weight: 700; white-space: nowrap; }
+  .seta { font-size: 11px; margin-right: 2px; }
   .sobe .delta { color: var(--verde-escuro); }
-  .desce .delta { color: #b5562b; }
+  .desce .delta { color: var(--laranja); }
   .neutro .delta { color: var(--tinta-3); }
-  .abs { font-size: 10.5px; color: var(--tinta-3); margin-top: 1px; white-space: nowrap; }
-  .matriz td.motivo { background: none; border: none; box-shadow: none; font-size: 10.5px; line-height: 1.3; color: var(--tinta-2); padding: 3px 6px 0; vertical-align: top; }
-  .matriz td.motivo.nov, .matriz td.motivo.forte { box-shadow: none; color: var(--verde-escuro); font-weight: 700; }
-  .matriz th.motivo-tit { vertical-align: top; padding-top: 3px; font-size: 11px; color: var(--tinta-3); font-weight: 700; }
+  .abs { font-size: 12px; color: var(--tinta-3); margin-top: 1px; white-space: nowrap; }
+  .matriz td.motivo { background: none; box-shadow: none; font-size: 12px; line-height: 1.3; color: var(--tinta-2);
+                      padding: 6px 4px 0; white-space: nowrap; }
+  .matriz td.motivo.nov, .matriz td.motivo.forte { color: var(--verde-escuro); font-weight: 700; }
 
-  /* insight App × Site (faixa horizontal) */
-  .insight { background: var(--verde-claro); border-radius: 10px; padding: 12px 18px; display: grid;
-             grid-template-columns: 210px 300px 1fr; gap: 24px; align-items: center; }
-  .selo {
-    display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
-    color: #fff; background: var(--verde); border-radius: 4px; padding: 2px 7px; margin-bottom: 6px;
-  }
-  .valor-g { font-size: 28px; font-weight: 700; color: var(--verde); line-height: 1.05; }
-  .valor-g small { display: block; font-size: 14px; margin-top: 2px; }
-  .comp { width: 100%; border-collapse: collapse; font-size: 12.5px; }
-  .comp th { text-align: right; font-size: 10.5px; color: var(--tinta-3); font-weight: 700; padding: 0 0 3px; }
-  .comp th:first-child, .comp td:first-child { text-align: left; }
-  .comp td { padding: 4px 0; border-top: 1px solid #cfe9de; text-align: right; color: var(--tinta-2); }
-  .comp td.app { color: var(--verde-escuro); font-weight: 700; }
-  .comp td.site { color: var(--tinta); font-weight: 700; }
-  .texto { font-size: 12.5px; color: var(--tinta-2); line-height: 1.45; }
-  .texto b { color: var(--tinta); }
-  .texto .tit { display: block; font-size: 11px; font-weight: 700; color: var(--verde-escuro); text-transform: uppercase; letter-spacing: .05em; margin: 6px 0 2px; }
+  .app { margin-top: 60px; border: 1.5px solid var(--verde); border-radius: 10px; padding: 12px 14px; }
+  .app .selo { display: inline-block; font-size: 9.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+               color: #fff; background: var(--verde); border-radius: 4px; padding: 2px 6px; margin-bottom: 6px; }
+  .app .grande { font-size: 26px; font-weight: 700; color: var(--verde); line-height: 1.05; }
+  .app .grande small { display: block; font-size: 13px; margin-top: 2px; }
+  .app p { font-size: 12px; color: var(--tinta-2); line-height: 1.4; margin-top: 8px; }
+  .app p b { color: var(--tinta); }
+
+  .implicacao { margin-top: auto; background: var(--verde); color: #fff; border-radius: 8px; padding: 11px 16px;
+                font-size: 13.5px; line-height: 1.35; }
+  .implicacao b { font-weight: 700; }
+  .nota-base { font-size: 10px; color: var(--tinta-3); margin-top: 6px; }
 </style>
 </head>
 <body>
 <div class="widget">
+  <div class="rotulo">Desconto, pedidos e receita por estratégia</div>
+  <h3>Promoção gera volume; <span>sazonalidade forte permite preservar valor</span></h3>
 
-  <section>
-    <div class="rotulo">Desconto, pedidos e receita por estratégia</div>
-    <div class="topo">
-      <h3>Mais desconto, mais pedidos — mas <span>cada item rende menos</span></h3>
-      <div class="legenda-m">variação contra o baseline · valor do grupo embaixo</div>
+  <div class="corpo">
+    <table class="matriz"><tr><th class="linha"></th><th class="grupo nov">Black November<span>nov</span></th><th class="grupo forte">Datas comemorativas<span>dez (Natal) · mai (Mães)</span></th><th class="grupo ">Meses sem grande data<span>jan · fev · mar · abr · jun</span></th></tr><tr><th class="linha">Desconto</th><td class="sobe nov"><div class="delta"><span class="seta">▲</span>+17 p.p.</div><div class="abs">55%</div></td><td class="neutro forte"><div class="delta"><span class="seta"></span>0 p.p.</div><div class="abs">38%</div></td><td class="neutro "><div class="delta"><span class="seta"></span>0 p.p.</div><div class="abs">38%</div></td></tr><tr><th class="linha">Pedidos/dia</th><td class="sobe nov"><div class="delta"><span class="seta">▲</span>+259%</div><div class="abs">73 mil</div></td><td class="sobe forte"><div class="delta"><span class="seta">▲</span>+25%</div><div class="abs">26 mil</div></td><td class="desce "><div class="delta"><span class="seta">▼</span>−10%</div><div class="abs">18 mil</div></td></tr><tr><th class="linha">Receita/dia</th><td class="sobe nov"><div class="delta"><span class="seta">▲</span>+152%</div><div class="abs">R$ 4,3 mi</div></td><td class="sobe forte"><div class="delta"><span class="seta">▲</span>+26%</div><div class="abs">R$ 2,1 mi</div></td><td class="desce "><div class="delta"><span class="seta">▼</span>−11%</div><div class="abs">R$ 1,5 mi</div></td></tr><tr><th class="linha">Receita/item</th><td class="desce nov"><div class="delta"><span class="seta">▼</span>−37%</div><div class="abs">R$ 36</div></td><td class="neutro forte"><div class="delta"><span class="seta"></span>+2%</div><div class="abs">R$ 59</div></td><td class="neutro "><div class="delta"><span class="seta"></span>−1%</div><div class="abs">R$ 57</div></td></tr><tr><th></th><td class="motivo nov">Volume dispara, item rende menos</td><td class="motivo forte">Desconto na média: a data puxa a venda</td><td class="motivo ">Mesmo desconto, menos pedidos</td></tr></table>
+    <div class="app">
+      <span class="selo">App × Site</span>
+      <div class="grande">~10%<small>mais barato no App</small></div>
+      <p>Mais desconto no App, com o mesmo preço de tabela. Oportunidade: <b>fidelizar</b> e <b>personalizar ofertas</b> no canal próprio.</p>
     </div>
-    <table class="matriz"><tr><th class="linha"></th><th class="base-cab">Baseline<span>dez–jun</span></th><th class="grupo nov">Black November<span>nov</span></th><th class="grupo forte">Datas comemorativas<span>dez (Natal) · mai (Mães)</span></th><th class="grupo ">Desconto para estimular<span>jan · mar</span></th><th class="grupo ">Desconto contido<span>fev · abr · jun</span></th></tr><tr><th class="linha">Desconto</th><td class="base">38%</td><td class="sobe nov"><div class="delta"><span class="seta">▲</span>+17 p.p.</div><div class="abs">55%</div></td><td class="neutro forte"><div class="delta"><span class="seta"></span>0 p.p.</div><div class="abs">38%</div></td><td class="sobe "><div class="delta"><span class="seta">▲</span>+4 p.p.</div><div class="abs">42%</div></td><td class="desce "><div class="delta"><span class="seta">▼</span>−4 p.p.</div><div class="abs">34%</div></td></tr><tr><th class="linha">Pedidos/dia</th><td class="base">20 mil</td><td class="sobe nov"><div class="delta"><span class="seta">▲</span>+259%</div><div class="abs">73 mil</div></td><td class="sobe forte"><div class="delta"><span class="seta">▲</span>+25%</div><div class="abs">26 mil</div></td><td class="neutro "><div class="delta"><span class="seta"></span>−1%</div><div class="abs">20 mil</div></td><td class="desce "><div class="delta"><span class="seta">▼</span>−17%</div><div class="abs">17 mil</div></td></tr><tr><th class="linha">Receita/dia</th><td class="base">R$ 1,7 mi</td><td class="sobe nov"><div class="delta"><span class="seta">▲</span>+152%</div><div class="abs">R$ 4,3 mi</div></td><td class="sobe forte"><div class="delta"><span class="seta">▲</span>+26%</div><div class="abs">R$ 2,1 mi</div></td><td class="desce "><div class="delta"><span class="seta">▼</span>−4%</div><div class="abs">R$ 1,6 mi</div></td><td class="desce "><div class="delta"><span class="seta">▼</span>−16%</div><div class="abs">R$ 1,4 mi</div></td></tr><tr><th class="linha">Receita/item</th><td class="base">R$ 57</td><td class="desce nov"><div class="delta"><span class="seta">▼</span>−37%</div><div class="abs">R$ 36</div></td><td class="neutro forte"><div class="delta"><span class="seta"></span>+2%</div><div class="abs">R$ 59</div></td><td class="desce "><div class="delta"><span class="seta">▼</span>−4%</div><div class="abs">R$ 55</div></td><td class="neutro "><div class="delta"><span class="seta"></span>+1%</div><div class="abs">R$ 58</div></td></tr><tr><th class="linha motivo-tit">Estratégia</th><td class="motivo"></td><td class="motivo nov">Promoção agressiva: pedidos disparam, mas cada item rende menos</td><td class="motivo forte">Desconto ≈ base: meses naturalmente fortes, receita máxima</td><td class="motivo ">Mais desconto sem data forte: pedidos não reagem</td><td class="motivo ">Menos desconto sem grande data: pedidos e receita recuam</td></tr></table><p class="nota-base"><b>Baseline:</b> média diária de dezembro a junho (212 dias, sem a Black November), somando os totais do período (não é média dos meses); grupos calculados da mesma forma.</p>
-  </section>
+  </div>
 
-  <section>
-    <div class="rotulo">App × Site</div>
-    <div class="insight">
-      <div>
-        <span class="selo">Insight</span>
-        <div class="valor-g">~10% <small>mais barato no App</small></div>
-      </div>
-      <table class="comp">
-        <tr><th></th><th>App</th><th>Site</th></tr>
-        <tr><td>preço de tabela por item</td><td class="app">R$ 88</td><td class="site">R$ 89</td></tr>
-        <tr><td>taxa de desconto</td><td class="app">45%</td><td class="site">40%</td></tr>
-        <tr><td>preço pago por item</td><td class="app">R$ 48</td><td class="site">R$ 54</td></tr>
-      </table>
-      <div class="texto">
-        Mesmo preço de tabela; <b>o App recebe mais desconto em todos os meses</b> e concentra <b>78% dos pedidos</b>.
-        <span class="tit">Oportunidade</span>
-        Usar o preço menor como <b>alavanca para trazer o cliente ao App</b>: canal próprio, que permite <b>fidelizar</b>, <b>personalizar ofertas</b> e avisar sobre promoções por <b>notificação</b>.
-      </div>
-    </div>
-  </section>
-
+  <div class="implicacao"><b>Implicação:</b> usar desconto de forma seletiva para gerar demanda incremental; em datas naturalmente fortes, preservar preço e capturar valor.</div>
+  <div class="nota-base">Variação contra o baseline: média diária de dez–jun (212 dias, sem nov), somando os totais do período (desconto 38% · pedidos/dia 20 mil · receita/dia R$ 1,7 mi · receita/item R$ 57). Valor do grupo abaixo da variação.</div>
 </div>
 </body>
 </html>
