@@ -18,10 +18,11 @@
   h3 { font-size: 19px; line-height: 1.25; font-weight: 700; margin-bottom: 10px; }
   h3 span { color: var(--verde); }
 
-  .corpo { display: grid; grid-template-columns: 1fr 190px; gap: 18px; align-items: start; }
+  .corpo { }
   .matriz { width: 100%; border-collapse: separate; border-spacing: 5px 4px; table-layout: fixed; }
   .matriz th { text-align: center; }
-  .matriz th.linha { width: 104px; text-align: left; font-size: 13px; color: var(--tinta); white-space: nowrap; }
+  .matriz th.linha { width: 130px; text-align: left; font-size: 13px; color: var(--tinta); white-space: nowrap; }
+  .matriz th.linha span { display: block; font-size: 10.5px; font-weight: 400; color: var(--tinta-3); margin-top: 2px; }
   .matriz th.grupo { font-size: 14px; color: var(--tinta); padding-bottom: 3px; }
   .matriz th.grupo span { display: block; font-size: 10.5px; font-weight: 400; color: var(--tinta-3); margin-top: 2px; }
   .matriz th.nov, .matriz th.forte { color: var(--verde-escuro); }
@@ -46,9 +47,9 @@
   .app p { font-size: 12px; color: var(--tinta-2); line-height: 1.4; margin-top: 8px; }
   .app p b { color: var(--tinta); }
 
-  .implicacao { margin-top: auto; background: var(--verde); color: #fff; border-radius: 8px; padding: 11px 16px;
+  .implicacao { margin-top: auto; background: var(--verde-claro); color: var(--tinta-2); border-left: 3px solid var(--verde); border-radius: 0 8px 8px 0; padding: 11px 16px;
                 font-size: 13.5px; line-height: 1.35; }
-  .implicacao b { font-weight: 700; }
+  .implicacao b { font-weight: 700; color: var(--verde-escuro); }
   .nota-base { font-size: 10px; color: var(--tinta-3); margin-top: 6px; }
 </style>
 </head>
@@ -59,15 +60,10 @@
 
   <div class="corpo">
     {{MATRIZ}}
-    <div class="app">
-      <span class="selo">App × Site</span>
-      <div class="grande">~10%<small>mais barato no App</small></div>
-      <p>Mais desconto no App, com o mesmo preço de tabela. Oportunidade: <b>fidelizar</b> e <b>personalizar ofertas</b> no canal próprio.</p>
-    </div>
   </div>
 
   <div class="implicacao"><b>Implicação:</b> usar desconto de forma seletiva para gerar demanda incremental; em datas naturalmente fortes, preservar preço e capturar valor.</div>
-  <div class="nota-base">Variação contra o baseline: média diária de dez–jun (212 dias, sem nov), somando os totais do período ({{BASE}}). Valor do grupo abaixo da variação.</div>
+  <div class="nota-base">Baseline: média diária de dezembro a junho, retirando novembro (Black November), calculada sobre os totais do período. Variação do grupo contra o baseline; valor do grupo abaixo.</div>
 </div>
 </body>
 </html>

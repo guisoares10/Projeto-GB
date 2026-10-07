@@ -49,7 +49,7 @@ grupos = [
      "Volume dispara, item rende menos"),
     ("Datas comemorativas", "dez (Natal) · mai (Mães)", ["2025-12", "2026-05"], "forte",
      "Desconto na média: a data puxa a venda"),
-    ("Meses sem grande data", "jan · fev · mar · abr · jun", ["2026-01", "2026-02", "2026-03", "2026-04", "2026-06"], "",
+    ("Demais meses", "jan · fev · mar · abr · jun", ["2026-01", "2026-02", "2026-03", "2026-04", "2026-06"], "",
      "Mesmo desconto, menos pedidos"),
 ]
 
@@ -67,18 +67,17 @@ valores = [totais(mensal[mensal["mes"].isin(meses)]) for _, _, meses, _, _ in gr
 cab = "".join(f'<th class="grupo {destaque}">{nome}<span>{meses_txt}</span></th>'
               for nome, meses_txt, _, destaque, _ in grupos)
 corpo = []
-for titulo, coluna, fmt, tipo, _ in linhas:
+for titulo, coluna, fmt, tipo, ref_txt in linhas:
     tds = []
     for (_, _, _, destaque, _), v in zip(grupos, valores):
         classe, seta, texto = celula(v[coluna], ref[coluna], tipo)
         tds.append(f'<td class="{classe} {destaque}"><div class="delta"><span class="seta">{seta}</span>{texto}</div>'
                    f'<div class="abs">{fmt(v[coluna])}</div></td>')
-    corpo.append(f'<tr><th class="linha">{titulo}</th>{"".join(tds)}</tr>')
+    corpo.append(f'<tr><th class="linha">{titulo}<span>baseline {ref_txt}</span></th>{"".join(tds)}</tr>')
 leitura = "".join(f'<td class="motivo {destaque}">{texto}</td>' for _, _, _, destaque, texto in grupos)
 corpo.append(f'<tr><th></th>{leitura}</tr>')
 tabela = f'<table class="matriz"><tr><th class="linha"></th>{cab}</tr>{"".join(corpo)}</table>'
-base_txt = " · ".join(f"{t.lower()} {r}" for t, _, _, _, r in linhas)
 
 modelo = Path(__file__).with_name("03_desconto_modelo.html").read_text(encoding="utf-8")
-destino.write_text(modelo.replace("{{MATRIZ}}", tabela).replace("{{BASE}}", base_txt), encoding="utf-8")
+destino.write_text(modelo.replace("{{MATRIZ}}", tabela), encoding="utf-8")
 print("ok", destino, {k: round(v, 3) for k, v in ref.items()})

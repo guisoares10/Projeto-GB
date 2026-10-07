@@ -18,10 +18,11 @@
   h3 { font-size: 19px; line-height: 1.25; font-weight: 700; margin-bottom: 10px; }
   h3 span { color: var(--verde); }
 
-  .corpo { display: grid; grid-template-columns: 1fr 190px; gap: 18px; align-items: start; }
+  .corpo { }
   .matriz { width: 100%; border-collapse: separate; border-spacing: 5px 4px; table-layout: fixed; }
   .matriz th { text-align: center; }
-  .matriz th.linha { width: 104px; text-align: left; font-size: 13px; color: var(--tinta); white-space: nowrap; }
+  .matriz th.linha { width: 130px; text-align: left; font-size: 13px; color: var(--tinta); white-space: nowrap; }
+  .matriz th.linha span { display: block; font-size: 10.5px; font-weight: 400; color: var(--tinta-3); margin-top: 2px; }
   .matriz th.grupo { font-size: 14px; color: var(--tinta); padding-bottom: 3px; }
   .matriz th.grupo span { display: block; font-size: 10.5px; font-weight: 400; color: var(--tinta-3); margin-top: 2px; }
   .matriz th.nov, .matriz th.forte { color: var(--verde-escuro); }
@@ -46,9 +47,9 @@
   .app p { font-size: 12px; color: var(--tinta-2); line-height: 1.4; margin-top: 8px; }
   .app p b { color: var(--tinta); }
 
-  .implicacao { margin-top: auto; background: var(--verde); color: #fff; border-radius: 8px; padding: 11px 16px;
+  .implicacao { margin-top: auto; background: var(--verde-claro); color: var(--tinta-2); border-left: 3px solid var(--verde); border-radius: 0 8px 8px 0; padding: 11px 16px;
                 font-size: 13.5px; line-height: 1.35; }
-  .implicacao b { font-weight: 700; }
+  .implicacao b { font-weight: 700; color: var(--verde-escuro); }
   .nota-base { font-size: 10px; color: var(--tinta-3); margin-top: 6px; }
 </style>
 </head>
@@ -58,16 +59,11 @@
   <h3>Promoção gera volume; <span>sazonalidade forte permite preservar valor</span></h3>
 
   <div class="corpo">
-    <table class="matriz"><tr><th class="linha"></th><th class="grupo nov">Black November<span>nov</span></th><th class="grupo forte">Datas comemorativas<span>dez (Natal) · mai (Mães)</span></th><th class="grupo ">Meses sem grande data<span>jan · fev · mar · abr · jun</span></th></tr><tr><th class="linha">Desconto</th><td class="sobe nov"><div class="delta"><span class="seta">▲</span>+17 p.p.</div><div class="abs">55%</div></td><td class="neutro forte"><div class="delta"><span class="seta"></span>0 p.p.</div><div class="abs">38%</div></td><td class="neutro "><div class="delta"><span class="seta"></span>0 p.p.</div><div class="abs">38%</div></td></tr><tr><th class="linha">Pedidos/dia</th><td class="sobe nov"><div class="delta"><span class="seta">▲</span>+259%</div><div class="abs">73 mil</div></td><td class="sobe forte"><div class="delta"><span class="seta">▲</span>+25%</div><div class="abs">26 mil</div></td><td class="desce "><div class="delta"><span class="seta">▼</span>−10%</div><div class="abs">18 mil</div></td></tr><tr><th class="linha">Receita/dia</th><td class="sobe nov"><div class="delta"><span class="seta">▲</span>+152%</div><div class="abs">R$ 4,3 mi</div></td><td class="sobe forte"><div class="delta"><span class="seta">▲</span>+26%</div><div class="abs">R$ 2,1 mi</div></td><td class="desce "><div class="delta"><span class="seta">▼</span>−11%</div><div class="abs">R$ 1,5 mi</div></td></tr><tr><th class="linha">Receita/item</th><td class="desce nov"><div class="delta"><span class="seta">▼</span>−37%</div><div class="abs">R$ 36</div></td><td class="neutro forte"><div class="delta"><span class="seta"></span>+2%</div><div class="abs">R$ 59</div></td><td class="neutro "><div class="delta"><span class="seta"></span>−1%</div><div class="abs">R$ 57</div></td></tr><tr><th></th><td class="motivo nov">Volume dispara, item rende menos</td><td class="motivo forte">Desconto na média: a data puxa a venda</td><td class="motivo ">Mesmo desconto, menos pedidos</td></tr></table>
-    <div class="app">
-      <span class="selo">App × Site</span>
-      <div class="grande">~10%<small>mais barato no App</small></div>
-      <p>Mais desconto no App, com o mesmo preço de tabela. Oportunidade: <b>fidelizar</b> e <b>personalizar ofertas</b> no canal próprio.</p>
-    </div>
+    <table class="matriz"><tr><th class="linha"></th><th class="grupo nov">Black November<span>nov</span></th><th class="grupo forte">Datas comemorativas<span>dez (Natal) · mai (Mães)</span></th><th class="grupo ">Demais meses<span>jan · fev · mar · abr · jun</span></th></tr><tr><th class="linha">Desconto<span>baseline 38%</span></th><td class="sobe nov"><div class="delta"><span class="seta">▲</span>+17 p.p.</div><div class="abs">55%</div></td><td class="neutro forte"><div class="delta"><span class="seta"></span>0 p.p.</div><div class="abs">38%</div></td><td class="neutro "><div class="delta"><span class="seta"></span>0 p.p.</div><div class="abs">38%</div></td></tr><tr><th class="linha">Pedidos/dia<span>baseline 20 mil</span></th><td class="sobe nov"><div class="delta"><span class="seta">▲</span>+259%</div><div class="abs">73 mil</div></td><td class="sobe forte"><div class="delta"><span class="seta">▲</span>+25%</div><div class="abs">26 mil</div></td><td class="desce "><div class="delta"><span class="seta">▼</span>−10%</div><div class="abs">18 mil</div></td></tr><tr><th class="linha">Receita/dia<span>baseline R$ 1,7 mi</span></th><td class="sobe nov"><div class="delta"><span class="seta">▲</span>+152%</div><div class="abs">R$ 4,3 mi</div></td><td class="sobe forte"><div class="delta"><span class="seta">▲</span>+26%</div><div class="abs">R$ 2,1 mi</div></td><td class="desce "><div class="delta"><span class="seta">▼</span>−11%</div><div class="abs">R$ 1,5 mi</div></td></tr><tr><th class="linha">Receita/item<span>baseline R$ 57</span></th><td class="desce nov"><div class="delta"><span class="seta">▼</span>−37%</div><div class="abs">R$ 36</div></td><td class="neutro forte"><div class="delta"><span class="seta"></span>+2%</div><div class="abs">R$ 59</div></td><td class="neutro "><div class="delta"><span class="seta"></span>−1%</div><div class="abs">R$ 57</div></td></tr><tr><th></th><td class="motivo nov">Volume dispara, item rende menos</td><td class="motivo forte">Desconto na média: a data puxa a venda</td><td class="motivo ">Mesmo desconto, menos pedidos</td></tr></table>
   </div>
 
   <div class="implicacao"><b>Implicação:</b> usar desconto de forma seletiva para gerar demanda incremental; em datas naturalmente fortes, preservar preço e capturar valor.</div>
-  <div class="nota-base">Variação contra o baseline: média diária de dez–jun (212 dias, sem nov), somando os totais do período (desconto 38% · pedidos/dia 20 mil · receita/dia R$ 1,7 mi · receita/item R$ 57). Valor do grupo abaixo da variação.</div>
+  <div class="nota-base">Baseline: média diária de dezembro a junho, retirando novembro (Black November), calculada sobre os totais do período. Variação do grupo contra o baseline; valor do grupo abaixo.</div>
 </div>
 </body>
 </html>
