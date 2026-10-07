@@ -1,7 +1,7 @@
 """Gera o widget 03_desconto.html: três estratégias de desconto × métrica, com variação contra o baseline.
 
 Dados mensais em mensal_desconto.csv (consulta no BigQuery: pedidos, itens, receita e desconto por mês).
-Base de comparação: média diária dos meses de dezembro a junho (sem a Black November).
+Base de comparação: média diária dos meses sem grandes datas (jan, fev, mar, abr e jun).
 """
 import sys
 from pathlib import Path
@@ -12,7 +12,8 @@ mensal = pd.read_csv(sys.argv[1])
 destino = Path(sys.argv[2])
 
 mensal["preco"] = mensal["rec"] / mensal["qt"]
-base = mensal[mensal["mes"] != "2025-11"]
+REGULARES = ["2026-01", "2026-02", "2026-03", "2026-04", "2026-06"]
+base = mensal[mensal["mes"].isin(REGULARES)]
 ref = {
     "tx": base["des"].sum() / (base["rec"].sum() + base["des"].sum()),
     "ped_dia": base["ped"].sum() / base["dias"].sum(),
@@ -49,8 +50,6 @@ grupos = [
      "Volume dispara, item rende menos"),
     ("Datas comemorativas", "dez (Natal) · mai (Mães)", ["2025-12", "2026-05"], "forte",
      "Desconto na média: a data puxa a venda"),
-    ("Demais meses", "jan · fev · mar · abr · jun", ["2026-01", "2026-02", "2026-03", "2026-04", "2026-06"], "",
-     "Mesmo desconto, menos pedidos"),
 ]
 
 
@@ -64,7 +63,7 @@ def totais(df):
 
 
 valores = [totais(mensal[mensal["mes"].isin(meses)]) for _, _, meses, _, _ in grupos]
-cab = "".join(f'<th class="grupo {destaque}">{nome}<span>{meses_txt}</span></th>'
+cab = '<th class="grupo base-cab">Baseline<span>jan · fev · mar · abr · jun</span></th>' + "".join(f'<th class="grupo {destaque}">{nome}<span>{meses_txt}</span></th>'
               for nome, meses_txt, _, destaque, _ in grupos)
 corpo = []
 for titulo, coluna, fmt, tipo, ref_txt in linhas:
@@ -73,9 +72,9 @@ for titulo, coluna, fmt, tipo, ref_txt in linhas:
         classe, seta, texto = celula(v[coluna], ref[coluna], tipo)
         tds.append(f'<td class="{classe} {destaque}"><div class="delta"><span class="seta">{seta}</span>{texto}</div>'
                    f'<div class="abs">{fmt(v[coluna])}</div></td>')
-    corpo.append(f'<tr><th class="linha">{titulo}<span>baseline {ref_txt}</span></th>{"".join(tds)}</tr>')
+    corpo.append(f'<tr><th class="linha">{titulo}</th><td class="base">{ref_txt}</td>{"".join(tds)}</tr>')
 leitura = "".join(f'<td class="motivo {destaque}">{texto}</td>' for _, _, _, destaque, texto in grupos)
-corpo.append(f'<tr><th></th>{leitura}</tr>')
+corpo.append(f'<tr><th></th><td class="motivo">Período regular, sem grandes datas</td>{leitura}</tr>')
 tabela = f'<table class="matriz"><tr><th class="linha"></th>{cab}</tr>{"".join(corpo)}</table>'
 
 modelo = Path(__file__).with_name("03_desconto_modelo.html").read_text(encoding="utf-8")
