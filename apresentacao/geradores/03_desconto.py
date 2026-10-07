@@ -1,4 +1,4 @@
-"""Gera o widget 03_desconto.html: matriz mês × métrica com variação contra a média de dez–jun.
+"""Gera o widget 03_desconto.html: matriz estratégia de desconto × métrica, com variação contra o baseline.
 
 Dados mensais em mensal_desconto.csv (consulta no BigQuery: pedidos, itens, receita e desconto por mês).
 Base de comparação: média diária dos meses de dezembro a junho (sem a Black November).
@@ -10,8 +10,6 @@ import pandas as pd
 
 mensal = pd.read_csv(sys.argv[1])
 destino = Path(sys.argv[2])
-nomes = {"2025-11": "nov", "2025-12": "dez", "2026-01": "jan", "2026-02": "fev",
-         "2026-03": "mar", "2026-04": "abr", "2026-05": "mai", "2026-06": "jun"}
 
 mensal["preco"] = mensal["rec"] / mensal["qt"]
 base = mensal[mensal["mes"] != "2025-11"]
@@ -42,34 +40,48 @@ def celula(valor, referencia, tipo):
         neutro = abs(delta) < 2.5
     texto = texto.replace("-", "−")
     if neutro:
-        return "neutro", "", texto.replace("+0", "0")
+        return "neutro", "", texto.replace("+0 ", "0 ").replace("−0 ", "0 ").replace("+0%", "0%").replace("−0%", "0%")
     return ("sobe", "▲", texto) if delta > 0 else ("desce", "▼", texto)
 
 
-cab = "".join(f'<th class="{"nov" if m == "2025-11" else ""}">{nomes[m]}</th>' for m in mensal["mes"])
+grupos = [
+    ("Black November", "nov", ["2025-11"], "nov",
+     "Promoção agressiva: pedidos disparam, mas cada item rende menos"),
+    ("Datas comemorativas", "dez (Natal) · mai (Mães)", ["2025-12", "2026-05"], "forte",
+     "Desconto ≈ base: meses naturalmente fortes, receita máxima"),
+    ("Desconto para estimular", "jan · mar", ["2026-01", "2026-03"], "",
+     "Mais desconto sem data forte: pedidos não reagem"),
+    ("Desconto contido", "fev · abr · jun", ["2026-02", "2026-04", "2026-06"], "",
+     "Menos desconto sem grande data: pedidos e receita recuam"),
+]
+
+
+def totais(df):
+    return {
+        "tx": df["des"].sum() / (df["rec"].sum() + df["des"].sum()),
+        "ped_dia": df["ped"].sum() / df["dias"].sum(),
+        "rec_dia": df["rec"].sum() / df["dias"].sum(),
+        "preco": df["rec"].sum() / df["qt"].sum(),
+    }
+
+
+valores = [totais(mensal[mensal["mes"].isin(meses)]) for _, _, meses, _, _ in grupos]
+cab = "".join(f'<th class="grupo {destaque}">{nome}<span>{meses_txt}</span></th>'
+              for nome, meses_txt, _, destaque, _ in grupos)
 corpo = []
 for titulo, coluna, fmt, tipo, ref_txt in linhas:
     tds = []
-    for _, r in mensal.iterrows():
-        classe, seta, texto = celula(r[coluna], ref[coluna], tipo)
-        extra = " nov" if r["mes"] == "2025-11" else ""
-        tds.append(f'<td class="{classe}{extra}"><div class="delta"><span class="seta">{seta}</span>{texto}</div>'
-                   f'<div class="abs">{fmt(r[coluna])}</div></td>')
+    for (_, _, _, destaque, _), v in zip(grupos, valores):
+        classe, seta, texto = celula(v[coluna], ref[coluna], tipo)
+        tds.append(f'<td class="{classe} {destaque}"><div class="delta"><span class="seta">{seta}</span>{texto}</div>'
+                   f'<div class="abs">{fmt(v[coluna])}</div></td>')
     corpo.append(f'<tr><th class="linha">{titulo}</th><td class="base">{ref_txt}</td>{"".join(tds)}</tr>')
-motivos = {
-    "2025-11": "Black November",
-    "2025-12": "Natal",
-    "2026-01": "pós-festas",
-    "2026-02": "Carnaval",
-    "2026-03": "Mulher e Consumidor",
-    "2026-04": "sem datas",
-    "2026-05": "Dia das Mães",
-    "2026-06": "Namorados",
-}
-linha_motivo = "".join(f'<td class="motivo{" nov" if m == "2025-11" else ""}">{motivos[m]}</td>' for m in mensal["mes"])
-corpo.append(f'<tr><th class="linha motivo-tit">O que explica</th><td class="motivo"></td>{linha_motivo}</tr>')
-tabela = (f'<table class="matriz"><tr><th class="linha"></th><th class="base-cab">Baseline<span>média dez–jun</span></th>'
-          f'{cab}</tr>{"".join(corpo)}</table>')
+leitura = "".join(f'<td class="motivo {destaque}">{texto}</td>' for _, _, _, destaque, texto in grupos)
+corpo.append(f'<tr><th class="linha motivo-tit">Estratégia</th><td class="motivo"></td>{leitura}</tr>')
+tabela = (f'<table class="matriz"><tr><th class="linha"></th><th class="base-cab">Baseline<span>dez–jun</span></th>'
+          f'{cab}</tr>{"".join(corpo)}</table>'
+          '<p class="nota-base"><b>Baseline:</b> média diária de dezembro a junho (212 dias, sem a Black November), '
+          'somando os totais do período (não é média dos meses); grupos calculados da mesma forma.</p>')
 
 modelo = Path(__file__).with_name("03_desconto_modelo.html").read_text(encoding="utf-8")
 destino.write_text(modelo.replace("{{MATRIZ}}", tabela), encoding="utf-8")
