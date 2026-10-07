@@ -8,7 +8,6 @@
     --verde: #1d9e75;
     --verde-escuro: #137a5a;
     --verde-claro: #e3f5ee;
-    --verde-medio: #a6d9c6;
     --tinta: #1a1a1a;
     --tinta-2: #4a4a4a;
     --tinta-3: #7a7a7a;
@@ -20,61 +19,55 @@
     width: 1040px; height: 480px; background: var(--fundo);
     font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; color: var(--tinta);
   }
-  .widget { display: grid; grid-template-columns: 640px 1fr; gap: 24px; height: 100%; padding: 6px 4px; }
+  .widget { display: grid; grid-template-rows: auto 1fr; gap: 14px; height: 100%; padding: 6px 4px; }
   .rotulo {
     font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
-    color: var(--verde); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+    color: var(--verde); margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
   }
   .rotulo::after { content: ""; flex: 1; height: 1px; background: var(--linha); }
-  h3 { font-size: 18px; line-height: 1.25; font-weight: 700; margin-bottom: 12px; }
+  .topo { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 6px; }
+  h3 { font-size: 18px; line-height: 1.25; font-weight: 700; }
   h3 span { color: var(--verde); }
-  .nota { font-size: 12px; color: var(--tinta-2); line-height: 1.4; margin-top: 8px; }
-  .nota b { color: var(--tinta); }
+  .legenda-m { font-size: 11px; color: var(--tinta-3); }
 
+  /* matriz */
   .matriz { width: 100%; border-collapse: separate; border-spacing: 3px; table-layout: fixed; }
-  .matriz th.linha { white-space: nowrap; }
-  .matriz th { font-size: 11.5px; color: var(--tinta-3); font-weight: 700; text-align: center; padding-bottom: 2px; }
+  .matriz th { font-size: 12px; color: var(--tinta-3); font-weight: 700; text-align: center; padding-bottom: 1px; }
   .matriz th.nov { color: var(--verde-escuro); }
-  .matriz th.linha { width: 116px; text-align: left; font-size: 12.5px; color: var(--tinta); }
-  .matriz th.linha span { display: block; white-space: nowrap; font-size: 10px; font-weight: 400; color: var(--tinta-3); margin-top: 2px; }
-  .matriz td { text-align: center; border-radius: 6px; padding: 7px 1px 6px; background: #f6f6f2; }
+  .matriz th.linha { width: 108px; text-align: left; font-size: 13px; color: var(--tinta); white-space: nowrap; }
+  .matriz th.base-cab { width: 100px; color: var(--tinta); }
+  .matriz th.base-cab span { display: block; font-size: 9.5px; font-weight: 400; color: var(--tinta-3); }
+  .matriz td { text-align: center; border-radius: 6px; padding: 6px 1px 5px; background: #f6f6f2; }
+  .matriz td.base { background: #ffffff; border: 1px dashed #c9c9c0; font-size: 13px; font-weight: 700; color: var(--tinta-2); }
   .matriz td.nov { background: var(--verde-claro); box-shadow: inset 0 0 0 1.5px var(--verde); }
-  .delta { font-size: 12.5px; font-weight: 700; white-space: nowrap; }
+  .delta { font-size: 13px; font-weight: 700; white-space: nowrap; }
   .seta { font-size: 10px; margin-right: 2px; }
   .sobe .delta { color: var(--verde-escuro); }
   .desce .delta { color: #b5562b; }
   .neutro .delta { color: var(--tinta-3); }
-  .abs { font-size: 10.5px; color: var(--tinta-3); margin-top: 2px; white-space: nowrap; }
-  .base-linha { font-size: 12px; color: var(--tinta-2); background: #f6f6f2; border-radius: 6px; padding: 6px 10px; margin-bottom: 6px; }
-  .base-linha b { color: var(--tinta); }
-  .matriz td.motivo { background: none; font-size: 9.8px; line-height: 1.25; color: var(--tinta-2); padding: 4px 2px 0; vertical-align: top; }
+  .abs { font-size: 10.5px; color: var(--tinta-3); margin-top: 1px; white-space: nowrap; }
+  .matriz td.motivo { background: none; border: none; font-size: 10.5px; color: var(--tinta-2); padding: 3px 2px 0; }
   .matriz td.motivo.nov { box-shadow: none; color: var(--verde-escuro); font-weight: 700; }
-  .matriz th.motivo-tit { font-size: 10.5px; color: var(--tinta-3); vertical-align: top; padding-top: 4px; }
-  .leitura { font-size: 12.5px; color: var(--tinta-2); margin-top: 8px; line-height: 1.4; }
-  .leitura b { color: var(--tinta); }
-  .legenda-m { font-size: 10.5px; color: var(--tinta-3); margin-top: 6px; line-height: 1.35; }
-  .legenda-m b { color: var(--tinta-2); }
-  .leituras { margin-top: 10px; padding-left: 16px; font-size: 12.5px; color: var(--tinta-2); line-height: 1.45; }
-  .leituras li { margin-bottom: 3px; }
-  .leituras b { color: var(--tinta); }
+  .matriz th.motivo-tit { font-size: 11px; color: var(--tinta-3); font-weight: 700; }
 
-  .insight { background: var(--verde-claro); border-radius: 10px; padding: 16px 18px; display: flex; flex-direction: column; }
+  /* insight App × Site (faixa horizontal) */
+  .insight { background: var(--verde-claro); border-radius: 10px; padding: 12px 18px; display: grid;
+             grid-template-columns: 210px 300px 1fr; gap: 24px; align-items: center; }
   .selo {
-    align-self: flex-start; font-size: 10.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
-    color: #fff; background: var(--verde); border-radius: 4px; padding: 3px 8px; margin-bottom: 10px;
+    display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    color: #fff; background: var(--verde); border-radius: 4px; padding: 2px 7px; margin-bottom: 6px;
   }
   .valor-g { font-size: 28px; font-weight: 700; color: var(--verde); line-height: 1.05; }
-  .valor-g small { font-size: 16px; }
-  .comp { width: 100%; border-collapse: collapse; margin: 12px 0 10px; font-size: 13px; }
-  .comp th { text-align: right; font-size: 11px; color: var(--tinta-3); font-weight: 700; padding: 0 0 5px; }
+  .valor-g small { display: block; font-size: 14px; margin-top: 2px; }
+  .comp { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .comp th { text-align: right; font-size: 10.5px; color: var(--tinta-3); font-weight: 700; padding: 0 0 3px; }
   .comp th:first-child, .comp td:first-child { text-align: left; }
-  .comp td { padding: 6px 0; border-top: 1px solid #cfe9de; text-align: right; color: var(--tinta-2); }
+  .comp td { padding: 4px 0; border-top: 1px solid #cfe9de; text-align: right; color: var(--tinta-2); }
   .comp td.app { color: var(--verde-escuro); font-weight: 700; }
   .comp td.site { color: var(--tinta); font-weight: 700; }
-  .texto { font-size: 13px; color: var(--tinta-2); line-height: 1.45; }
+  .texto { font-size: 12.5px; color: var(--tinta-2); line-height: 1.45; }
   .texto b { color: var(--tinta); }
-  .oportunidade { margin-top: 18px; border-top: 1px solid #cfe9de; padding-top: 10px; }
-  .oportunidade .tit { font-size: 12px; font-weight: 700; color: var(--verde-escuro); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+  .texto .tit { display: block; font-size: 11px; font-weight: 700; color: var(--verde-escuro); text-transform: uppercase; letter-spacing: .05em; margin: 6px 0 2px; }
 </style>
 </head>
 <body>
@@ -82,28 +75,30 @@
 
   <section>
     <div class="rotulo">Desconto, pedidos e receita por mês</div>
-    <h3>Mais desconto, mais pedidos — mas <span>cada item rende menos</span></h3>
-    <div class="base-linha">{{BASE}}</div>
+    <div class="topo">
+      <h3>Mais desconto, mais pedidos — mas <span>cada item rende menos</span></h3>
+      <div class="legenda-m">variação do mês contra o baseline · valor do mês embaixo</div>
+    </div>
     {{MATRIZ}}
-    <div class="legenda-m">* Base: média diária de dezembro a junho (212 dias), sem a Black November, que distorceria a comparação. Cada célula mostra a variação do mês contra a base e o valor do mês.</div>
-    <div class="leitura"><b>Leitura:</b> datas comemorativas puxam pedidos mesmo com desconto na média (dez, mai); desconto sozinho em mês fraco não compensa (jan).</div>
   </section>
 
   <section>
     <div class="rotulo">App × Site</div>
     <div class="insight">
-      <span class="selo">Insight</span>
-      <div class="valor-g">~10% <small>mais barato no App</small></div>
+      <div>
+        <span class="selo">Insight</span>
+        <div class="valor-g">~10% <small>mais barato no App</small></div>
+      </div>
       <table class="comp">
         <tr><th></th><th>App</th><th>Site</th></tr>
         <tr><td>preço de tabela por item</td><td class="app">R$ 88</td><td class="site">R$ 89</td></tr>
         <tr><td>taxa de desconto</td><td class="app">45%</td><td class="site">40%</td></tr>
         <tr><td>preço pago por item</td><td class="app">R$ 48</td><td class="site">R$ 54</td></tr>
       </table>
-      <div class="texto">O preço de tabela é o mesmo nos dois canais; <b>o App recebe mais desconto em todos os meses</b>, e é por ele que passam <b>78% dos pedidos</b>.</div>
-      <div class="oportunidade">
-        <div class="tit">Oportunidade</div>
-        <div class="texto">Usar o preço menor como <b>alavanca para trazer o cliente ao App</b>: canal próprio, com cliente identificado, que permite <b>fidelizar</b>, <b>personalizar ofertas</b> e avisar sobre promoções por <b>notificação</b>.</div>
+      <div class="texto">
+        Mesmo preço de tabela; <b>o App recebe mais desconto em todos os meses</b> e concentra <b>78% dos pedidos</b>.
+        <span class="tit">Oportunidade</span>
+        Usar o preço menor como <b>alavanca para trazer o cliente ao App</b>: canal próprio, que permite <b>fidelizar</b>, <b>personalizar ofertas</b> e avisar sobre promoções por <b>notificação</b>.
       </div>
     </div>
   </section>
