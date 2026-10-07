@@ -21,11 +21,11 @@
   .txt b { color: var(--tinta); }
 
   /* exemplo do grão */
-  .slot { margin: 14px 0 14px; background: #f7f7f4; border-radius: 8px; padding: 14px 14px; }
+  .slot { margin: 20px 0 16px; background: #f7f7f4; border-radius: 8px; padding: 14px 14px; }
   .slot-cab { font-size: 11.5px; color: var(--tinta-3); margin-bottom: 10px; }
   .slot-cab b { color: var(--tinta-2); }
   .chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
-  .chip { font-size: 11px; font-weight: 700; text-align: center; padding: 11px 2px; border-radius: 5px; background: #fff; border: 1px solid var(--linha); color: var(--tinta-2); white-space: nowrap; }
+  .chip { font-size: 11px; font-weight: 700; text-align: center; padding: 19px 2px; border-radius: 5px; background: #fff; border: 1px solid var(--linha); color: var(--tinta-2); white-space: nowrap; }
   .chip.falta { border: 1.5px dashed var(--verde); color: var(--verde-escuro); background: var(--verde-claro); }
   .chip.inval { border: 1.5px solid var(--laranja); color: var(--laranja); background: var(--laranja-claro); font-family: "Courier New", monospace; }
   .regra { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 12px; color: var(--tinta-2); }
@@ -36,7 +36,7 @@
   .prova b { color: var(--tinta); }
 
   /* resultado */
-  .barra { display: flex; height: 42px; border-radius: 6px; overflow: hidden; margin: 14px 0 8px; }
+  .barra { display: flex; height: 54px; border-radius: 6px; overflow: hidden; margin: 22px 0 10px; }
   .barra div { display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; }
   .b1 { background: var(--verde); width: 57.5%; }
   .b2 { background: #b9b9b0; width: 30%; }
@@ -44,7 +44,10 @@
   .leg { display: grid; grid-template-columns: 57.5% 30% 12.5%; font-size: 11px; color: var(--tinta-2); line-height: 1.35; }
   .leg b { display: block; color: var(--tinta); font-size: 12px; }
   .leg .ok b { color: var(--verde-escuro); }
-  .antes { display: flex; align-items: baseline; gap: 10px; margin: 22px 0 auto; }
+  .antes { display: flex; align-items: baseline; gap: 10px; margin: 36px 0 10px; }
+  .resta { font-size: 13px; color: var(--tinta-2); margin-bottom: auto; }
+  .resta b { color: var(--tinta); }
+  code.ci { font-family: "Courier New", monospace; font-size: 18px; }
   .antes .n { font-size: 30px; font-weight: 700; color: var(--laranja); line-height: 1; }
   .antes .n.d { color: var(--verde-escuro); }
   .antes .s { font-size: 20px; color: var(--tinta-3); }
@@ -60,7 +63,7 @@
 <body>
 <div class="widget">
   <div class="rotulo">Solução · categoria inválida</div>
-  <h3>Recuperar só o que o grão garante; <span>o resto fica marcado como inválido</span></h3>
+  <h3>Recuperar somente o que é garantido; <span>o restante fica como <code class="ci">CATEGORIA_INVALIDA</code></span></h3>
   <div class="colunas">
     <div class="bloco">
       <div class="tit">Por que dá para recuperar</div>
@@ -84,12 +87,9 @@
         <div><b>3 ou mais</b>12,5%</div>
       </div>
       <div class="antes"><span class="n">5,96%</span><span class="s">→</span><span class="n d">~2,5%</span><span class="l">das linhas com categoria inválida</span></div>
+      <div class="resta"><b>Ficam como <code>CATEGORIA_INVALIDA</code>:</b> 2.269 linhas = <b>2,5% das linhas</b> e <b>2,2% dos itens</b> da base.</div>
       <div class="preco"><b>Por que não desempatar pelo preço por item?</b> As faixas de preço das categorias se sobrepõem. Testado nas linhas válidas, o preço erra <b>1 em cada 4</b> mesmo escolhendo entre só 2 categorias. Esses casos ficam como <code>CATEGORIA_INVALIDA</code>.</div>
     </div>
-  </div>
-  <div class="rodape">
-    <div><b>Total diário (target) não muda:</b> as linhas já estavam somadas; a recuperação melhora as análises e features por categoria.</div>
-    <div><b>Causa na origem:</b> taxa constante em todos os meses, canais e horas indica falha de integração, a corrigir com a engenharia de dados.</div>
   </div>
 </div>
 </body>
