@@ -1,7 +1,7 @@
 """Gera o widget 05_app_site.html: preço de tabela × preço pago por item, App e Site, mês a mês.
 
 Dados em canal_mensal.csv (consulta no BigQuery por mês × canal): ped, qt, rec (receita líquida) e des (desconto).
-Preço de tabela por item = (receita + desconto) / itens; preço pago por item = receita / itens.
+Preço pago por item = receita / itens (preço de tabela = (receita + desconto) / itens, só na tabela lateral).
 """
 import sys
 from pathlib import Path
@@ -24,11 +24,11 @@ tx = tot["des"] / (tot["rec"] + tot["des"])
 sh_app = tot.loc["App", "ped"] / tot["ped"].sum()
 
 L, T, W, H = 44, 10, 600, 262
-y0, y1 = 20, 110
+y0, y1 = 20, 80
 px = lambda i: L + 30 + i * (W - 60) / (len(meses) - 1)
 py = lambda v: T + (y1 - v) / (y1 - y0) * H
 partes = []
-for v in range(20, 111, 20):
+for v in range(20, 81, 20):
     partes.append(f'<line x1="{L}" x2="{L + W}" y1="{py(v):.1f}" y2="{py(v):.1f}" class="grade"/>'
                   f'<text x="{L - 6}" y="{py(v) + 4:.1f}" text-anchor="end" class="eixo">R$ {v}</text>')
 for i, mes in enumerate(meses):
@@ -44,8 +44,7 @@ def linha(serie, classe):
 topo = " ".join(f"{px(i):.1f},{py(v):.1f}" for i, v in enumerate(w["pago"]["Site"]))
 base = " ".join(f"{px(i):.1f},{py(v):.1f}" for i, v in reversed(list(enumerate(w["pago"]["App"]))))
 partes.append(f'<polygon points="{topo} {base}" class="gap"/>')
-partes += [linha(w["tabela"]["Site"], "tab site"), linha(w["tabela"]["App"], "tab app"),
-           linha(w["pago"]["Site"], "pago site"), linha(w["pago"]["App"], "pago app")]
+partes += [linha(w["pago"]["Site"], "pago site"), linha(w["pago"]["App"], "pago app")]
 for i, mes in enumerate(meses):
     a, s = w["pago"]["App"][mes], w["pago"]["Site"][mes]
     partes.append(f'<circle cx="{px(i):.1f}" cy="{py(s):.1f}" r="3.5" class="pt site"/>'
@@ -53,8 +52,7 @@ for i, mes in enumerate(meses):
                   f'<text x="{px(i):.1f}" y="{py(a) + 17:.1f}" text-anchor="middle" class="dif">'
                   f'{100 * (a / s - 1):.0f}%</text>'.replace("-", "−"))
 ult = len(meses) - 1
-partes.append(f'<text x="{px(ult) + 10:.1f}" y="{py(w["tabela"]["Site"][meses[-1]]) + 4:.1f}" class="leg tab-l">tabela</text>'
-              f'<text x="{px(ult) + 10:.1f}" y="{py(w["pago"]["Site"][meses[-1]]) + 4:.1f}" class="leg site-l">Site</text>'
+partes.append(f'<text x="{px(ult) + 10:.1f}" y="{py(w["pago"]["Site"][meses[-1]]) + 4:.1f}" class="leg site-l">Site</text>'
               f'<text x="{px(ult) + 10:.1f}" y="{py(w["pago"]["App"][meses[-1]]) + 4:.1f}" class="leg app-l">App</text>')
 yb = T + H + 30
 partes.append(f'<rect x="{L}" y="{yb}" width="{W}" height="24" rx="5" class="faixa"/>'
