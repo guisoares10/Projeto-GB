@@ -27,12 +27,12 @@ media_pago = tot["rec"].sum() / tot["qt"].sum()
 pct = lambda v: f"{100 * v:.0f}%"
 
 # desconto: só a amplitude entre o menor e o maior mês (dez–jun)
-DW, d0, d1 = 330, 0.15, 0.80
+DW, d0, d1 = 230, 0.15, 0.80
 dx = lambda v: 34 + (v - d0) / (d1 - d0) * (DW - 68)
 # preço pago por item
-PW, pmax = 150, 110
+PW, pmax = 200, 110
 # share: faixa mín–máx mensal e o total do período
-SW, s1 = 170, 0.35
+SW, s1 = 210, 0.35
 sx = lambda v: 4 + v / s1 * (SW - 8)
 
 linhas = []
