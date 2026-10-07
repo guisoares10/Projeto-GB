@@ -36,12 +36,17 @@
   .forte-s { color: var(--verde-escuro); font-weight: 700; }
   .cats tr:first-child th.lado:first-of-type { border-radius: 8px 0 0 0; }
 
-  .cats th.preco, .cats td.preco { background: #f3f3ef; }
+  .cats tr > :nth-child(-n+3) { background: #fcf7f3; }
+  .cats tr:not(.notas) > td:nth-child(-n+3) { border-top: 1px solid #f3e6dc; }
+  .cats tr:first-child > th:first-child { border-radius: 8px 0 0 0; }
+  .cats tr:first-child > th:nth-child(3) { border-radius: 0 8px 0 0; }
+  .cats tr.notas > td:first-child { border-radius: 0 0 8px 8px; }
+  .cats th.preco, .cats td.preco { background: #f9f9f7; }
   .cats th.preco { width: 250px; border-radius: 8px 8px 0 0; padding-left: 12px; }
   .cats td.preco { padding-left: 12px; }
   .barra b { white-space: nowrap; }
-  .cats .sep { width: 14px; padding: 0; }
-  .cats td.preco { border-top: 1px solid #e6e6df; }
+  .cats .sep { width: 14px; padding: 0; background: none !important; }
+  .cats td.preco { border-top: 1px solid #ececE6; }
   tr.notas td { border-top: none; vertical-align: top; padding: 10px 12px 10px; }
   .nota { font-size: 11.5px; line-height: 1.4; color: var(--tinta-2); }
   .nota b { color: var(--tinta); }

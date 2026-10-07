@@ -50,7 +50,7 @@ for i, (c, t) in enumerate(tot.iterrows(), 1):
 
     gift = c == "GIFTS"
     svg_p = (f'<svg width="{PW}" height="18"><rect x="0" y="3" width="{t["pago"] / pmax * PW:.1f}" height="12" rx="2" '
-             f'fill="{"#1d9e75" if gift else "#cfd8d3"}"/></svg>')
+             f'fill="{"#1d9e75" if gift else "#a3aba7"}"/></svg>')
 
     slo, shi = mc["sh"].min(), mc["sh"].max()
     larga = shi - slo >= 0.09
