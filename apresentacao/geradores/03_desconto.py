@@ -74,7 +74,7 @@ for titulo, coluna, fmt, tipo, ref_txt in linhas:
                    f'<div class="abs">{fmt(v[coluna])}</div></td>')
     corpo.append(f'<tr><th class="linha">{titulo}</th><td class="base">{ref_txt}</td>{"".join(tds)}</tr>')
 leitura = "".join(f'<td class="motivo {destaque}">{texto}</td>' for _, _, _, destaque, texto in grupos)
-corpo.append(f'<tr><th></th><td class="motivo">Período regular, sem grandes datas</td>{leitura}</tr>')
+corpo.append(f'<tr><th></th><td class="motivo">Período regular</td>{leitura}</tr>')
 tabela = f'<table class="matriz"><tr><th class="linha"></th>{cab}</tr>{"".join(corpo)}</table>'
 
 modelo = Path(__file__).with_name("03_desconto_modelo.html").read_text(encoding="utf-8")
