@@ -24,7 +24,7 @@
   .cats th { font-size: 11px; font-weight: 700; color: var(--tinta-2); text-align: center; padding: 8px 8px 6px; vertical-align: bottom; white-space: nowrap; }
   .cats th.esq { text-align: left; }
   .cats th span { display: block; font-size: 9.5px; font-weight: 400; color: var(--tinta-3); margin-top: 2px; }
-  .cats td { padding: 6px 8px; vertical-align: middle; }
+  .cats td { padding: 4px 8px; vertical-align: middle; }
   .cats td svg { display: block; }
   svg text { font-family: Arial, sans-serif; }
   .amp { font-size: 11.5px; font-weight: 700; }
@@ -53,7 +53,7 @@
   .cats th.lado { border-radius: 8px 8px 0 0; }
   .cats .sep { width: 14px; padding: 0; background: none !important; border-top: none !important; }
 
-  tr.notas td { border-top: none; vertical-align: top; padding: 9px 12px 10px; }
+  tr.notas td { border-top: none; vertical-align: top; padding: 10px 12px; }
   .nota { font-size: 11.5px; line-height: 1.4; color: var(--tinta-2); }
   .nota b { color: var(--tinta); }
   .nota .tit { display: block; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 3px; }
@@ -69,9 +69,9 @@
   <div class="sub"><b>Perfumaria</b> concentra receita · <b class="g">Gifts</b> captura valor · <b class="f">Facial</b> concentra intensidade promocional</div>
   {{TABELA}}
   <template>
-<!--NOTA_DESCONTO--><span class="tit">Facial · promoção</span><b>29% → 73% de desconto</b>, maior amplitude da base.<br>Questão: o volume incremental compensa?<!--/NOTA_DESCONTO-->
-<!--NOTA_PRECO--><span class="tit">Gifts · valor</span><b>{{GIFT_PAGO}}/item</b>, ~2× a média;<br>{{GIFT_ITENS}} dos itens → <b>{{GIFT_REC}} da receita</b>.<!--/NOTA_PRECO-->
-<!--NOTA_SHARE--><span class="tit">Perfumaria · escala</span>Masculina + Feminina = <b>~{{PERF_SH}} da receita</b>.<!--/NOTA_SHARE-->
+<!--NOTA_DESCONTO--><span class="tit">Facial depende de desconto</span>Maior oscilação da base: de <b>29% a 73%</b> entre os meses, o que pode indicar <b>liquidação</b>. Cada categoria segue uma estratégia de desconto própria.<!--/NOTA_DESCONTO-->
+<!--NOTA_PRECO--><span class="tit">Gifts captura valor</span><b>{{GIFT_PAGO}} por item</b>, ~2× a média da base ({{MEDIA_PAGO}}): {{GIFT_ITENS}} dos itens e <b>{{GIFT_REC}} da receita</b>.<!--/NOTA_PRECO-->
+<!--NOTA_SHARE--><span class="tit">Perfumaria concentra receita</span>As duas perfumarias somam <b>~{{PERF_SH}} da receita</b> e revezam o 1º lugar. <b>Gifts</b> vai de {{GIFT_MIN}} a {{GIFT_MAX}} nas datas comemorativas.<!--/NOTA_SHARE-->
   </template>
 </div>
 </body>
