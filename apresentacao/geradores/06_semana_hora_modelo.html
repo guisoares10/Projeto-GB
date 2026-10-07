@@ -15,6 +15,8 @@
   h3 { font-size: 19px; line-height: 1.25; margin-bottom: 14px; }
   h3 span { color: var(--verde); }
   .colunas { display: grid; grid-template-columns: 420px 1fr; gap: 44px; }
+  .colunas > div { display: flex; flex-direction: column; }
+  .colunas .nota { margin-top: auto; height: 100px; }
   .bloco-tit { font-size: 13px; font-weight: 700; color: var(--tinta-2); }
   .bloco-tit span { display: block; font-size: 10.5px; font-weight: 400; color: var(--tinta-3); margin-top: 2px; }
   svg { display: block; margin-top: 6px; }
@@ -42,7 +44,7 @@
     <div>
       <div class="bloco-tit">Itens vendidos por dia (mediana, mil)<span>tracejado: mediana de todos os dias ({{GERAL}} mil)</span></div>
       {{SVG_DIA}}
-      <div class="nota"><span class="tit">Feature do modelo</span>Usamos a <b>mediana</b>: na média, a Black Friday leva a sexta a {{SEX_MEDIA}} mil e a faz parecer o melhor dia. Na mediana, <b>quarta lidera ({{QUA_PCT}})</b> e <b>domingo é o mais fraco ({{DOM_PCT}})</b>, uma variação grande o bastante para entrar no forecast.</div>
+      <div class="nota"><span class="tit">Dias da semana</span>Foi utilizada a <b>mediana</b>: na média, a Black Friday leva a sexta a {{SEX_MEDIA}} mil e a faz parecer o melhor dia. Na mediana, <b>quarta lidera ({{QUA_PCT}})</b> e <b>domingo é o mais fraco ({{DOM_PCT}})</b>; pode ser uma <b>feature muito importante para o modelo</b>.</div>
     </div>
     <div>
       <div class="bloco-tit">Participação de cada hora nas vendas do dia<span>média entre os dias de cada dia da semana</span></div>
