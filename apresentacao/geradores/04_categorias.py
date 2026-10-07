@@ -53,9 +53,9 @@ for c, t in tot.iterrows():
              f'fill="{"#1d9e75" if gift else "#d3d6d4"}"/></svg>')
 
     slo, shi = mc["sh"].min(), mc["sh"].max()
-    cor_s, cor_p = ("#1d9e75", "#137a5a") if gift else ("#cbd5d0", "#8c9690")
+    cor_s, cor_p = ("#1d9e75", "#137a5a") if gift or perf else ("#cbd5d0", "#8c9690")
     svg_s = (f'<svg width="{SW}" height="22">'
-             f'<line x1="{sx(slo):.1f}" x2="{sx(shi):.1f}" y1="11" y2="11" stroke="{cor_s}" stroke-width="6" stroke-linecap="round" stroke-opacity="{.6 if gift else 1}"/>'
+             f'<line x1="{sx(slo):.1f}" x2="{sx(shi):.1f}" y1="11" y2="11" stroke="{cor_s}" stroke-width="6" stroke-linecap="round" stroke-opacity="{.6 if gift or perf else 1}"/>'
              f'<circle cx="{sx(t["sh"]):.1f}" cy="11" r="4" fill="{cor_p}"/></svg>')
 
     linhas.append(
