@@ -59,9 +59,10 @@ for nome, data, altura in eventos:
     base_rot = y(altura)
     partes.append(f'<line x1="{cx:.1f}" x2="{cx:.1f}" y1="{base_rot+4:.1f}" y2="{topo-3:.1f}" class="guia"/>')
     partes.append(f'<circle cx="{cx:.1f}" cy="{base_rot+4:.1f}" r="2.5" class="ponto"/>')
-    # rótulos vizinhos (Mulher e Consumidor, uma semana de distância) abrem para lados opostos
-    ancora, dx = {"Dia da Mulher": ("end", 6), "Dia do Consumidor": ("start", -6)}.get(nome, ("middle", 0))
-    partes.append(f'<text x="{cx+dx:.1f}" y="{base_rot-3:.1f}" class="evento" text-anchor="{ancora}">{nome}</text>')
+    if nome == "Dia da Mulher":  # vizinho do Consumidor: rótulo ao lado da bolinha
+        partes.append(f'<text x="{cx-7:.1f}" y="{base_rot+8:.1f}" class="evento" text-anchor="end">{nome}</text>')
+    else:
+        partes.append(f'<text x="{cx:.1f}" y="{base_rot-3:.1f}" class="evento" text-anchor="middle">{nome}</text>')
 # eixo x: meses
 meses = semanal.groupby(semanal["semana"].dt.to_period("M")).head(1)
 nomes = {11: "nov", 12: "dez", 1: "jan", 2: "fev", 3: "mar", 4: "abr", 5: "mai", 6: "jun"}
