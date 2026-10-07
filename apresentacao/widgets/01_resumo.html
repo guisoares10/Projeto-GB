@@ -18,7 +18,7 @@
     width: 1040px; height: 325px; background: var(--fundo);
     font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; color: var(--tinta);
   }
-  .widget { display: grid; grid-template-columns: 305px 285px 1fr; gap: 24px; height: 100%; padding: 6px 4px; }
+  .widget { display: grid; grid-template-columns: 340px 1fr; gap: 36px; height: 100%; padding: 6px 4px; }
   .rotulo {
     font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
     color: var(--verde); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
@@ -26,40 +26,35 @@
   .rotulo::after { content: ""; flex: 1; height: 1px; background: var(--linha); }
 
   /* coluna 1 — desafio */
-  .desafio h2 { font-size: 20px; line-height: 1.2; font-weight: 700; margin-bottom: 8px; }
+  .desafio h2 { font-size: 22px; line-height: 1.2; font-weight: 700; margin-bottom: 10px; }
   .desafio h2 span { color: var(--verde); }
-  .desafio p { font-size: 13px; line-height: 1.45; color: var(--tinta-2); margin-bottom: 14px; }
-  .pede { list-style: none; display: grid; gap: 7px; }
-  .pede li { display: grid; grid-template-columns: 22px 1fr; gap: 8px; font-size: 12px; line-height: 1.35; color: var(--tinta-2); }
+  .desafio p { font-size: 13.5px; line-height: 1.45; color: var(--tinta-2); margin-bottom: 16px; }
+  .pede { list-style: none; display: grid; gap: 9px; }
+  .pede li { display: grid; grid-template-columns: 22px 1fr; gap: 9px; font-size: 12.5px; line-height: 1.35; color: var(--tinta-2); }
   .pede b { color: var(--tinta); }
   .num {
     width: 22px; height: 22px; border-radius: 6px; background: var(--verde-claro); color: var(--verde);
     font-weight: 700; font-size: 12px; display: grid; place-items: center;
   }
 
-  /* coluna 2 — números */
-  .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .tile { background: var(--verde-claro); border-radius: 8px; padding: 10px 12px; }
-  .tile .valor { font-size: 24px; font-weight: 700; color: var(--verde); line-height: 1.05; }
-  .tile .valor small { font-size: 14px; font-weight: 700; }
-  .tile .desc { font-size: 11px; color: var(--tinta-2); margin-top: 3px; line-height: 1.3; }
-  .fonte { font-size: 10.5px; color: var(--tinta-3); margin-top: 9px; line-height: 1.35; }
-
-  /* coluna 3 — colunas do CSV */
+  /* coluna 2 — arquivo recebido */
   .colunas { width: 100%; border-collapse: collapse; }
-  .colunas td { padding: 6px 0; border-bottom: 1px solid var(--linha); vertical-align: middle; font-size: 12px; }
+  .colunas td { padding: 6px 0; border-bottom: 1px solid var(--linha); vertical-align: middle; }
   .colunas tr:last-child td { border-bottom: none; }
-  .colunas code { font-family: Consolas, "Courier New", monospace; font-size: 11.5px; color: var(--tinta); white-space: nowrap; }
-  .tipo {
-    display: inline-block; font-size: 9.5px; font-weight: 700; color: var(--tinta-3);
-    border: 1px solid var(--linha); border-radius: 4px; padding: 1px 5px; margin-left: 6px;
-  }
-  .colunas .d { color: var(--tinta-2); text-align: right; padding-left: 10px; white-space: nowrap; }
+  .colunas td.nome { width: 230px; }
+  .colunas code { font-family: Consolas, "Courier New", monospace; font-size: 12px; color: var(--tinta); white-space: nowrap; }
+  .info { font-size: 12.5px; color: var(--tinta-2); line-height: 1.35; }
+  .info b { color: var(--verde); font-size: 14px; }
   .alvo td { background: var(--verde-claro); }
   .alvo td:first-child { border-radius: 6px 0 0 6px; padding-left: 8px; }
   .alvo td:last-child { border-radius: 0 6px 6px 0; padding-right: 8px; }
-  .alvo .d { color: var(--verde); font-weight: 700; }
-  .grao { font-size: 10.5px; color: var(--tinta-3); margin-top: 8px; }
+  .selo {
+    float: right; font-size: 10px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+    color: #fff; background: var(--verde); border-radius: 4px; padding: 2px 6px; margin-top: 1px;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+  .chip { font-size: 10.5px; color: var(--tinta-2); border: 1px solid var(--linha); border-radius: 10px; padding: 1px 7px; }
+  .rodape { font-size: 10.5px; color: var(--tinta-3); margin-top: 7px; }
 </style>
 </head>
 <body>
@@ -77,29 +72,45 @@
   </section>
 
   <section>
-    <div class="rotulo">O arquivo recebido</div>
-    <div class="tiles">
-      <div class="tile"><div class="valor">8 <small>meses</small></div><div class="desc">nov/2025 a jun/2026<br>(242 dias)</div></div>
-      <div class="tile"><div class="valor">89,6 <small>mil</small></div><div class="desc">linhas no CSV,<br>agregadas por hora</div></div>
-      <div class="tile"><div class="valor">2 <small>canais</small></div><div class="desc">App e Site</div></div>
-      <div class="tile"><div class="valor">8 <small>categorias</small></div><div class="desc">+ códigos inválidos<br>(5,96% das linhas)</div></div>
-      <div class="tile"><div class="valor">9,9 <small>mi</small></div><div class="desc">itens vendidos<br>no período</div></div>
-      <div class="tile"><div class="valor">R$ 532 <small>mi</small></div><div class="desc">de receita aprovada</div></div>
-    </div>
-  </section>
-
-  <section>
-    <div class="rotulo">Colunas do CSV</div>
+    <div class="rotulo">O arquivo recebido — CSV com 89,6 mil linhas</div>
     <table class="colunas">
-      <tr><td><code>dt_hr_venda</code></td><td class="d">data e hora da venda</td></tr>
-      <tr><td><code>des_canal_venda_final_agrup</code></td><td class="d">App ou Site</td></tr>
-      <tr><td><code>des_categoria_material</code></td><td class="d">categoria do produto</td></tr>
-      <tr class="alvo"><td><code>qt_material</code></td><td class="d">itens vendidos · <b>alvo</b></td></tr>
-      <tr><td><code>nr_pedidos</code></td><td class="d">quantidade de pedidos</td></tr>
-      <tr><td><code>receita_aprovada</code></td><td class="d">receita gerada</td></tr>
-      <tr><td><code>vlr_venda_desconto</code></td><td class="d">desconto aplicado</td></tr>
+      <tr>
+        <td class="nome"><code>dt_hr_venda</code></td>
+        <td class="info"><b>8 meses</b> · 01/11/2025 a 30/06/2026 (242 dias), hora a hora</td>
+      </tr>
+      <tr>
+        <td class="nome"><code>des_canal_venda_final_agrup</code></td>
+        <td class="info"><b>2 canais</b> · App e Site</td>
+      </tr>
+      <tr>
+        <td class="nome"><code>des_categoria_material</code></td>
+        <td class="info"><b>8 categorias</b>
+          <div class="chips">
+            <span class="chip">Perfumaria Feminina</span><span class="chip">Perfumaria Masculina</span>
+            <span class="chip">Perf. de Entrada e Deos</span><span class="chip">Corpo e Banho</span>
+            <span class="chip">Maquiagem</span><span class="chip">Cabelos</span>
+            <span class="chip">Gifts</span><span class="chip">Facial</span>
+          </div>
+        </td>
+      </tr>
+      <tr class="alvo">
+        <td class="nome"><code>qt_material</code></td>
+        <td class="info"><span class="selo">alvo do modelo</span><b>9,9 milhões</b> de itens vendidos</td>
+      </tr>
+      <tr>
+        <td class="nome"><code>nr_pedidos</code></td>
+        <td class="info"><b>6,5 milhões</b> de pedidos</td>
+      </tr>
+      <tr>
+        <td class="nome"><code>receita_aprovada</code></td>
+        <td class="info"><b>R$ 490 milhões</b> de receita aprovada</td>
+      </tr>
+      <tr>
+        <td class="nome"><code>vlr_venda_desconto</code></td>
+        <td class="info"><b>R$ 380 milhões</b> em descontos</td>
+      </tr>
     </table>
-    <div class="grao">Grão: hora × canal × categoria</div>
+    <div class="rodape">Cada linha agrega as vendas de uma hora × canal × categoria.</div>
   </section>
 
 </div>
