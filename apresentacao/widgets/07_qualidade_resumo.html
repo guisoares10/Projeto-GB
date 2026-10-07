@@ -67,15 +67,15 @@
     </div>
     <div class="out">
       <div class="bloco-tit">Outliers diários (IQR)</div>
-      <div class="sub">dias fora do limite <b>fora de novembro</b>, de 212 dias</div>
+      <div class="sub">casos fora do limite, contando só <b>fora de novembro</b></div>
       <div class="tiles">
-        <div class="tile"><div class="v">2<small>dias</small><span class="p">0,9%</span></div><div class="n">Itens (target)</div><div class="d">01/12 (Cyber Monday) e 30/06 (promoção)</div><div class="m">26 no total · 24 em nov</div></div>
-        <div class="tile"><div class="v">3<small>dias</small><span class="p">1,4%</span></div><div class="n">Pedidos</div><div class="d">01/12 e 08–09/05 (Dia das Mães)</div><div class="m">25 no total · 22 em nov</div></div>
-        <div class="tile"><div class="v">4<small>dias</small><span class="p">1,9%</span></div><div class="n">Receita</div><div class="d">01/12 e 05–09/05 (Dia das Mães)</div><div class="m">25 no total · 21 em nov</div></div>
-        <div class="tile"><div class="v">0<small>dias</small><span class="p">0%</span></div><div class="n">Desconto (R$)</div><div class="d">nenhum dia</div><div class="m">23 no total · 23 em nov</div></div>
+        <div class="tile"><div class="v">2<small>dias</small><span class="p">0,9%</span></div><div class="n">Itens (target)</div><div class="m">26 no total · 24 em nov</div></div>
+        <div class="tile"><div class="v">3<small>dias</small><span class="p">1,4%</span></div><div class="n">Pedidos</div><div class="m">25 no total · 22 em nov</div></div>
+        <div class="tile"><div class="v">4<small>dias</small><span class="p">1,9%</span></div><div class="n">Receita</div><div class="m">25 no total · 21 em nov</div></div>
+        <div class="tile"><div class="v">11<small>categoria-dias</small><span class="p">0,6%</span></div><div class="n">Taxa de desconto por categoria</div><div class="m">47 no total · 36 em nov</div></div>
       </div>
-      <div class="extra"><b>Taxa de desconto (%):</b> nenhum dia fora do limite, nem em novembro.</div>
-      <div class="leitura">Fora da Black November, <b>no máximo 2% dos dias</b> são extremos, todos explicados por datas comerciais ou promoção. São <b>vendas reais</b>, não erros: não devem ser removidos.</div>
+      <div class="extra"><b>Método IQR:</b> IQR = Q3 − Q1 (os 50% centrais). É outlier o valor abaixo de <b>Q1 − 1,5 × IQR</b> ou acima de <b>Q3 + 1,5 × IQR</b>.</div>
+      <div class="leitura">Fora da Black November, <b>no máximo 2% dos casos</b> são extremos. São <b>vendas reais</b>, não erros: não devem ser removidos.</div>
     </div>
   </div>
 </div>
