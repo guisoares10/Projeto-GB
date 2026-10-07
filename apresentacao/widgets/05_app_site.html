@@ -4,45 +4,73 @@
 <meta charset="utf-8">
 <title>App × Site</title>
 <style>
-  :root { --verde: #1d9e75; --verde-escuro: #137a5a; --verde-claro: #e3f5ee; --tinta: #1a1a1a; --tinta-2: #4a4a4a; --tinta-3: #7a7a7a; --linha: #e3e3dc; }
+  :root { --verde: #1d9e75; --verde-escuro: #137a5a; --verde-claro: #e3f5ee; --tinta: #1a1a1a; --tinta-2: #4a4a4a; --tinta-3: #7a7a7a; --linha: #e3e3dc; --site: #6b6b66; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { width: 1040px; height: 200px; background: #fff; font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; color: var(--tinta); }
-  .widget { padding: 6px 4px; }
+  body { width: 1040px; height: 480px; background: #fff; font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; color: var(--tinta); }
+  .widget { display: flex; flex-direction: column; height: 100%; padding: 6px 4px; }
   .rotulo { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--verde);
             margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
   .rotulo::after { content: ""; flex: 1; height: 1px; background: var(--linha); }
-  .insight { background: var(--verde-claro); border-radius: 10px; padding: 16px 20px; display: grid;
-             grid-template-columns: 210px 300px 1fr; gap: 26px; align-items: center; }
-  .selo { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
-          color: #fff; background: var(--verde); border-radius: 4px; padding: 2px 7px; margin-bottom: 6px; }
-  .valor-g { font-size: 30px; font-weight: 700; color: var(--verde); line-height: 1.05; }
-  .valor-g small { display: block; font-size: 14px; margin-top: 2px; }
-  .comp { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .comp th { text-align: right; font-size: 11px; color: var(--tinta-3); font-weight: 700; padding: 0 0 3px; }
+  h3 { font-size: 19px; line-height: 1.25; margin-bottom: 12px; }
+  h3 span { color: var(--verde); }
+  .corpo { display: grid; grid-template-columns: 290px 1fr; gap: 26px; }
+
+  .lado { display: flex; flex-direction: column; gap: 14px; }
+  .kpi { background: var(--verde-claro); border-radius: 10px; padding: 12px 16px; }
+  .kpi .grande { font-size: 34px; font-weight: 700; color: var(--verde); line-height: 1; }
+  .kpi .grande small { font-size: 14px; margin-left: 4px; }
+  .kpi p { font-size: 12px; color: var(--tinta-2); margin-top: 4px; }
+  .comp { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .comp th { text-align: right; font-size: 11px; color: var(--tinta-3); padding: 0 0 3px; }
   .comp th:first-child, .comp td:first-child { text-align: left; }
-  .comp td { padding: 5px 0; border-top: 1px solid #cfe9de; text-align: right; color: var(--tinta-2); }
+  .comp td { padding: 5px 0; border-top: 1px solid var(--linha); text-align: right; color: var(--tinta-2); }
   .comp td.app { color: var(--verde-escuro); font-weight: 700; }
   .comp td.site { color: var(--tinta); font-weight: 700; }
-  .texto { font-size: 13px; color: var(--tinta-2); line-height: 1.45; }
+  .texto { font-size: 12px; color: var(--tinta-2); line-height: 1.45; }
   .texto b { color: var(--tinta); }
-  .texto .tit { display: block; font-size: 11px; font-weight: 700; color: var(--verde-escuro); text-transform: uppercase; letter-spacing: .05em; margin: 6px 0 2px; }
+  .texto .tit { display: block; font-size: 10.5px; font-weight: 700; color: var(--verde-escuro); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 2px; }
+
+  .graf-tit { font-size: 12.5px; font-weight: 700; color: var(--tinta-2); margin-bottom: 2px; }
+  .graf-tit span { font-weight: 400; color: var(--tinta-3); font-size: 11px; }
+  svg text { font-family: Arial, sans-serif; }
+  .grade { stroke: #eeeeea; }
+  .eixo { font-size: 10.5px; fill: var(--tinta-3); }
+  polyline { fill: none; stroke-width: 2.5; stroke-linejoin: round; }
+  .pago.app { stroke: var(--verde); } .pago.site { stroke: var(--site); }
+  .tab { stroke-width: 1.5; stroke-dasharray: 4 3; stroke: #b9b9b0; }
+  .gap { fill: var(--verde); fill-opacity: .12; }
+  .pt.app { fill: var(--verde); } .pt.site { fill: var(--site); }
+  .dif { font-size: 11px; font-weight: 700; fill: var(--verde-escuro); }
+  .leg { font-size: 11.5px; font-weight: 700; }
+  .app-l { fill: var(--verde-escuro); } .site-l { fill: var(--site); } .tab-l { fill: #9a9a90; font-weight: 400; }
+  .faixa { fill: var(--verde-claro); }
+  .sh { font-size: 11.5px; font-weight: 700; fill: var(--verde-escuro); }
+  .share { margin-left: 44px; width: 600px; border-collapse: collapse; table-layout: fixed; margin-top: 4px; }
+  .share th { width: 0; }
+  .share td { text-align: center; font-size: 11.5px; font-weight: 700; color: var(--verde-escuro); background: var(--verde-claro); padding: 4px 0; }
+  .share-leg { font-size: 10.5px; color: var(--tinta-3); margin: 6px 0 0 44px; }
 </style>
 </head>
 <body>
 <div class="widget">
   <div class="rotulo">App × Site</div>
-  <div class="insight">
-    <div><span class="selo">Insight</span><div class="valor-g">~10% <small>mais barato no App</small></div></div>
-    <table class="comp">
-      <tr><th></th><th>App</th><th>Site</th></tr>
-      <tr><td>preço de tabela por item</td><td class="app">R$ 88</td><td class="site">R$ 89</td></tr>
-      <tr><td>taxa de desconto</td><td class="app">45%</td><td class="site">40%</td></tr>
-      <tr><td>preço pago por item</td><td class="app">R$ 48</td><td class="site">R$ 54</td></tr>
-    </table>
-    <div class="texto">
-      Mesmo preço de tabela; <b>o App recebe mais desconto em todos os meses</b> e concentra <b>78% dos pedidos</b>.
-      <span class="tit">Oportunidade</span>
-      Usar o preço menor como <b>alavanca para trazer o cliente ao App</b>: canal próprio, que permite <b>fidelizar</b>, <b>personalizar ofertas</b> e avisar sobre promoções por <b>notificação</b>.
+  <h3>Mesmo preço de tabela, <span>App ~10% mais barato em todos os meses</span></h3>
+  <div class="corpo">
+    <div class="lado">
+      <div class="kpi"><div class="grande">~10%<small>mais barato no App</small></div>
+        <p>porque recebe mais desconto, não porque o produto é mais barato</p></div>
+      <table class="comp">
+        <tr><th></th><th>App</th><th>Site</th></tr>
+        <tr><td>preço de tabela por item</td><td class="app">R$ 88</td><td class="site">R$ 89</td></tr>
+        <tr><td>taxa de desconto</td><td class="app">45%</td><td class="site">40%</td></tr>
+        <tr><td>preço pago por item</td><td class="app">R$ 48</td><td class="site">R$ 54</td></tr>
+        <tr><td>% dos pedidos</td><td class="app">78%</td><td class="site">22%</td></tr>
+      </table>
+      <div class="texto"><span class="tit">Estratégia</span>Usar o preço menor como <b>alavanca para levar o cliente ao App</b>: canal próprio, que permite <b>fidelizar</b>, <b>personalizar ofertas</b> e avisar promoções por <b>notificação</b>.</div>
+    </div>
+    <div>
+      <div class="graf-tit">Preço por item, mês a mês <span>— tracejado: preço de tabela · sólido: preço pago · % = App vs Site</span></div>
+      <svg width="694" height="348" viewBox="0 0 694 348"><line x1="44" x2="644" y1="272.0" y2="272.0" class="grade"/><text x="38" y="276.0" text-anchor="end" class="eixo">R$ 20</text><line x1="44" x2="644" y1="213.8" y2="213.8" class="grade"/><text x="38" y="217.8" text-anchor="end" class="eixo">R$ 40</text><line x1="44" x2="644" y1="155.6" y2="155.6" class="grade"/><text x="38" y="159.6" text-anchor="end" class="eixo">R$ 60</text><line x1="44" x2="644" y1="97.3" y2="97.3" class="grade"/><text x="38" y="101.3" text-anchor="end" class="eixo">R$ 80</text><line x1="44" x2="644" y1="39.1" y2="39.1" class="grade"/><text x="38" y="43.1" text-anchor="end" class="eixo">R$ 100</text><text x="74.0" y="288" text-anchor="middle" class="eixo">nov</text><text x="151.1" y="288" text-anchor="middle" class="eixo">dez</text><text x="228.3" y="288" text-anchor="middle" class="eixo">jan</text><text x="305.4" y="288" text-anchor="middle" class="eixo">fev</text><text x="382.6" y="288" text-anchor="middle" class="eixo">mar</text><text x="459.7" y="288" text-anchor="middle" class="eixo">abr</text><text x="536.9" y="288" text-anchor="middle" class="eixo">mai</text><text x="614.0" y="288" text-anchor="middle" class="eixo">jun</text><polygon points="74.0,215.6 151.1,154.6 228.3,146.1 305.4,156.3 382.6,161.3 459.7,148.9 536.9,140.8 614.0,135.4 614.0,158.1 536.9,151.4 459.7,166.1 382.6,181.4 305.4,175.8 228.3,164.5 151.1,175.3 74.0,228.6" class="gap"/><polyline points="74.0,92.5 151.1,70.9 228.3,27.5 305.4,74.8 382.6,64.7 459.7,74.7 536.9,41.9 614.0,53.7" class="tab site"/><polyline points="74.0,99.9 151.1,74.8 228.3,29.6 305.4,83.0 382.6,74.2 459.7,83.5 536.9,33.8 614.0,60.6" class="tab app"/><polyline points="74.0,215.6 151.1,154.6 228.3,146.1 305.4,156.3 382.6,161.3 459.7,148.9 536.9,140.8 614.0,135.4" class="pago site"/><polyline points="74.0,228.6 151.1,175.3 228.3,164.5 305.4,175.8 382.6,181.4 459.7,166.1 536.9,151.4 614.0,158.1" class="pago app"/><circle cx="74.0" cy="215.6" r="3.5" class="pt site"/><circle cx="74.0" cy="228.6" r="3.5" class="pt app"/><text x="74.0" y="245.6" text−anchor="middle" class="dif">−11%</text><circle cx="151.1" cy="154.6" r="3.5" class="pt site"/><circle cx="151.1" cy="175.3" r="3.5" class="pt app"/><text x="151.1" y="192.3" text−anchor="middle" class="dif">−12%</text><circle cx="228.3" cy="146.1" r="3.5" class="pt site"/><circle cx="228.3" cy="164.5" r="3.5" class="pt app"/><text x="228.3" y="181.5" text−anchor="middle" class="dif">−10%</text><circle cx="305.4" cy="156.3" r="3.5" class="pt site"/><circle cx="305.4" cy="175.8" r="3.5" class="pt app"/><text x="305.4" y="192.8" text−anchor="middle" class="dif">−11%</text><circle cx="382.6" cy="161.3" r="3.5" class="pt site"/><circle cx="382.6" cy="181.4" r="3.5" class="pt app"/><text x="382.6" y="198.4" text−anchor="middle" class="dif">−12%</text><circle cx="459.7" cy="148.9" r="3.5" class="pt site"/><circle cx="459.7" cy="166.1" r="3.5" class="pt app"/><text x="459.7" y="183.1" text−anchor="middle" class="dif">−9%</text><circle cx="536.9" cy="140.8" r="3.5" class="pt site"/><circle cx="536.9" cy="151.4" r="3.5" class="pt app"/><text x="536.9" y="168.4" text−anchor="middle" class="dif">−6%</text><circle cx="614.0" cy="135.4" r="3.5" class="pt site"/><circle cx="614.0" cy="158.1" r="3.5" class="pt app"/><text x="614.0" y="175.1" text−anchor="middle" class="dif">−12%</text><text x="624.0" y="57.7" class="leg tab-l">tabela</text><text x="624.0" y="139.4" class="leg site-l">Site</text><text x="624.0" y="162.1" class="leg app-l">App</text><rect x="44" y="302" width="600" height="24" rx="5" class="faixa"/><text x="38" y="318" text-anchor="end" class="eixo">App</text><text x="74.0" y="318" text-anchor="middle" class="sh">78%</text><text x="151.1" y="318" text-anchor="middle" class="sh">74%</text><text x="228.3" y="318" text-anchor="middle" class="sh">77%</text><text x="305.4" y="318" text-anchor="middle" class="sh">77%</text><text x="382.6" y="318" text-anchor="middle" class="sh">79%</text><text x="459.7" y="318" text-anchor="middle" class="sh">79%</text><text x="536.9" y="318" text-anchor="middle" class="sh">79%</text><text x="614.0" y="318" text-anchor="middle" class="sh">80%</text><text x="44" y="342" class="eixo">participação do App nos pedidos de cada mês</text></svg>
     </div>
   </div>
 </div>
