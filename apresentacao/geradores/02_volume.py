@@ -12,8 +12,8 @@ destino = Path(sys.argv[2])
 semanal["media_dia"] = semanal["qt"] / semanal["dias"]
 
 # área do gráfico
-W, H = 650, 400
-ML, MR, MT, MB = 46, 10, 34, 46
+W, H = 650, 425
+ML, MR, MT, MB = 46, 10, 34, 64
 pw, ph = W - ML - MR, H - MT - MB
 n = len(semanal)
 passo = pw / n
@@ -47,7 +47,7 @@ for i, r in semanal.iterrows():
 # (nome, data, altura do rótulo em itens/dia)
 eventos = [("Black Friday", "2025-11-28", None), ("Natal", "2025-12-25", 80_000),
            ("Dia do Consumidor", "2026-03-15", 80_000), ("Dia das Mães", "2026-05-10", 80_000),
-           ("Campanha", "2026-05-20", 100_000), ("Namorados", "2026-06-12", 80_000)]
+           ("Namorados", "2026-06-12", 80_000)]
 for nome, data, altura in eventos:
     d = pd.Timestamp(data)
     i = semanal.index[(semanal["semana"] <= d) & (semanal["semana"] + pd.Timedelta(days=6) >= d)][0]
@@ -70,7 +70,8 @@ for i, r in meses.iterrows():
     partes.append(f'<line x1="{x:.1f}" x2="{x:.1f}" y1="{MT+ph}" y2="{MT+ph+6}" class="tick"/>')
     partes.append(f'<text x="{x+4:.1f}" y="{MT+ph+18}" class="eixo">{nomes[r["semana"].month]}</text>')
 partes.append(f'<line x1="{ML}" x2="{W-MR}" y1="{MT+ph}" y2="{MT+ph}" class="base"/>')
-partes.append(f'<text x="{ML}" y="{H-6}" class="nota">Média diária de itens vendidos em cada semana (segunda a domingo).</text>')
+partes.append(f'<text x="{ML}" y="{H-24}" class="nota">Média diária de itens vendidos em cada semana (segunda a domingo).</text>')
+partes.append(f'<text x="{ML}" y="{H-6}" class="nota-destaque">Antes das datas comemorativas a base forma picos: a compra se antecipa à data.</text>')
 svg = f'<svg viewBox="0 0 {W} {H}" width="{W}" height="{H}">' + "".join(partes) + "</svg>"
 
 html = (Path(__file__).with_name("02_volume_modelo.html")).read_text(encoding="utf-8").replace("{{GRAFICO}}", svg)
