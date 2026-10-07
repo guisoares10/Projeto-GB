@@ -6,7 +6,7 @@
 <style>
   :root {
     --verde: #1d9e75; --verde-escuro: #137a5a; --verde-claro: #e3f5ee; --laranja: #b5562b;
-    --tinta: #1a1a1a; --tinta-2: #4a4a4a; --tinta-3: #7a7a7a; --linha: #e3e3dc; --fundo: #ffffff;
+    --tinta: #1a1a1a; --tinta-2: #4a4a4a; --tinta-3: #7a7a7a; --apagado: #a3a39b; --linha: #e3e3dc; --fundo: #ffffff;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { width: 1040px; height: 480px; background: var(--fundo);
@@ -15,57 +15,60 @@
   .rotulo { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--verde);
             margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
   .rotulo::after { content: ""; flex: 1; height: 1px; background: var(--linha); }
+  h3 { font-size: 17px; line-height: 1.25; margin-bottom: 10px; }
+  h3 span { color: var(--verde); }
 
   .cats { width: 100%; border-collapse: collapse; }
-  .cats th { font-size: 11px; font-weight: 700; color: var(--tinta-2); text-align: center; padding: 0 6px 6px; vertical-align: bottom; white-space: nowrap; }
+  .cats th { font-size: 11px; font-weight: 700; color: var(--tinta-2); text-align: center; padding: 8px 8px 6px; vertical-align: bottom; white-space: nowrap; }
   .cats th.esq { text-align: left; }
   .cats th span { display: block; font-size: 9.5px; font-weight: 400; color: var(--tinta-3); margin-top: 2px; }
-  .losango { display: inline-block; width: 7px; height: 7px; background: var(--verde); transform: rotate(45deg); margin: 0 1px; }
-  .cats td { padding: 5px 6px; border-top: 1px solid #f0f0ea; vertical-align: middle; }
+  .cats td { padding: 5px 8px; vertical-align: middle; }
   .cats td svg { display: block; }
+  svg text { font-family: Arial, sans-serif; }
+  .amp { font-size: 11.5px; font-weight: 700; }
   .nome { font-size: 12.5px; font-weight: 700; white-space: nowrap; }
-  .num { font-size: 12px; color: var(--tinta-3); text-align: center; white-space: nowrap; }
-  .faixa.forte { color: var(--laranja); font-weight: 700; }
-  .barra { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--tinta-2); }
-  tr.gift .nome, tr.gift .barra b { color: var(--verde-escuro); }
-  .sep { width: 10px; border-top: none !important; }
-  .cats th.lado, .cats td.lado { background: var(--verde-claro); }
-  .cats td.lado { border-top: 1px solid #d3ece2; }
-  .rank { font-size: 11px; color: var(--tinta-3); text-align: right; width: 22px; padding-right: 0 !important; }
-  .share { font-size: 13px; font-weight: 700; color: var(--verde-escuro); text-align: right; width: 44px; }
-  .forte-s { color: var(--verde-escuro); font-weight: 700; }
-  .cats tr:first-child th.lado:first-of-type { border-radius: 8px 0 0 0; }
+  tr.outra .nome { color: var(--apagado); font-weight: 400; }
+  tr.facial .nome { color: var(--laranja); }
+  tr.gift .nome { color: var(--verde-escuro); }
+  .barra { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--apagado); }
+  .barra b { white-space: nowrap; font-weight: 400; }
+  tr.gift .barra b { color: var(--verde-escuro); font-weight: 700; }
+  .share { font-size: 13px; font-weight: 700; color: var(--tinta-2); text-align: right; width: 48px; }
+  tr.outra .share, tr.facial .share { color: var(--apagado); font-weight: 400; }
+  tr.gift .share { color: var(--verde-escuro); }
 
-  .cats tr > :nth-child(-n+3) { background: #fcf7f3; }
-  .cats tr:not(.notas) > td:nth-child(-n+3) { border-top: 1px solid #f3e6dc; }
+  /* zonas */
+  .cats tr > :nth-child(-n+2) { background: #fcf7f3; }
+  .cats tr:not(.notas) > td:nth-child(-n+2) { border-top: 1px solid #f3e6dc; }
   .cats tr:first-child > th:first-child { border-radius: 8px 0 0 0; }
-  .cats tr:first-child > th:nth-child(3) { border-radius: 0 8px 0 0; }
+  .cats tr:first-child > th:nth-child(2) { border-radius: 0 8px 0 0; }
   .cats tr.notas > td:first-child { border-radius: 0 0 8px 8px; }
   .cats th.preco, .cats td.preco { background: #f9f9f7; }
-  .cats th.preco { width: 250px; border-radius: 8px 8px 0 0; padding-left: 12px; }
-  .cats td.preco { padding-left: 12px; }
-  .barra b { white-space: nowrap; }
-  .cats .sep { width: 14px; padding: 0; background: none !important; }
-  .cats td.preco { border-top: 1px solid #ececE6; }
-  tr.notas td { border-top: none; vertical-align: top; padding: 10px 12px 10px; }
+  .cats th.preco { width: 230px; border-radius: 8px 8px 0 0; padding-left: 12px; }
+  .cats td.preco { padding-left: 12px; border-top: 1px solid #ececE6; }
+  .cats th.lado, .cats td.lado { background: var(--verde-claro); }
+  .cats td.lado { border-top: 1px solid #d3ece2; }
+  .cats th.lado { border-radius: 8px 8px 0 0; }
+  .cats .sep { width: 14px; padding: 0; background: none !important; border-top: none !important; }
+
+  tr.notas td { border-top: none; vertical-align: top; padding: 10px 12px; }
   .nota { font-size: 11.5px; line-height: 1.4; color: var(--tinta-2); }
   .nota b { color: var(--tinta); }
   .nota .tit { display: block; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 3px; }
   .cats td.nota.d { box-shadow: inset 3px 0 0 var(--laranja); } .nota.d .tit { color: var(--laranja); }
-  .cats td.nota.p { box-shadow: inset 3px 0 0 #9a9a90; border-radius: 0 0 8px 8px; } .nota.p .tit { color: var(--tinta-2); }
-  .cats td.nota.s { box-shadow: inset 3px 0 0 var(--verde-escuro); border-radius: 0 0 8px 8px; } .nota.s .tit { color: var(--verde-escuro); }
+  .cats td.nota.p { box-shadow: inset 3px 0 0 var(--verde); border-radius: 0 0 8px 8px; } .nota.p .tit { color: var(--verde-escuro); }
+  .cats td.nota.s { box-shadow: inset 3px 0 0 var(--tinta-2); border-radius: 0 0 8px 8px; } .nota.s .tit { color: var(--tinta-2); }
 </style>
 </head>
 <body>
 <div class="widget">
-  <section>
-    <div class="rotulo">Categorias: desconto, preço por item e receita</div>
-    {{TABELA}}
-  </section>
+  <div class="rotulo">Categorias: desconto, preço por item e receita</div>
+  <h3>Categorias cumprem papéis diferentes: <span>perfumaria concentra receita, Gifts captura valor e Facial depende de desconto</span></h3>
+  {{TABELA}}
   <template>
-<!--NOTA_DESCONTO--><span class="tit">Desconto oscila</span><b>Facial</b> vai de 29% a 73%, o que pode indicar uma estratégia de <b>liquidação</b>. É possível observar uma <b>estratégia de desconto para cada categoria</b>.<!--/NOTA_DESCONTO-->
-<!--NOTA_PRECO--><span class="tit">Gifts: o item mais caro</span><b>{{GIFT_PAGO}} por item</b>, 2× a média da base ({{MEDIA_PAGO}}), com preço de tabela de {{GIFT_TABELA}}. São <b>{{GIFT_ITENS}} dos itens e {{GIFT_REC}} da receita</b>.<!--/NOTA_PRECO-->
-<!--NOTA_SHARE--><span class="tit">Share muda com o calendário</span><b>Gifts</b> sai de 5% para 16% da receita em <b>datas comemorativas</b>. As duas <b>perfumarias</b> representam ~50% da receita e <b>revezam o 1º lugar</b> durante os meses.<!--/NOTA_SHARE-->
+<!--NOTA_DESCONTO--><span class="tit">Facial depende de desconto</span>Maior oscilação da base: de <b>29% a 73%</b> entre os meses, o que pode indicar <b>liquidação</b>. Cada categoria segue uma estratégia de desconto própria.<!--/NOTA_DESCONTO-->
+<!--NOTA_PRECO--><span class="tit">Gifts captura valor</span><b>{{GIFT_PAGO}} por item</b>, ~2× a média da base ({{MEDIA_PAGO}}): {{GIFT_ITENS}} dos itens e <b>{{GIFT_REC}} da receita</b>.<!--/NOTA_PRECO-->
+<!--NOTA_SHARE--><span class="tit">Perfumaria concentra receita</span>As duas perfumarias somam <b>~{{PERF_SH}} da receita</b> e revezam o 1º lugar. <b>Gifts</b> vai de {{GIFT_MIN}} a {{GIFT_MAX}} nas datas comemorativas.<!--/NOTA_SHARE-->
   </template>
 </div>
 </body>
