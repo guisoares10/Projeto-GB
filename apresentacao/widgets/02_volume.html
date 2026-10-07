@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Volume e canais</title>
+<style>
+  :root {
+    --verde: #1d9e75;
+    --verde-escuro: #137a5a;
+    --verde-claro: #e3f5ee;
+    --verde-medio: #a6d9c6;
+    --tinta: #1a1a1a;
+    --tinta-2: #4a4a4a;
+    --tinta-3: #7a7a7a;
+    --linha: #e3e3dc;
+    --fundo: #ffffff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    width: 1040px; height: 480px; background: var(--fundo);
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; color: var(--tinta);
+  }
+  .widget { display: grid; grid-template-columns: 330px 1fr; gap: 30px; height: 100%; padding: 6px 4px; }
+  .rotulo {
+    font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--verde); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+  }
+  .rotulo::after { content: ""; flex: 1; height: 1px; background: var(--linha); }
+
+  .cards { display: grid; gap: 10px; }
+  .card { border: 1px solid var(--linha); border-radius: 8px; padding: 12px 14px; }
+  .card.destaque { background: var(--verde-claro); border-color: var(--verde-claro); }
+  .valor { font-size: 26px; font-weight: 700; color: var(--verde); line-height: 1.05; }
+  .valor small { font-size: 15px; }
+  .valor .sep { color: var(--tinta-3); font-weight: 400; }
+  .desc { font-size: 12.5px; color: var(--tinta-2); margin-top: 4px; line-height: 1.4; }
+  .desc b { color: var(--tinta); }
+
+  .canais { display: flex; height: 12px; margin: 9px 0 4px; gap: 2px; }
+  .canais .app { background: var(--verde); border-radius: 4px 0 0 4px; }
+  .canais .site { background: var(--verde-medio); border-radius: 0 4px 4px 0; }
+  .canais-rot { display: flex; justify-content: space-between; font-size: 11px; color: var(--tinta-2); }
+
+  svg text { font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; }
+  .grade { stroke: #eeeeea; stroke-width: 1; }
+  .base { stroke: #b8b8b0; stroke-width: 1; }
+  .tick { stroke: #b8b8b0; stroke-width: 1; }
+  .eixo { font-size: 11px; fill: var(--tinta-3); }
+  .barra { fill: var(--verde-medio); }
+  .barra.destaque { fill: var(--verde); }
+  .faixa { fill: var(--verde-claro); }
+  .faixa-rot { font-size: 11px; font-weight: 700; fill: var(--verde-escuro); }
+  .guia { stroke: var(--tinta-3); stroke-width: 1; stroke-dasharray: 2 2; }
+  .ponto { fill: var(--tinta-2); }
+  .evento { font-size: 11px; font-weight: 700; fill: var(--tinta); }
+  .nota { font-size: 10.5px; fill: var(--tinta-3); }
+</style>
+</head>
+<body>
+<div class="widget">
+
+  <section>
+    <div class="rotulo">Volume e canais</div>
+    <div class="cards">
+      <div class="card">
+        <div class="valor">9,9 <small>mi itens</small> <span class="sep">·</span> 6,5 <small>mi pedidos</small></div>
+        <div class="desc">vendidos em 8 meses (nov/2025 a jun/2026)</div>
+      </div>
+      <div class="card">
+        <div class="valor">1,52 <small>itens por pedido</small></div>
+        <div class="desc">Estável: <b>1,42 a 1,53</b> nos meses comuns e <b>1,64 em novembro</b> — na Black November o cliente leva mais itens.</div>
+      </div>
+      <div class="card">
+        <div class="valor">78% <small>App</small> <span class="sep">·</span> 22% <small>Site</small></div>
+        <div class="canais"><div class="app" style="width:78%"></div><div class="site" style="width:22%"></div></div>
+        <div class="desc">Mês a mês o App fica entre <b>75% e 81%</b> dos itens: a divisão entre canais é estável.</div>
+      </div>
+      <div class="card destaque">
+        <div class="valor">36% <small>dos itens em novembro</small></div>
+        <div class="desc">1 de 8 meses concentra mais de um terço do volume: <b>120 mil itens/dia</b>, contra <b>30 mil</b> na média dos demais meses.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="rotulo">qt_material por semana — datas comemorativas</div>
+    <svg viewBox="0 0 650 400" width="650" height="400"><line x1="46" x2="640" y1="354.0" y2="354.0" class="grade"/><text x="38" y="358.0" class="eixo" text-anchor="end">0</text><line x1="46" x2="640" y1="274.0" y2="274.0" class="grade"/><text x="38" y="278.0" class="eixo" text-anchor="end">50</text><line x1="46" x2="640" y1="194.0" y2="194.0" class="grade"/><text x="38" y="198.0" class="eixo" text-anchor="end">100</text><line x1="46" x2="640" y1="114.0" y2="114.0" class="grade"/><text x="38" y="118.0" class="eixo" text-anchor="end">150</text><line x1="46" x2="640" y1="34.0" y2="34.0" class="grade"/><text x="38" y="38.0" class="eixo" text-anchor="end">200</text><text x="10" y="20" class="eixo">mil itens/dia</text><rect x="62.5" y="28" width="66.0" height="326" class="faixa"/><text x="95.5" y="42" class="faixa-rot" text-anchor="middle">Black November</text><path class="barra" d="M47.5,354 V306.1 Q47.5,303.1 50.5,303.1 H58.0 Q61.0,303.1 61.0,306.1 V354 Z"/><path class="barra destaque" d="M64.0,354 V167.6 Q64.0,164.6 67.0,164.6 H74.5 Q77.5,164.6 77.5,167.6 V354 Z"/><path class="barra destaque" d="M80.5,354 V184.7 Q80.5,181.7 83.5,181.7 H91.0 Q94.0,181.7 94.0,184.7 V354 Z"/><path class="barra destaque" d="M97.0,354 V192.8 Q97.0,189.8 100.0,189.8 H107.5 Q110.5,189.8 110.5,192.8 V354 Z"/><path class="barra destaque" d="M113.5,354 V75.9 Q113.5,72.9 116.5,72.9 H124.0 Q127.0,72.9 127.0,75.9 V354 Z"/><path class="barra" d="M130.0,354 V292.2 Q130.0,289.2 133.0,289.2 H140.5 Q143.5,289.2 143.5,292.2 V354 Z"/><path class="barra" d="M146.5,354 V282.9 Q146.5,279.9 149.5,279.9 H157.0 Q160.0,279.9 160.0,282.9 V354 Z"/><path class="barra" d="M163.0,354 V290.4 Q163.0,287.4 166.0,287.4 H173.5 Q176.5,287.4 176.5,290.4 V354 Z"/><path class="barra" d="M179.5,354 V314.8 Q179.5,311.8 182.5,311.8 H190.0 Q193.0,311.8 193.0,314.8 V354 Z"/><path class="barra" d="M196.0,354 V325.8 Q196.0,322.8 199.0,322.8 H206.5 Q209.5,322.8 209.5,325.8 V354 Z"/><path class="barra" d="M212.5,354 V311.6 Q212.5,308.6 215.5,308.6 H223.0 Q226.0,308.6 226.0,311.6 V354 Z"/><path class="barra" d="M229.0,354 V318.3 Q229.0,315.3 232.0,315.3 H239.5 Q242.5,315.3 242.5,318.3 V354 Z"/><path class="barra" d="M245.5,354 V307.5 Q245.5,304.5 248.5,304.5 H256.0 Q259.0,304.5 259.0,307.5 V354 Z"/><path class="barra" d="M262.0,354 V309.1 Q262.0,306.1 265.0,306.1 H272.5 Q275.5,306.1 275.5,309.1 V354 Z"/><path class="barra" d="M278.5,354 V301.0 Q278.5,298.0 281.5,298.0 H289.0 Q292.0,298.0 292.0,301.0 V354 Z"/><path class="barra" d="M295.0,354 V327.7 Q295.0,324.7 298.0,324.7 H305.5 Q308.5,324.7 308.5,327.7 V354 Z"/><path class="barra" d="M311.5,354 V331.3 Q311.5,328.3 314.5,328.3 H322.0 Q325.0,328.3 325.0,331.3 V354 Z"/><path class="barra" d="M328.0,354 V321.8 Q328.0,318.8 331.0,318.8 H338.5 Q341.5,318.8 341.5,321.8 V354 Z"/><path class="barra" d="M344.5,354 V299.8 Q344.5,296.8 347.5,296.8 H355.0 Q358.0,296.8 358.0,299.8 V354 Z"/><path class="barra" d="M361.0,354 V286.4 Q361.0,283.4 364.0,283.4 H371.5 Q374.5,283.4 374.5,286.4 V354 Z"/><path class="barra" d="M377.5,354 V306.2 Q377.5,303.2 380.5,303.2 H388.0 Q391.0,303.2 391.0,306.2 V354 Z"/><path class="barra" d="M394.0,354 V323.8 Q394.0,320.8 397.0,320.8 H404.5 Q407.5,320.8 407.5,323.8 V354 Z"/><path class="barra" d="M410.5,354 V323.1 Q410.5,320.1 413.5,320.1 H421.0 Q424.0,320.1 424.0,323.1 V354 Z"/><path class="barra" d="M427.0,354 V317.0 Q427.0,314.0 430.0,314.0 H437.5 Q440.5,314.0 440.5,317.0 V354 Z"/><path class="barra" d="M443.5,354 V318.3 Q443.5,315.3 446.5,315.3 H454.0 Q457.0,315.3 457.0,318.3 V354 Z"/><path class="barra" d="M460.0,354 V317.2 Q460.0,314.2 463.0,314.2 H470.5 Q473.5,314.2 473.5,317.2 V354 Z"/><path class="barra" d="M476.5,354 V305.7 Q476.5,302.7 479.5,302.7 H487.0 Q490.0,302.7 490.0,305.7 V354 Z"/><path class="barra" d="M493.0,354 V276.2 Q493.0,273.2 496.0,273.2 H503.5 Q506.5,273.2 506.5,276.2 V354 Z"/><path class="barra" d="M509.5,354 V311.0 Q509.5,308.0 512.5,308.0 H520.0 Q523.0,308.0 523.0,311.0 V354 Z"/><path class="barra" d="M526.0,354 V279.3 Q526.0,276.3 529.0,276.3 H536.5 Q539.5,276.3 539.5,279.3 V354 Z"/><path class="barra" d="M542.5,354 V322.2 Q542.5,319.2 545.5,319.2 H553.0 Q556.0,319.2 556.0,322.2 V354 Z"/><path class="barra" d="M559.0,354 V324.7 Q559.0,321.7 562.0,321.7 H569.5 Q572.5,321.7 572.5,324.7 V354 Z"/><path class="barra" d="M575.5,354 V322.3 Q575.5,319.3 578.5,319.3 H586.0 Q589.0,319.3 589.0,322.3 V354 Z"/><path class="barra" d="M592.0,354 V319.1 Q592.0,316.1 595.0,316.1 H602.5 Q605.5,316.1 605.5,319.1 V354 Z"/><path class="barra" d="M608.5,354 V312.2 Q608.5,309.2 611.5,309.2 H619.0 Q622.0,309.2 622.0,312.2 V354 Z"/><path class="barra" d="M625.0,354 V254.3 Q625.0,251.3 628.0,251.3 H635.5 Q638.5,251.3 638.5,254.3 V354 Z"/><text x="132.5" y="82.9" class="evento">Black Friday</text><line x1="186.2" x2="186.2" y1="230.0" y2="308.8" class="guia"/><circle cx="186.2" cy="230.0" r="2.5" class="ponto"/><text x="186.2" y="223.0" class="evento" text-anchor="middle">Natal</text><line x1="367.8" x2="367.8" y1="230.0" y2="280.4" class="guia"/><circle cx="367.8" cy="230.0" r="2.5" class="ponto"/><text x="367.8" y="223.0" class="evento" text-anchor="middle">Dia do Consumidor</text><line x1="499.8" x2="499.8" y1="230.0" y2="270.2" class="guia"/><circle cx="499.8" cy="230.0" r="2.5" class="ponto"/><text x="499.8" y="223.0" class="evento" text-anchor="middle">Dia das Mães</text><line x1="532.8" x2="532.8" y1="198.0" y2="273.3" class="guia"/><circle cx="532.8" cy="198.0" r="2.5" class="ponto"/><text x="532.8" y="191.0" class="evento" text-anchor="middle">Campanha</text><line x1="582.2" x2="582.2" y1="230.0" y2="316.3" class="guia"/><circle cx="582.2" cy="230.0" r="2.5" class="ponto"/><text x="582.2" y="223.0" class="evento" text-anchor="middle">Namorados</text><line x1="62.5" x2="62.5" y1="354" y2="360" class="tick"/><text x="66.5" y="372" class="eixo">nov</text><line x1="128.5" x2="128.5" y1="354" y2="360" class="tick"/><text x="132.5" y="372" class="eixo">dez</text><line x1="211.0" x2="211.0" y1="354" y2="360" class="tick"/><text x="215.0" y="372" class="eixo">jan</text><line x1="277.0" x2="277.0" y1="354" y2="360" class="tick"/><text x="281.0" y="372" class="eixo">fev</text><line x1="343.0" x2="343.0" y1="354" y2="360" class="tick"/><text x="347.0" y="372" class="eixo">mar</text><line x1="425.5" x2="425.5" y1="354" y2="360" class="tick"/><text x="429.5" y="372" class="eixo">abr</text><line x1="491.5" x2="491.5" y1="354" y2="360" class="tick"/><text x="495.5" y="372" class="eixo">mai</text><line x1="557.5" x2="557.5" y1="354" y2="360" class="tick"/><text x="561.5" y="372" class="eixo">jun</text><line x1="46" x2="640" y1="354" y2="354" class="base"/><text x="46" y="394" class="nota">Média diária de itens vendidos em cada semana (segunda a domingo).</text></svg>
+  </section>
+
+</div>
+</body>
+</html>
