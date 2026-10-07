@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Semana e horário</title>
+<style>
+  :root { --verde: #1d9e75; --verde-escuro: #137a5a; --verde-claro: #e3f5ee; --laranja: #b5562b;
+          --tinta: #1a1a1a; --tinta-2: #4a4a4a; --tinta-3: #7a7a7a; --linha: #e3e3dc; --site: #6b6b66; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 1040px; height: 480px; background: #fff; font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; color: var(--tinta); }
+  .widget { height: 100%; padding: 6px 4px; }
+  .rotulo { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--verde);
+            margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .rotulo::after { content: ""; flex: 1; height: 1px; background: var(--linha); }
+  h3 { font-size: 19px; line-height: 1.25; margin-bottom: 12px; }
+  h3 span { color: var(--verde); }
+  .colunas { display: grid; grid-template-columns: 440px 1fr; gap: 30px; }
+  .bloco-tit { font-size: 13px; font-weight: 700; color: var(--tinta-2); }
+  .bloco-tit span { display: block; font-size: 10.5px; font-weight: 400; color: var(--tinta-3); margin-top: 2px; }
+  svg { display: block; margin-top: 4px; }
+  svg text { font-family: Arial, sans-serif; }
+  .eixo { font-size: 11px; fill: var(--tinta-3); }
+  .grade { stroke: #eeeeea; }
+  .b.forte { fill: var(--verde); } .b.neutro { fill: #c9d6cf; } .b.fraco { fill: #d9d9d3; }
+  .v { font-size: 11.5px; font-weight: 700; fill: var(--tinta-2); } .v.forte { fill: var(--verde-escuro); } .v.fraco { fill: var(--tinta-3); }
+  .media { stroke: var(--laranja); stroke-width: 1.5; stroke-opacity: .45; }
+  .media.sexta { stroke-width: 3; stroke-opacity: 1; }
+  .media-t { font-size: 10.5px; font-weight: 700; fill: var(--laranja); }
+  .media-t2 { font-size: 10px; fill: var(--laranja); }
+  .ref { stroke: #9a9a90; stroke-dasharray: 3 3; } .ref-t { font-size: 10px; fill: var(--tinta-3); }
+  .l { fill: none; stroke-width: 2.5; stroke-linejoin: round; }
+  .l.app { stroke: var(--verde); } .l.site { stroke: var(--site); }
+  .z-site { fill: #6b6b66; fill-opacity: .07; } .z-app { fill: var(--verde); fill-opacity: .09; }
+  .z-t { font-size: 10px; font-weight: 700; }
+  .app-t { fill: var(--verde-escuro); } .site-t { fill: var(--site); }
+  .leg { font-size: 11.5px; font-weight: 700; }
+  .legenda { font-size: 10.5px; color: var(--tinta-3); margin-top: 2px; }
+  .legenda i { display: inline-block; width: 14px; height: 3px; background: var(--laranja); vertical-align: middle; margin-right: 4px; }
+  .legenda i.m { width: 10px; height: 10px; background: var(--verde); border-radius: 2px; }
+  .nota { margin-top: 10px; border-left: 3px solid var(--verde); background: #f7f7f4; border-radius: 0 8px 8px 0; padding: 8px 12px;
+          font-size: 11.5px; line-height: 1.45; color: var(--tinta-2); }
+  .nota b { color: var(--tinta); }
+  .nota .tit { display: block; font-size: 10.5px; font-weight: 700; color: var(--verde-escuro); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 2px; }
+</style>
+</head>
+<body>
+<div class="widget">
+  <div class="rotulo">Dia da semana e horário</div>
+  <h3>Dias úteis vendem mais; <span>o canal define o horário de compra</span></h3>
+  <div class="colunas">
+    <div>
+      <div class="bloco-tit">Itens vendidos por dia da semana (mil)<span>barra: mediana dos dias · traço laranja: média · tracejado: mediana geral ({{GERAL}} mil)</span></div>
+      {{SVG_DIA}}
+      <div class="nota"><span class="tit">Por que a mediana</span>Pela média, a <b>sexta</b> parece o melhor dia ({{SEX_MEDIA}} mil), puxada pela Black Friday; a mediana mostra a sexta típica ({{SEX_MEDIANA}} mil). Quarta é o dia mais forte ({{QUA_PCT}}) e domingo o mais fraco ({{DOM_PCT}}): <b>dia da semana entra como feature do modelo</b>.</div>
+    </div>
+    <div>
+      <div class="bloco-tit">Participação de cada hora nas vendas do dia<span>média entre os dias, por canal</span></div>
+      {{SVG_HORA}}
+      <div class="nota"><span class="tit">O canal define o horário</span>O <b>Site</b> concentra no <b>horário comercial</b> (10h–16h, até ~7% por hora); o <b>App</b> tem mais peso <b>à noite</b> (20h–22h e virada da meia-noite) e no <b>começo da manhã</b> (6h–7h).</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
