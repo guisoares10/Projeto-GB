@@ -22,7 +22,7 @@
   .txt b { color: var(--tinta); }
   code { font-family: "Courier New", monospace; font-weight: 700; }
 
-  .hip { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 12px 0; }
+  .hip { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 10px 0 8px; }
   .h { border-radius: 8px; padding: 10px 11px; background: #f7f7f4; }
   .h.sim { background: var(--verde-claro); box-shadow: inset 0 0 0 1.5px var(--verde); }
   .h .sel { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--tinta-3); }
@@ -31,15 +31,17 @@
   .h p { font-size: 11.5px; color: var(--tinta-2); line-height: 1.35; }
   .h p b { color: var(--tinta); }
   .h .ex { display: inline-block; font-family: "Courier New", monospace; font-size: 11px; margin: 3px 0; white-space: nowrap; letter-spacing: -.3px; }
+  .owner { margin-top: 7px; padding-top: 7px; border-top: 1px solid #bfe3d4; color: var(--tinta-2); }
+  .owner b { color: var(--tinta); }
   .ex-cab { font-size: 11px; color: var(--tinta-3); margin: -4px 0 0; }
 
   .comp { width: 100%; border-collapse: collapse; font-size: 12px; }
   .comp th { text-align: right; font-size: 10.5px; color: var(--tinta-3); padding: 0 6px 4px; font-weight: 700; }
   .comp th:first-child, .comp td:first-child { text-align: left; padding-left: 0; }
-  .comp td { padding: 5px 6px; border-top: 1px solid var(--linha); text-align: right; color: var(--tinta-2); }
+  .comp td { padding: 3px 6px; border-top: 1px solid var(--linha); text-align: right; color: var(--tinta-2); }
   .comp td.n { color: var(--verde-escuro); font-weight: 700; }
 
-  .acao { margin-top: auto; background: var(--verde-claro); border-radius: 8px; padding: 10px 12px; font-size: 12px; color: var(--tinta-2); line-height: 1.45; }
+  .acao { margin-top: auto; background: var(--verde-claro); border-radius: 8px; padding: 9px 12px; font-size: 11.5px; color: var(--tinta-2); line-height: 1.45; }
   .acao b { color: var(--tinta); }
 
   .exemplo { margin: 12px 0; background: #f7f7f4; border-radius: 8px; padding: 12px; font-family: "Courier New", monospace; font-size: 13px; line-height: 1.8; }
@@ -60,8 +62,8 @@
       <div class="tit">Receita negativa <small>3.513 linhas · 3,92% da base</small></div>
       <div class="txt">Três hipóteses testadas. Exemplo real: Perf. Feminina, Site, 04/12 17h: receita <b>−R$&nbsp;4.213</b>, desconto <b>R$&nbsp;1.965</b>, 63 itens.</div>
       <div class="hip">
-        <div class="h"><div class="sel">Pouco provável</div><h4>Devolução</h4><p>As devoluções teriam que <b>superar as vendas</b> da hora, e a taxa não sobe depois da Black Friday.</p></div>
-        <div class="h"><div class="sel">Descartada</div><h4>Prejuízo</h4><p>Preço cheio = receita + desconto.<br><span class="ex">−4.213 + 1.965 = <b>−R$&nbsp;2.248</b></span><br>Preço de tabela negativo em <b>86% das linhas</b>: impossível.</p></div>
+        <div class="h"><div class="sel">Pouco provável</div><h4>Devolução</h4><p>Teriam que <b>superar as vendas</b> da hora, mas as linhas negativas têm o volume de uma hora normal (<b>~44 itens</b>).</p></div>
+        <div class="h"><div class="sel">Descartada</div><h4>Prejuízo</h4><p>Preço cheio = receita + desconto.<br><span class="ex">−4.213 + 1.965 = <b>−R$&nbsp;2.248</b></span><br>Preço de tabela <b>negativo</b> em <b>86% das linhas</b>.</p></div>
         <div class="h sim"><div class="sel">Mais provável</div><h4>Erro de sinal</h4><p>Com <code>ABS()</code>, a mesma linha:<br><span class="ex">4.213 + 1.965 = <b>R$&nbsp;6.178</b></span><br>R$ 98 por item e 32% de desconto: <b>venda normal</b>.</p></div>
       </div>
       <table class="comp">
@@ -70,7 +72,7 @@
         <tr><td>preço por item · Perf. Feminina</td><td class="n">R$ 58</td><td>R$ 61</td></tr>
         <tr><td>taxa de desconto (mediana)</td><td class="n">31%</td><td>31%</td></tr>
       </table>
-      <div class="acao"><b>Solução:</b> na camada tratada, <code>ABS(receita_aprovada)</code> + flag <code>flag_receita_sinal_corrigido</code> para rastrear. A receita do período vai de <b>R$ 490 mi para ~R$ 532 mi (+8,6%)</b>; a carga bruta fica preservada. A confirmar com o negócio.</div>
+      <div class="acao"><b>Solução:</b> na camada tratada, <code>ABS(receita_aprovada)</code> + flag <code>flag_receita_sinal_corrigido</code> para rastrear. A receita do período vai de <b>R$ 490 mi para ~R$ 532 mi (+8,6%)</b>; a carga bruta fica preservada.<div class="owner"><b>Em um cenário real</b>, a regra seria validada com o <b>data owner</b> ou com a <b>documentação detalhada da base</b> antes de ir para produção.</div></div>
     </div>
     <div class="bloco">
       <div class="tit">Precisão monetária</div>
