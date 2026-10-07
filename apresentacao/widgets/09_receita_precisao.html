@@ -30,11 +30,13 @@
   .h h4 { font-size: 13.5px; margin: 3px 0 4px; }
   .h p { font-size: 11.5px; color: var(--tinta-2); line-height: 1.35; }
   .h p b { color: var(--tinta); }
+  .h .ex { display: inline-block; font-family: "Courier New", monospace; font-size: 11px; margin: 3px 0; white-space: nowrap; letter-spacing: -.3px; }
+  .ex-cab { font-size: 11px; color: var(--tinta-3); margin: -4px 0 0; }
 
   .comp { width: 100%; border-collapse: collapse; font-size: 12px; }
   .comp th { text-align: right; font-size: 10.5px; color: var(--tinta-3); padding: 0 6px 4px; font-weight: 700; }
   .comp th:first-child, .comp td:first-child { text-align: left; padding-left: 0; }
-  .comp td { padding: 9px 6px; border-top: 1px solid var(--linha); text-align: right; color: var(--tinta-2); }
+  .comp td { padding: 5px 6px; border-top: 1px solid var(--linha); text-align: right; color: var(--tinta-2); }
   .comp td.n { color: var(--verde-escuro); font-weight: 700; }
 
   .acao { margin-top: auto; background: var(--verde-claro); border-radius: 8px; padding: 10px 12px; font-size: 12px; color: var(--tinta-2); line-height: 1.45; }
@@ -52,15 +54,15 @@
 <body>
 <div class="widget">
   <div class="rotulo">Solução · receita negativa e precisão monetária</div>
-  <h3>Receita negativa tem cara de <span>erro de sinal</span>; precisão é ajuste de centavos</h3>
+  <h3>Receita negativa, <span>possibilidade de erro na ingestão da base</span></h3>
   <div class="colunas">
     <div class="bloco">
       <div class="tit">Receita negativa <small>3.513 linhas · 3,92% da base</small></div>
-      <div class="txt">Três hipóteses testadas, cada uma deixa uma marca diferente nos dados:</div>
+      <div class="txt">Três hipóteses testadas. Exemplo real: Perf. Feminina, Site, 04/12 17h: receita <b>−R$&nbsp;4.213</b>, desconto <b>R$&nbsp;1.965</b>, 63 itens.</div>
       <div class="hip">
-        <div class="h"><div class="sel">Descartada</div><h4>Devolução</h4><p>Itens, pedidos e desconto viriam negativos: <b>100% vêm positivos</b>.</p></div>
-        <div class="h"><div class="sel">Descartada</div><h4>Prejuízo</h4><p>O preço cheio ficaria ≤ 0 em <b>86% das linhas</b>: impossível.</p></div>
-        <div class="h sim"><div class="sel">Mais provável</div><h4>Erro de sinal</h4><p>Com <code>ABS()</code>, a linha tem o perfil de uma <b>venda normal</b>.</p></div>
+        <div class="h"><div class="sel">Pouco provável</div><h4>Devolução</h4><p>As devoluções teriam que <b>superar as vendas</b> da hora, e a taxa não sobe depois da Black Friday.</p></div>
+        <div class="h"><div class="sel">Descartada</div><h4>Prejuízo</h4><p>Preço cheio = receita + desconto.<br><span class="ex">−4.213 + 1.965 = <b>−R$&nbsp;2.248</b></span><br>Preço de tabela negativo em <b>86% das linhas</b>: impossível.</p></div>
+        <div class="h sim"><div class="sel">Mais provável</div><h4>Erro de sinal</h4><p>Com <code>ABS()</code>, a mesma linha:<br><span class="ex">4.213 + 1.965 = <b>R$&nbsp;6.178</b></span><br>R$ 98 por item e 32% de desconto: <b>venda normal</b>.</p></div>
       </div>
       <table class="comp">
         <tr><th>com o sinal corrigido</th><th>linhas negativas</th><th>linhas positivas</th></tr>
