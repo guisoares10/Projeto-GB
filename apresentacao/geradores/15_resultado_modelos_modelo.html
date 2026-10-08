@@ -45,6 +45,12 @@
   .v { font-weight: 700; font-size: 12px; text-align: right; }
   .ok { color: var(--verde-escuro); } .ruim { color: var(--laranja); } .neu { color: var(--tinta-3); }
   .gate { position: absolute; top: -3px; bottom: -3px; border-left: 2px dashed var(--laranja); }
+  .pico { fill: #f6d36b; fill-opacity: .35; }
+  .pico-n { fill: #e0b23a; }
+  .pico-t { font-size: 10px; font-weight: 700; fill: #fff; }
+  .picos { display: flex; gap: 14px; margin: 6px 0 0 44px; font-size: 11px; color: var(--tinta-2); }
+  .picos span { background: #fbf1cf; border-radius: 6px; padding: 4px 8px; }
+  .picos b { color: var(--laranja); }
   .msg { margin-top: auto; background: var(--verde-claro); border-left: 3px solid var(--verde); border-radius: 0 8px 8px 0; padding: 8px 11px; font-size: 11.5px; line-height: 1.4; color: var(--tinta-2); }
   .msg b { color: var(--verde-escuro); }
 </style>
@@ -65,6 +71,7 @@
       <div class="tit">Itens por dia no teste<small>01/04 a 30/06 · cada rodada prevê 14 dias com dados até a véspera</small></div>
       {{SVG}}
       <div class="leg"><span><i style="border-color:#333"></i>real</span><span><i style="border-color:#1d9e75"></i>LightGBM</span><span><i style="border-color:#b9b9b0;border-top-style:dashed"></i>média móvel 7 dias</span></div>
+      <div class="picos"><span><b>1</b> Dia das Mães (04–09/05): WAPE de <b>46%</b>, evento inédito no treino</span><span><b>2</b> Campanha de maio (19–22/05): WAPE de <b>30%</b></span></div>
     </div>
     <div class="mini">
       <div class="tit">Os três modelos</div>
@@ -76,7 +83,6 @@
       <div class="linha-b"><b>LightGBM</b><div class="trilho"><i style="right:0;width:34%;background:var(--verde)"></i><span class="gate" style="left:50%"></span></div><span class="v ok">−6,8%</span></div>
       <div class="linha-b"><span>XGBoost</span><div class="trilho"><i style="right:0;width:51.5%;background:var(--laranja)"></i><span class="gate" style="left:50%"></span></div><span class="v ruim">−10,3%</span></div>
       <div class="linha-b"><span>Reg. Linear</span><div class="trilho"><i style="right:0;width:80.5%;background:var(--laranja)"></i><span class="gate" style="left:50%"></span></div><span class="v ruim">−16,1%</span></div>
-      <div class="msg"><b>LightGBM vence:</b> menor erro e o único com viés dentro do limite.</div>
     </div>
   </div>
 </div>

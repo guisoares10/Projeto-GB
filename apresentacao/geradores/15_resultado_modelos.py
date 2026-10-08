@@ -23,6 +23,13 @@ for i, d in t["data"].items():
     if d.day == 1:
         p.append(f'<line x1="{px(i):.1f}" x2="{px(i):.1f}" y1="{T}" y2="{T + H}" class="mes"/>'
                  f'<text x="{px(i) + 4:.1f}" y="{T + H + 15}" class="eixo">{["", "", "", "", "abril", "maio", "junho"][d.month]}</text>')
+PICOS = [("2026-05-04", "2026-05-09", "1"), ("2026-05-19", "2026-05-22", "2")]
+for ini, fim, n in PICOS:
+    idx = t.index[t["data"].between(ini, fim)]
+    x0, x1 = px(idx[0]) - 3, px(idx[-1]) + 3
+    p.append(f'<rect x="{x0:.1f}" y="{T}" width="{x1 - x0:.1f}" height="{H}" class="pico"/>'
+             f'<circle cx="{(x0 + x1) / 2:.1f}" cy="{T + 12}" r="8" class="pico-n"/>'
+             f'<text x="{(x0 + x1) / 2:.1f}" y="{T + 16}" text-anchor="middle" class="pico-t">{n}</text>')
 for col, classe in (("mm7", "mm7"), ("real", "real"), ("lightgbm", "lgb")):
     pts = " ".join(f"{px(i):.1f},{py(v):.1f}" for i, v in t[col].items())
     p.append(f'<polyline points="{pts}" class="l {classe}"/>')
