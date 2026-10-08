@@ -20,6 +20,9 @@ por_hora AS (
     COUNTIF(des_canal_venda_final_agrup NOT IN ('App', 'Site') OR qt_material <= 0 OR nr_pedidos <= 0) AS linhas_fora_dominio,
     COUNT(*) - COUNT(DISTINCT CONCAT(des_canal_venda_final_agrup, '|', des_categoria_material)) AS linhas_duplicadas,
     COUNT(DISTINCT des_canal_venda_final_agrup) AS canais_presentes,
+    -- linhas por canal: o grão tem 1 linha por categoria, então 8 linhas por canal (categoria inválida conta, é uma das 8 sem nome)
+    COUNTIF(des_canal_venda_final_agrup = 'App') AS linhas_app,
+    COUNTIF(des_canal_venda_final_agrup = 'Site') AS linhas_site,
     COUNTIF(SAFE_CAST(des_categoria_material AS NUMERIC) IS NOT NULL) AS linhas_categoria_invalida,
     COUNTIF(receita_aprovada < 0) AS linhas_receita_negativa,
     SUM(qt_material) AS qt_material
@@ -35,6 +38,8 @@ hora_completa AS (
     COALESCE(p.linhas_fora_dominio, 0) AS linhas_fora_dominio,
     COALESCE(p.linhas_duplicadas, 0) AS linhas_duplicadas,
     COALESCE(p.canais_presentes, 0) AS canais_presentes,
+    COALESCE(p.linhas_app, 0) AS linhas_app,
+    COALESCE(p.linhas_site, 0) AS linhas_site,
     COALESCE(p.linhas_categoria_invalida, 0) AS linhas_categoria_invalida,
     COALESCE(p.linhas_receita_negativa, 0) AS linhas_receita_negativa,
     COALESCE(p.qt_material, 0) AS qt_material
@@ -51,6 +56,8 @@ checks_hora AS (
     STRUCT('duplicidade_grao', 'ERRO', linhas_duplicadas > 0, FORMAT('%d linhas duplicadas', linhas_duplicadas)),
     STRUCT('hora_sem_dados', 'WARNING', linhas = 0, 'nenhuma linha na hora'),
     STRUCT('canal_ausente', 'WARNING', linhas > 0 AND canais_presentes < 2, FORMAT('%d de 2 canais', canais_presentes)),
+    STRUCT('categoria_ausente', 'WARNING', linhas > 0 AND (linhas_app < 8 OR linhas_site < 8),
+           FORMAT('App %d de 8 categorias, Site %d de 8', linhas_app, linhas_site)),
     STRUCT('categoria_invalida', 'WARNING', linhas_categoria_invalida > 0,
            FORMAT('%d linha(s) com categoria numérica', linhas_categoria_invalida)),
     STRUCT('receita_negativa', 'WARNING', linhas_receita_negativa > 0,
