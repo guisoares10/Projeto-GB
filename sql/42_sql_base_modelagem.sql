@@ -9,9 +9,9 @@
 --   3. categoria inválida (código numérico) recebe a única categoria que falta
 --      naquela hora × canal; com 2 ou mais candidatas vira NAO_IDENTIFICADA (seção 2.3.5);
 --   4. dias sem venda de uma série entram com zero;
---   5. taxa_desconto_semana_categoria: taxa média de desconto da categoria na
---      semana (segunda a domingo, os dois canais juntos). É a premissa que o
---      time de desconto informaria para as semanas futuras.
+--   5. taxa_desconto_semana_canal_categoria: taxa média de desconto do canal × categoria
+--      na semana (segunda a domingo). É a premissa que o time de desconto
+--      informaria para as semanas futuras.
 
 WITH bruto AS (
   SELECT
@@ -89,13 +89,13 @@ SELECT
   CAST(COALESCE(d.receita_aprovada, 0) AS FLOAT64) AS receita_aprovada,
   CAST(COALESCE(d.vlr_venda_desconto, 0) AS FLOAT64) AS vlr_venda_desconto,
   CAST(SAFE_DIVIDE(
-    SUM(d.vlr_venda_desconto) OVER semana_categoria,
-    SUM(d.receita_aprovada + d.vlr_venda_desconto) OVER semana_categoria
-  ) AS FLOAT64) AS taxa_desconto_semana_categoria
+    SUM(d.vlr_venda_desconto) OVER semana_canal_categoria,
+    SUM(d.receita_aprovada + d.vlr_venda_desconto) OVER semana_canal_categoria
+  ) AS FLOAT64) AS taxa_desconto_semana_canal_categoria
 FROM grade g
 LEFT JOIN diario d
   USING (data, des_canal_venda_final_agrup, des_categoria_material)
-WINDOW semana_categoria AS (
-  PARTITION BY DATE_TRUNC(g.data, WEEK(MONDAY)), g.des_categoria_material
+WINDOW semana_canal_categoria AS (
+  PARTITION BY DATE_TRUNC(g.data, WEEK(MONDAY)), g.des_canal_venda_final_agrup, g.des_categoria_material
 )
 ORDER BY 1, 2, 3

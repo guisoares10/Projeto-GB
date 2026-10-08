@@ -51,6 +51,14 @@ def test_black_november_por_regra():
     assert flags["campanha"].sum() == 0
 
 
+def test_distancia_ate_e_desde_a_data_comemorativa():
+    # Dia das Mães 2026: 10/05; Dia dos Namorados: 12/06
+    datas = pd.Series(pd.to_datetime(["2026-05-01", "2026-05-10", "2026-05-12", "2026-06-10"]))
+    flags = features_calendario(datas)
+    assert flags["dias_ate_evento"].tolist() == [9, 0, 15, 2]
+    assert flags["dias_desde_evento"].tolist() == [15, 0, 2, 15]
+
+
 def test_campanha_pontual():
     flags = features_calendario(pd.Series(pd.to_datetime(["2026-05-14", "2026-05-15", "2026-05-24"])))
     assert flags["campanha"].tolist() == [0, 1, 1]

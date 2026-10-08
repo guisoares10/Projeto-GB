@@ -30,8 +30,9 @@
   .lista { margin-top: 14px; flex: 1; display: flex; flex-direction: column; }
   .tab { width: 100%; border-collapse: collapse; font-size: 12px; }
   .tab th { text-align: left; font-size: 10.5px; color: var(--tinta-3); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; padding: 0 10px 5px 0; }
-  .tab td { padding: 8px 10px 8px 0; border-top: 1px solid var(--linha); color: var(--tinta-2); vertical-align: top; }
-  .tab td:first-child { width: 330px; }
+  .tab td { padding: 6px 10px 6px 4px; border-top: 1px solid var(--linha); color: var(--tinta-2); vertical-align: top; }
+  .tab td:first-child { width: 440px; }
+  .tab tr.nova td { background: var(--verde-claro); }
   .tab tr.fora td { color: var(--tinta-3); }
   .tab tr.fora code { color: var(--tinta-3); }
   .selo { font-size: 10px; font-weight: 700; border-radius: 4px; padding: 1px 6px; margin-left: 6px; }
@@ -49,19 +50,20 @@
     <div class="f"><h4>Dia da semana</h4><p>Quarta <b>+13%</b> e domingo <b>−21%</b> contra a mediana.</p></div>
     <div class="f"><h4>Datas comemorativas</h4><p>Natal, Ano Novo, Consumidor, Mães e Namorados, calculadas por regra.</p></div>
     <div class="f"><h4>Black November</h4><p>O mês todo fica <b>3 a 4×</b> o normal; calculada por regra para os próximos anos.</p></div>
-    <div class="f"><h4>Desconto semanal da categoria</h4><p><b>Premissa:</b> existe um time com o planejamento de descontos das próximas semanas por categoria.<span class="regra">No case: taxa realizada da categoria na semana (seg–dom, App + Site) = desconto ÷ (receita + desconto).</span></p></div>
+    <div class="f"><h4>Desconto semanal*</h4><p><b>Premissa:</b> existe um time com o planejamento de descontos das próximas semanas por canal e categoria.</p></div>
   </div>
-  <div class="base"><b>Base corrigida</b> com o que a qualidade dos dados mostrou (receita com sinal, categoria recuperada) e <b>retreino seguro</b>: só entra dado que passou no monitoramento.</div>
+  <div class="base">* No case foi usada a <b>taxa média de desconto da semana por canal × categoria</b> = desconto ÷ (receita + desconto).</div>
 
   <div class="lista">
     <div class="tit">Todas as features<small>notebook <code>modelo_machine_learning_categorias.ipynb</code> · dataframe <code>df</code></small></div>
     <table class="tab">
       <tr><th>Feature</th><th>Tipo</th></tr>
       <tr><td><code>is_app</code> · <code>cat_*</code></td><td>dummies de canal (App = 1) e de categoria</td></tr>
-      <tr><td><code>dia_semana</code> · <code>dia_mes</code></td><td>0 = segunda … 6 = domingo · 1 a 31 (só nas árvores)</td></tr>
+      <tr><td><code>dia_semana</code> · <code>dia_mes</code></td><td>0 = segunda … 6 = domingo · 1 a 31</td></tr>
       <tr><td><code>evento_*</code> · <code>black_november</code> · <code>campanha</code></td><td>flags 0/1: uma por data comemorativa, Black November e campanhas pontuais</td></tr>
-      <tr><td><code>taxa_desconto_semana_categoria</code></td><td>taxa de desconto da categoria na semana (0 a 1)</td></tr>
-      <tr class="fora"><td><code>lag_14</code> · <code>lag_21</code> · <code>lag_28</code> · <code>mm7_lag14</code> · <code>mm28_lag14</code><span class="selo nao">testado, não usado</span></td><td>histórico da própria série, sempre ≥ 14 dias antes · com lags o LightGBM piora de 25,5% para 26,6% e o viés vai a −16%</td></tr>
+      <tr class="nova"><td><code>dias_ate_evento</code> · <code>dias_desde_evento</code><span class="selo usa">nova</span></td><td>dias até a próxima e desde a última data comemorativa (0 a 15): a venda cresce conforme a data se aproxima e cai logo depois</td></tr>
+      <tr><td><code>taxa_desconto_semana_canal_categoria</code></td><td>taxa de desconto do canal × categoria na semana (0 a 1)</td></tr>
+      <tr class="fora"><td><code>lag_14</code> · <code>lag_21</code> · <code>lag_28</code> · <code>mm7_lag14</code> · <code>mm28_lag14</code> <span class="selo nao" style="white-space:nowrap">não usado</span></td><td>cálculo com os dias anteriores, mas não funcionou bem</td></tr>
     </table>
   </div>
 </div>

@@ -1,5 +1,6 @@
 from .calendario import (
     CAMPANHAS,
+    COLUNAS_DISTANCIA,
     EVENTOS,
     datas_eventos,
     features_calendario,
@@ -29,6 +30,7 @@ from .vendas import (
 
 __all__ = [
     "CAMPANHAS",
+    "COLUNAS_DISTANCIA",
     "EVENTOS",
     "datas_eventos",
     "features_calendario",

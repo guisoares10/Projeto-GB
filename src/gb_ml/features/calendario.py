@@ -10,10 +10,14 @@ from __future__ import annotations
 
 import datetime as dt
 
+import numpy as np
 import pandas as pd
 
 # Janela da flag: o próprio dia do evento e os DIAS_ANTES dias anteriores
 DIAS_ANTES = 7
+# Distância até a próxima / desde a última data comemorativa, limitada (acima disso = "longe de qualquer data")
+LIMITE_DISTANCIA = 15
+COLUNAS_DISTANCIA = ["dias_ate_evento", "dias_desde_evento"]
 
 # Campanhas pontuais informadas pelo negócio (premissa): nome, início, fim (inclusive).
 # A Black November não entra aqui: tem coluna própria, calculada por regra.
@@ -75,7 +79,10 @@ def features_calendario(datas: pd.Series, dias_antes: int = DIAS_ANTES) -> pd.Da
     - dia_semana (segunda=0) e dia_mes;
     - evento_<nome>: 1 entre (data - dias_antes) e a data do evento;
     - black_november: 1 no período de periodo_black_november;
-    - campanha: 1 dentro de qualquer período de CAMPANHAS.
+    - campanha: 1 dentro de qualquer período de CAMPANHAS;
+    - dias_ate_evento / dias_desde_evento: dias até a próxima e desde a última data
+      comemorativa (qualquer uma), de 0 a LIMITE_DISTANCIA. Ensinam o formato da
+      venda em torno das datas: cresce conforme a data se aproxima e cai logo depois.
     """
     datas = pd.to_datetime(datas)
     saida = pd.DataFrame(index=datas.index)
@@ -100,4 +107,14 @@ def features_calendario(datas: pd.Series, dias_antes: int = DIAS_ANTES) -> pd.Da
     for _, inicio, fim in CAMPANHAS:
         campanha |= datas.between(pd.Timestamp(inicio), pd.Timestamp(fim)).astype(int)
     saida["campanha"] = campanha
+
+    # anos vizinhos para achar a data anterior e a próxima nas pontas da série
+    datas_evento = np.sort(pd.to_datetime(
+        tabela_eventos([anos[0] - 1, *anos], dias_antes)["data"]).values)
+    valores = datas.values
+    proxima = np.searchsorted(datas_evento, valores, side="left")
+    anterior = np.searchsorted(datas_evento, valores, side="right") - 1
+    um_dia = np.timedelta64(1, "D")
+    saida["dias_ate_evento"] = np.minimum((datas_evento[proxima] - valores) / um_dia, LIMITE_DISTANCIA).astype(int)
+    saida["dias_desde_evento"] = np.minimum((valores - datas_evento[anterior]) / um_dia, LIMITE_DISTANCIA).astype(int)
     return saida
