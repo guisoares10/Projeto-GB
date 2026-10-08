@@ -12,74 +12,68 @@
   .rotulo { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--verde);
             margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
   .rotulo::after { content: ""; flex: 1; height: 1px; background: var(--linha); }
-  h3 { font-size: 19px; line-height: 1.25; margin-bottom: 12px; }
+  h3 { font-size: 19px; line-height: 1.25; margin-bottom: 10px; }
   h3 span { color: var(--verde); }
-  .colunas { display: grid; grid-template-columns: 1fr 1.25fr; gap: 20px; flex: 1; }
   .tit { font-size: 11px; font-weight: 700; color: var(--verde-escuro); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
-  code { font-family: "Courier New", monospace; font-weight: 700; font-size: 12px; }
+  .tit small { font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--tinta-3); font-size: 11px; margin-left: 6px; }
+  code { font-family: "Courier New", monospace; font-weight: 700; font-size: 11.5px; }
 
-  .pilares { display: flex; flex-direction: column; gap: 10px; }
-  .pilar { flex: 1; }
-  .pilar { border: 1px solid var(--linha); border-radius: 10px; padding: 10px 14px; }
-  .pilar h4 { font-size: 13.5px; margin-bottom: 4px; }
-  .pilar p { font-size: 11.5px; color: var(--tinta-2); line-height: 1.4; }
-  .pilar p b { color: var(--tinta); }
-  .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
-  .tag { font-size: 10px; font-weight: 700; color: var(--verde-escuro); background: var(--verde-claro); border-radius: 4px; padding: 2px 6px; }
-  .arquivo { background: #f7f7f4; border-radius: 10px; padding: 9px 14px; font-size: 11.5px; color: var(--tinta-2); line-height: 1.5; }
-  .arquivo b { color: var(--tinta); }
+  .feats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .f { background: var(--verde-claro); border-radius: 9px; padding: 11px 12px; }
+  .f h4 { font-size: 13px; color: var(--verde-escuro); margin-bottom: 3px; }
+  .f p { font-size: 11px; color: var(--tinta-2); line-height: 1.35; }
+  .f p b { color: var(--tinta); }
+  .base { margin-top: 6px; font-size: 11px; color: var(--tinta-3); }
+  .base b { color: var(--tinta-2); }
 
-  .grao { border: 1px solid var(--linha); border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; }
-  .comp { width: 100%; border-collapse: collapse; font-size: 12px; margin: 2px 0 8px; }
-  .comp th { font-size: 11px; color: var(--tinta-2); text-align: center; padding: 6px 4px; font-weight: 700; }
+  .baixo { display: grid; grid-template-columns: 1.3fr 1fr; gap: 22px; margin-top: 18px; flex: 1; }
+  .comp { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .comp th { font-size: 11.5px; color: var(--tinta-2); text-align: center; padding: 5px 4px; font-weight: 700; }
   .comp th small { display: block; font-weight: 400; color: var(--tinta-3); font-size: 10px; }
   .comp th.esc { background: var(--verde-claro); color: var(--verde-escuro); border-radius: 6px 6px 0 0; }
-  .comp td { padding: 6px 4px; border-top: 1px solid var(--linha); text-align: center; color: var(--tinta-2); }
+  .comp td { padding: 11px 4px; border-top: 1px solid var(--linha); text-align: center; color: var(--tinta-2); }
   .comp td:first-child { text-align: left; color: var(--tinta); }
   .comp td.esc { background: var(--verde-claro); color: var(--verde-escuro); font-weight: 700; }
   .comp td.ruim { color: var(--laranja); font-weight: 700; }
-  .porque { font-size: 11.5px; color: var(--tinta-2); line-height: 1.45; }
+  .comp td.na { color: #c4c4bc; }
+  .porque { font-size: 12.5px; color: var(--tinta-2); line-height: 1.45; display: flex; flex-direction: column; gap: 7px; }
+  .porque div { border-left: 3px solid var(--verde); padding: 4px 0 4px 10px; }
+  .porque div.r { border-color: var(--laranja); }
   .porque b { color: var(--tinta); }
-  .porque li { margin: 0 0 3px 16px; }
-  .teste { margin-top: auto; background: #f7f7f4; border-radius: 8px; padding: 8px 12px; font-size: 11.5px; color: var(--tinta-2); line-height: 1.4; }
-  .teste b { color: var(--tinta); }
+  .arquivo { margin-top: auto; font-size: 11.5px; color: var(--tinta-3); }
 </style>
 </head>
 <body>
 <div class="widget">
   <div class="rotulo">Modelo de machine learning</div>
   <h3>Do entendimento do negócio <span>à previsão diária por categoria</span></h3>
-  <div class="colunas">
-    <div class="pilares">
-      <div class="pilar">
-        <div class="tit">Análise exploratória → modelo</div>
-        <h4>O que aprendemos virou feature e correção</h4>
-        <p>Correções na base (<b>receita com sinal</b>, <b>categoria recuperada</b>) e as features que explicam as vendas:</p>
-        <div class="tags"><span class="tag">canal e categoria</span><span class="tag">dia da semana</span><span class="tag">datas comemorativas</span><span class="tag">Black November</span><span class="tag">desconto semanal da categoria</span></div>
-      </div>
-      <div class="pilar">
-        <div class="tit">Monitoramento → retreino seguro</div>
-        <h4>Qualidade garantida antes de cada atualização</h4>
-        <p>O modelo é retreinado no dia a dia; as checagens de ingestão garantem que ele <b>só aprenda com dado confiável</b>: erro bloqueia a carga, aviso é investigado antes.</p>
-      </div>
-      <div class="arquivo"><b>Onde está:</b> <code>notebooks/modelo_machine_learning_categorias.ipynb</code><br>Previsão de <b>itens por dia × canal × categoria</b>, 14 dias à frente.</div>
-    </div>
-    <div class="grao">
-      <div class="tit">Por que dia × categoria, e não por hora?</div>
+
+  <div class="tit">Features · o que a análise exploratória mostrou que move as vendas</div>
+  <div class="feats">
+    <div class="f"><h4>Canal e categoria</h4><p>O <b>nível</b> de cada série: App vende ~3,5× o Site; perfumarias somam ~53% da receita.</p></div>
+    <div class="f"><h4>Dia da semana</h4><p>Quarta <b>+13%</b> e domingo <b>−21%</b> contra a mediana.</p></div>
+    <div class="f"><h4>Datas comemorativas</h4><p>Natal, Ano Novo, Consumidor, Mães, Namorados: flag na <b>semana anterior e no dia</b>.</p></div>
+    <div class="f"><h4>Black November</h4><p>O mês todo fica <b>3 a 4×</b> o normal; calculada por regra para os próximos anos.</p></div>
+    <div class="f"><h4>Desconto semanal da categoria</h4><p><b>Premissa</b> informada pelo time de desconto; sem ela o erro sobe de 25,5% para 33%.</p></div>
+  </div>
+  <div class="base"><b>Base corrigida</b> com o que a qualidade dos dados mostrou (receita com sinal, categoria recuperada) e <b>retreino seguro</b>: só entra dado que passou no monitoramento.</div>
+
+  <div class="baixo">
+    <div>
+      <div class="tit">Três grãos testados<small>teste faseado de 01/04 a 30/06, 14 dias à frente</small></div>
       <table class="comp">
         <tr><th></th><th>Geral<small>total do dia</small></th><th class="esc">Categoria<small>dia × canal × categoria</small></th><th>Hora<small>hora × canal × categoria</small></th></tr>
         <tr><td>Erro no total do dia (WAPE)</td><td>26,1%</td><td class="esc">25,5%</td><td>25,4%</td></tr>
         <tr><td>Viés</td><td class="ruim">−12,0%</td><td class="esc">−7,4%</td><td>−6,0%</td></tr>
-        <tr><td>Erro de cada série na hora</td><td>—</td><td class="esc">48,7%*</td><td>48,6%</td></tr>
+        <tr><td>Erro de cada série na hora</td><td class="na">—</td><td class="na esc">—</td><td class="ruim">48,6%</td></tr>
         <tr><td>Linhas de treino</td><td>242</td><td class="esc">~4 mil</td><td>~104 mil</td></tr>
       </table>
-      <ul class="porque">
-        <li><b>A hora não melhora o dia:</b> empate no total (25,4% × 25,5%) com 24× mais linhas.</li>
-        <li><b>Muito ruído e poucas features:</b> o que move a venda (desconto, eventos, dia da semana) é diário. Uma hora isolada de uma categoria erra ~49%.</li>
-        <li><b>A hora sai do perfil:</b> *repartindo o dia pelo perfil horário dos últimos 28 dias, o erro por hora é o mesmo.</li>
-        <li><b>O geral não abre por categoria</b> e fica fora do limite de viés (±10%).</li>
-      </ul>
-      <div class="teste"><b>Teste: treinar sem novembro?</b> Piora: LightGBM de <b>25,5% para 26,8%</b>. Novembro ensina como o volume reage a desconto alto; ele fica no treino, <b>marcado pela feature Black November</b>.</div>
+    </div>
+    <div class="porque">
+      <div><b>Categoria é o escolhido:</b> mesmo erro no total que os outros, viés dentro do limite (±10%) e abre por canal e categoria.</div>
+      <div class="r"><b>Hora tem muito ruído:</b> com poucas features que mudam dentro do dia, uma hora isolada de uma categoria erra ~49%, sem ganho no total.</div>
+      <div class="r"><b>Geral não abre por categoria</b> e subestima: viés de −12%, fora do limite.</div>
+      <div class="arquivo" style="border:none;padding:0">Modelo em <code>notebooks/modelo_machine_learning_categorias.ipynb</code></div>
     </div>
   </div>
 </div>
