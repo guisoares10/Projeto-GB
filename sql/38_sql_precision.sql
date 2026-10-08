@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 38_sql_precision.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: 2.6 Precisão monetária no BigQuery
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

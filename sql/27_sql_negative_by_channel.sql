@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 27_sql_negative_by_channel.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: 2.4.1 Existe padrão por canal?
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

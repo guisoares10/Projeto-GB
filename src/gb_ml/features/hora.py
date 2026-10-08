@@ -5,6 +5,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
+
 from .calendario import features_calendario
 from .vendas import ALVO, CHAVE, HORIZONTE, _dummies, matriz_arvore, matriz_linear
 

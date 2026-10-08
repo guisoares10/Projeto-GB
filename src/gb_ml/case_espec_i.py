@@ -7,7 +7,6 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-
 EXPECTED_COLUMNS = [
     "dt_hr_venda",
     "des_canal_venda_final_agrup",

@@ -6,7 +6,6 @@ razão são recalculados a partir das somas em cada recorte (média ponderada).
 """
 
 from __future__ import annotations
-
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd

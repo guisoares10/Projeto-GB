@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 04_sql_revenue_semantics.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: A `receita_aprovada` já vem com o desconto aplicado?
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

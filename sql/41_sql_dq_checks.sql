@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 41_sql_dq_checks.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: 2.8 Automação: checks a cada carga horária
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, END_DATE, LIMITE_DESCONTO_PP, START_DATE, TABLE_ID

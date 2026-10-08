@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 33_sql_negative_profile.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: 2.4.7 É erro de sinal? E o desconto explica alguma coisa?
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

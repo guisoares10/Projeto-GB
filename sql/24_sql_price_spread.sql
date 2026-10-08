@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 24_sql_price_spread.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: E quando há 2 ou mais candidatas? O preço médio resolve?
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

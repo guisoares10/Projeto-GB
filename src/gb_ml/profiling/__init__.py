@@ -21,6 +21,7 @@ from .visualization import (
     seasonality_summary,
 )
 
+
 __all__ = [
     "profile_dataframe",
     "outlier_report",

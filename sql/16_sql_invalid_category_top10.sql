@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 16_sql_invalid_category_top10.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: Exemplos das categorias inválidas
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

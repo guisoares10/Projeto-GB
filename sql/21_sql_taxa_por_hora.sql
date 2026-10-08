@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 21_sql_taxa_por_hora.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: 2.3.4 Existe padrão por hora do dia?
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID, condicao_sql

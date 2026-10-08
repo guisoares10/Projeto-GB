@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 06_sql_free_items.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: A `receita_aprovada` já vem com o desconto aplicado?
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

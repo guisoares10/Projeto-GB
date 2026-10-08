@@ -2,7 +2,7 @@
 
 Cada fábrica recebe os hiperparâmetros e devolve a função usada no backtest.
 O alvo pode ser modelado em log (log1p, efeitos multiplicativos), em nível
-(regressão linear) ou com objetivo Poisson (árvores, alvo de contagem).
+(regressão linear) ou com objetivo Poisson (árvores, alvo de contagem)!
 """
 
 from __future__ import annotations

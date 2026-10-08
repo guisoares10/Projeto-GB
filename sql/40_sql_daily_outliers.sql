@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 40_sql_daily_outliers.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: 2.7 Outliers
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

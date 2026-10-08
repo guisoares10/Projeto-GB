@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 29_sql_negative_category_channel.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: 2.4.3 Categoria × canal — concentração vs. taxa global
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

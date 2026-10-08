@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 15_sql_invalid_category.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: 2.3 Categoria inválida
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

@@ -13,7 +13,6 @@ from gb_ml.features.vendas import ALVO, CHAVE, HORIZONTE
 # ajustar_prever(treino, teste) -> previsões de qt_material para as linhas de teste
 AjustarPrever = Callable[[pd.DataFrame, pd.DataFrame], np.ndarray]
 
-
 def gerar_folds(
     inicio_teste: str, fim: str, horizonte: int = HORIZONTE, passo: int | None = None
 ) -> pd.DataFrame:

@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 42_sql_base_modelagem.sql
 -- Usada no notebook modelo_machine_learning.ipynb, seção: 1. Base de modelagem
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, END_DATE, START_DATE, TABLE_ID

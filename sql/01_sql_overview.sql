@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 01_sql_overview.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: 1. Dados — fonte, schema e período
 -- Parâmetros preenchidos por carregar_sql(): TABLE_ID

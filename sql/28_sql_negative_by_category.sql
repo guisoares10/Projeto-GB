@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 28_sql_negative_by_category.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: 2.4.2 Existe padrão por categoria?
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

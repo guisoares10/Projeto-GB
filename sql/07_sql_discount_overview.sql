@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 07_sql_discount_overview.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: Números gerais do desconto
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

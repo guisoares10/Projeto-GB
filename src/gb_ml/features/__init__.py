@@ -6,7 +6,7 @@ from .calendario import (
     features_calendario,
     periodo_black_november,
     tabela_eventos,
-)
+) 
 from .hora import (
     COLUNAS_LAG_HORA,
     distribuir_por_hora,
@@ -27,6 +27,7 @@ from .vendas import (
     matriz_linear,
     montar_features,
 )
+
 
 __all__ = [
     "CAMPANHAS",

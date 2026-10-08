@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 14_sql_duplicates.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: 2.2 Duplicidade no grão
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID
