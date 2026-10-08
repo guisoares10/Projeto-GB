@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>SHAP</title>
+<style>
+  :root { --verde: #1d9e75; --verde-escuro: #137a5a; --verde-claro: #e3f5ee; --tinta: #1a1a1a; --tinta-2: #4a4a4a; --tinta-3: #7a7a7a; --linha: #e3e3dc; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 1040px; height: 480px; background: #fff; font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; color: var(--tinta); }
+  .widget { height: 100%; padding: 6px 4px; display: flex; flex-direction: column; }
+  .rotulo { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--verde);
+            margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .rotulo::after { content: ""; flex: 1; height: 1px; background: var(--linha); }
+  h3 { font-size: 19px; line-height: 1.25; margin-bottom: 18px; }
+  h3 span { color: var(--verde); }
+  .colunas { display: grid; grid-template-columns: 1.4fr 1fr; gap: 34px; flex: 1; }
+  .tit { font-size: 11px; font-weight: 700; color: var(--verde-escuro); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 12px; }
+  .tit small { font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--tinta-3); font-size: 11px; margin-left: 6px; }
+  .barras { display: flex; flex-direction: column; gap: 20px; }
+  .linha-b { display: grid; grid-template-columns: 160px 1fr 52px; align-items: center; gap: 10px; }
+  .nm { font-size: 13px; }
+  .trilho { height: 24px; background: #f3f3ef; border-radius: 4px; }
+  .trilho i { display: block; height: 100%; border-radius: 4px; }
+  .v { font-weight: 700; font-size: 13.5px; text-align: right; color: var(--tinta-2); }
+  .leg { display: flex; gap: 18px; font-size: 11px; color: var(--tinta-2); margin-top: 14px; }
+  .leg i { display: inline-block; width: 12px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+  .lado { display: flex; flex-direction: column; gap: 14px; justify-content: center; padding-bottom: 40px; }
+  .card { border-radius: 0 8px 8px 0; border-left: 3px solid; padding: 12px 14px; font-size: 12.5px; line-height: 1.45; color: var(--tinta-2); }
+  .card b { color: var(--tinta); }
+  .card .t { display: block; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 3px; }
+  .card.a { background: #f5f5f2; border-color: #9fd8c3; } .card.a .t { color: var(--tinta-2); }
+  .card.b { background: var(--verde-claro); border-color: var(--verde); } .card.b .t { color: var(--verde-escuro); }
+</style>
+</head>
+<body>
+<div class="widget">
+  <div class="rotulo">Modelo por categoria · SHAP</div>
+  <h3>O desconto é a feature que <span>mais move a venda no tempo</span></h3>
+  <div class="colunas">
+    <div>
+      <div class="tit">Força de cada feature<small>participação no impacto total (média de |SHAP|) · LightGBM</small></div>
+      <div class="barras"><div class="linha-b"><span class="nm">Categoria</span><div class="trilho"><i style="width:92.0%;background:#9fd8c3"></i></div><span class="v">46,0%</span></div><div class="linha-b"><span class="nm">Canal (App × Site)</span><div class="trilho"><i style="width:44.6%;background:#9fd8c3"></i></div><span class="v">22,3%</span></div><div class="linha-b"><span class="nm">Desconto semanal</span><div class="trilho"><i style="width:29.2%;background:var(--verde)"></i></div><span class="v">14,6%</span></div><div class="linha-b"><span class="nm">Black November</span><div class="trilho"><i style="width:12.8%;background:var(--verde)"></i></div><span class="v">6,4%</span></div><div class="linha-b"><span class="nm">Datas comemorativas</span><div class="trilho"><i style="width:11.2%;background:var(--verde)"></i></div><span class="v">5,6%</span></div><div class="linha-b"><span class="nm">Dia da semana</span><div class="trilho"><i style="width:7.2%;background:var(--verde)"></i></div><span class="v">3,6%</span></div><div class="linha-b"><span class="nm">Dia do mês</span><div class="trilho"><i style="width:3.2%;background:var(--verde)"></i></div><span class="v">1,6%</span></div></div>
+      <div class="leg"><span><i style="background:#9fd8c3"></i>define o nível de cada série</span><span><i style="background:#1d9e75"></i>explica a variação ao longo do tempo</span></div>
+    </div>
+    <div class="lado">
+      <div class="card a"><span class="t">Nível da série</span><b>Categoria e canal</b> somam ~68%: dizem <b>quanto</b> cada série vende normalmente.</div>
+      <div class="card b"><span class="t">Variação no tempo</span>Entre o que muda no dia a dia, o <b>desconto</b> lidera (15%), seguido da <b>Black November</b> e das <b>datas comemorativas</b>. Por isso a premissa do plano de desconto é a peça mais importante.</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
