@@ -28,7 +28,7 @@
   .cam.a .sel { background: #f1f1ec; color: var(--tinta-2); }
   .cam.b .sel { background: var(--verde); color: #fff; }
   .cam h4 { font-size: 15px; margin: 7px 0 8px; }
-  .cam ul { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+  .cam ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
   .cam li { font-size: 12.5px; color: var(--tinta-2); line-height: 1.4; padding-left: 16px; position: relative; }
   .cam li b { color: var(--tinta); }
   .cam.a li::before { content: "!"; position: absolute; left: 2px; font-weight: 700; color: var(--laranja); }
@@ -43,6 +43,7 @@
   .p b { color: var(--tinta); display: block; font-size: 12px; margin-bottom: 2px; }
   .p .n { color: var(--verde); font-weight: 700; margin-right: 4px; }
   .tit-p { font-size: 11px; font-weight: 700; color: var(--verde-escuro); text-transform: uppercase; letter-spacing: .05em; margin: 12px 0 6px; }
+  .cam.b li.contra::before { content: "!"; left: 3px; color: var(--laranja); }
 </style>
 </head>
 <body>
@@ -72,6 +73,7 @@
         <li><b>Sem espera de homologação</b> e sem licença nova: dados ficam no ambiente do grupo.</li>
         <li>O score do criativo já é <b>ligado às tabelas de cliques e conversões</b>: uma visão completa, nota + resultado.</li>
         <li>O time participa <b>sem programar</b>: define critérios, valida as notas e usa um painel.</li>
+        <li class="contra"><b>Desvantagem:</b> o desenvolvimento fica com o <b>time de dados</b>.</li>
       </ul>
       <div class="tabela">
         <div class="tt">Tabela final no BigQuery</div>
@@ -81,7 +83,7 @@
   </div>
   <div class="tit-p">Como conduzir com o time</div>
   <div class="passos">
-    <div class="p"><b><span class="n">1</span>Problema antes da ferramenta</b>Qual decisão o score vai apoiar e como medir o sucesso (cliques, conversão).</div>
+    <div class="p"><b><span class="n">1</span>Entender o que foi feito no hackathon</b>Replicar o máximo possível, para o time sentir que o trabalho foi aproveitado.</div>
     <div class="p"><b><span class="n">2</span>Governança como aliada</b>Explicar em linguagem de negócio por que a homologação existe.</div>
     <div class="p"><b><span class="n">3</span>Papéis claros</b>Negócio define critérios e valida; dados constroem o pipeline.</div>
     <div class="p"><b><span class="n">4</span>Entregas curtas</b>Demo quinzenal com imagens e números reais.</div>
