@@ -57,7 +57,7 @@
 <body>
 <div class="widget">
   <div class="rotulo">Modelo de machine learning · escolha do grão</div>
-  <h3>Resultados parecidos: <span>categoria entrega o mesmo com ~25× menos linhas</span></h3>
+  <h3>Treinamento dos modelos: <span>Regressão Linear, LightGBM e XGBoost</span></h3>
   <div class="colunas">
     <div>
       <div class="tit">Três grãos testados<small>teste faseado de 01/04 a 30/06, 14 dias à frente</small></div>
@@ -73,8 +73,8 @@
       <div class="nota">Limite de viés: ±10%. Modelo vencedor em cada grão: geral = regressão linear; categoria e hora = LightGBM.</div>
     </div>
     <div class="ruido">
-      <div class="card neutro"><span class="t">Objetivo do case</span><p>Com dados não reais, o foco é o <b>método</b>, não o número. A escolha pesa resultado no teste e <b>escalabilidade</b>.</p></div>
-      <div class="card ok"><span class="t">Por que categoria</span><p>Resultados <b>parecidos</b> com a hora, com <b>~25× menos linhas</b>: treino e retreino mais leves. O case pede previsão <b>diária</b>, então a hora não faz falta.</p></div>
+      <div class="card neutro"><span class="t">Objetivo do case</span><p>Com dados não reais, o foco é o <b>método</b>, não o resultado. A escolha pesa para <b>escalabilidade</b>.</p></div>
+      <div class="card ok"><span class="t">Por que o grão de categoria</span><p>Resultados <b>parecidos</b> com a hora, com <b>~25× menos linhas</b>: treino e retreino mais leves. O case pede previsão <b>diária</b>, então a ausência de horário não é impactante.</p></div>
       <div class="card alerta"><span class="t">Ponto de atenção</span><p>O erro no <b>dia × série</b> é alto nos dois (~38%): cada canal × categoria ainda oscila muito.</p></div>
       <div class="card prox"><span class="t">Próximos passos</span><p>Novas features que reduzam o erro por série (campanhas, tráfego, estoque). Aí sim vale descer a granularidade.</p></div>
     </div>
