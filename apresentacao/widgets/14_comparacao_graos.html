@@ -29,7 +29,15 @@
   .comp td.na { color: #c4c4bc; }
   .nota { font-size: 10.5px; color: var(--tinta-3); margin-top: 6px; }
 
-  .ruido { display: flex; flex-direction: column; justify-content: center; }
+  .ruido { display: flex; flex-direction: column; gap: 8px; padding-top: 18px; padding-bottom: 96px; }
+  .card { flex: 1; border-radius: 0 8px 8px 0; border-left: 3px solid; padding: 5px 12px; font-size: 11.5px; line-height: 1.42; color: var(--tinta-2); display: flex; flex-direction: column; justify-content: center; }
+  .card b { color: var(--tinta); }
+  .card p { margin: 0; }
+  .card .t { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 2px; }
+  .card.neutro { background: #f7f7f4; border-color: #9a9a90; } .card.neutro .t { color: var(--tinta-2); }
+  .card.ok { background: var(--verde-claro); border-color: var(--verde); } .card.ok .t { color: var(--verde-escuro); }
+  .card.alerta { background: var(--laranja-claro); border-color: var(--laranja); } .card.alerta .t { color: var(--laranja); }
+  .card.prox { background: #f7f7f4; border-color: var(--verde-escuro); } .card.prox .t { color: var(--verde-escuro); }
   .comp td small.sub { display: block; font-size: 10.5px; color: var(--tinta-3); margin-top: 1px; }
   .barras { display: flex; flex-direction: column; gap: 14px; margin-top: 4px; }
   .linha-b { display: grid; grid-template-columns: 150px 1fr 48px; align-items: center; gap: 8px; font-size: 12px; color: var(--tinta-2); }
@@ -49,7 +57,7 @@
 <body>
 <div class="widget">
   <div class="rotulo">Modelo de machine learning · escolha do grão</div>
-  <h3>Categoria e hora empatam em todos os níveis; <span>a hora só acrescenta ruído e custo</span></h3>
+  <h3>Resultados parecidos: <span>categoria entrega o mesmo com ~25× menos linhas</span></h3>
   <div class="colunas">
     <div>
       <div class="tit">Três grãos testados<small>teste faseado de 01/04 a 30/06, 14 dias à frente</small></div>
@@ -65,9 +73,10 @@
       <div class="nota">Limite de viés: ±10%. Modelo vencedor em cada grão: geral = regressão linear; categoria e hora = LightGBM.</div>
     </div>
     <div class="ruido">
-      <div class="msg neutro"><b>Mesmo resultado em todos os níveis:</b> no dia, na semana, no mês e no dia × série, categoria e hora ficam a cerca de 1 p.p. A hora não traz informação nova: o que move a venda (desconto, datas, dia da semana) é diário.</div>
-      <div class="msg"><b>Muito ruído na hora:</b> descendo para cada série em cada hora, qualquer abordagem erra quase <b>metade do volume</b> (48%), e o modelo horário treina com <b>24× mais linhas</b>.</div>
-      <div class="decisao"><b>Decisão: modelo por categoria.</b> Mesmo erro, viés dentro do limite, abre por canal e categoria e é bem mais leve. Se o negócio precisar da hora, a previsão diária é repartida pelo perfil horário recente.</div>
+      <div class="card neutro"><span class="t">Objetivo do case</span><p>Com dados não reais, o foco é o <b>método</b>, não o número. A escolha pesa resultado no teste e <b>escalabilidade</b>.</p></div>
+      <div class="card ok"><span class="t">Por que categoria</span><p>Resultados <b>parecidos</b> com a hora, com <b>~25× menos linhas</b>: treino e retreino mais leves. O case pede previsão <b>diária</b>, então a hora não faz falta.</p></div>
+      <div class="card alerta"><span class="t">Ponto de atenção</span><p>O erro no <b>dia × série</b> é alto nos dois (~38%): cada canal × categoria ainda oscila muito.</p></div>
+      <div class="card prox"><span class="t">Próximos passos</span><p>Novas features que reduzam o erro por série (campanhas, tráfego, estoque). Aí sim vale descer a granularidade.</p></div>
     </div>
   </div>
 </div>
