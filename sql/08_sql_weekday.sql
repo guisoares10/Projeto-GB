@@ -34,9 +34,12 @@ WITH daily AS (
   WHERE {DATE_FILTER}
   GROUP BY 1, 2, 3
 ),
-global AS (
-  SELECT
-    APPROX_QUANTILES(qt_material, 100)[OFFSET(50)] AS mediana_global_qt_material
+-- mediana exata (PERCENTILE_CONT); APPROX_QUANTILES é aproximada e muda entre execuções
+medianas AS (
+  SELECT DISTINCT
+    dia_semana_num,
+    PERCENTILE_CONT(qt_material, 0.5) OVER (PARTITION BY dia_semana_num) AS qt_material_mediana,
+    PERCENTILE_CONT(qt_material, 0.5) OVER () AS mediana_global_qt_material
   FROM daily
 )
 SELECT
@@ -44,14 +47,11 @@ SELECT
   d.dia_semana,
   COUNT(*) AS dias,
   AVG(d.qt_material) AS qt_material_media,
-  APPROX_QUANTILES(d.qt_material, 100)[OFFSET(50)] AS qt_material_mediana,
+  m.qt_material_mediana,
   AVG(d.nr_pedidos) AS nr_pedidos_media,
   AVG(d.receita_aprovada) AS receita_aprovada_media,
-  SAFE_DIVIDE(
-    APPROX_QUANTILES(d.qt_material, 100)[OFFSET(50)],
-    g.mediana_global_qt_material
-  ) AS indice_potencial_qt_material
+  SAFE_DIVIDE(m.qt_material_mediana, m.mediana_global_qt_material) AS indice_potencial_qt_material
 FROM daily d
-CROSS JOIN global g
-GROUP BY 1, 2, g.mediana_global_qt_material
+JOIN medianas m USING (dia_semana_num)
+GROUP BY 1, 2, m.qt_material_mediana, m.mediana_global_qt_material
 ORDER BY 1

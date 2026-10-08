@@ -101,7 +101,8 @@ sql/                              consultas numeradas na ordem de uso nos notebo
 src/gb_ml/
   case_espec_i.py                 preparação e agregações específicas do arquivo
   dq/                             checks auxiliares
-  profiling/                      utilitários de profiling/visualização
+  io/                             leitura dos SQL de sql/ e execução no BigQuery (ConsultasBQ)
+  profiling/                      KPIs da análise exploratória (PainelKPI) e utilitários de profiling/visualização
   features/                       calendário comercial (eventos, campanhas) e features da previsão
   model/                          validação faseada, métricas, baselines e modelos
 ```
