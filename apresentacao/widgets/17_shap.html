@@ -16,10 +16,11 @@
   .colunas { display: grid; grid-template-columns: 1.4fr 1fr; gap: 34px; flex: 1; }
   .tit { font-size: 11px; font-weight: 700; color: var(--verde-escuro); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 12px; }
   .tit small { font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--tinta-3); font-size: 11px; margin-left: 6px; }
-  .barras { display: flex; flex-direction: column; gap: 20px; }
-  .linha-b { display: grid; grid-template-columns: 160px 1fr 52px; align-items: center; gap: 10px; }
+  .barras { display: flex; flex-direction: column; gap: 12px; }
+  .nm code { font-family: "Courier New", monospace; font-weight: 700; font-size: 12.5px; }
+  .linha-b { display: grid; grid-template-columns: 200px 1fr 52px; align-items: center; gap: 10px; }
   .nm { font-size: 13px; }
-  .trilho { height: 24px; background: #f3f3ef; border-radius: 4px; }
+  .trilho { height: 20px; background: #f3f3ef; border-radius: 4px; }
   .trilho i { display: block; height: 100%; border-radius: 4px; }
   .v { font-weight: 700; font-size: 13.5px; text-align: right; color: var(--tinta-2); }
   .leg { display: flex; gap: 18px; font-size: 11px; color: var(--tinta-2); margin-top: 14px; }
@@ -39,12 +40,12 @@
   <div class="colunas">
     <div>
       <div class="tit">Força de cada feature<small>participação no impacto total (média de |SHAP|) · LightGBM</small></div>
-      <div class="barras"><div class="linha-b"><span class="nm">Categoria</span><div class="trilho"><i style="width:92.0%;background:#9fd8c3"></i></div><span class="v">46,0%</span></div><div class="linha-b"><span class="nm">Canal (App × Site)</span><div class="trilho"><i style="width:44.6%;background:#9fd8c3"></i></div><span class="v">22,3%</span></div><div class="linha-b"><span class="nm">Desconto semanal</span><div class="trilho"><i style="width:29.2%;background:var(--verde)"></i></div><span class="v">14,6%</span></div><div class="linha-b"><span class="nm">Black November</span><div class="trilho"><i style="width:12.8%;background:var(--verde)"></i></div><span class="v">6,4%</span></div><div class="linha-b"><span class="nm">Datas comemorativas</span><div class="trilho"><i style="width:11.2%;background:var(--verde)"></i></div><span class="v">5,6%</span></div><div class="linha-b"><span class="nm">Dia da semana</span><div class="trilho"><i style="width:7.2%;background:var(--verde)"></i></div><span class="v">3,6%</span></div><div class="linha-b"><span class="nm">Dia do mês</span><div class="trilho"><i style="width:3.2%;background:var(--verde)"></i></div><span class="v">1,6%</span></div></div>
+      <div class="barras"><div class="linha-b"><span class="nm">Categoria</span><div class="trilho"><i style="width:92.0%;background:#9fd8c3"></i></div><span class="v">46,0%</span></div><div class="linha-b"><span class="nm">Canal (App × Site)</span><div class="trilho"><i style="width:44.6%;background:#9fd8c3"></i></div><span class="v">22,3%</span></div><div class="linha-b"><span class="nm">Desconto semanal</span><div class="trilho"><i style="width:29.2%;background:#1d9e75"></i></div><span class="v">14,6%</span></div><div class="linha-b"><span class="nm">Black November</span><div class="trilho"><i style="width:12.8%;background:#1d9e75"></i></div><span class="v">6,4%</span></div><div class="linha-b"><span class="nm">Dia da semana</span><div class="trilho"><i style="width:7.2%;background:#1d9e75"></i></div><span class="v">3,6%</span></div><div class="linha-b"><span class="nm"><code>dias_ate_evento</code></span><div class="trilho"><i style="width:5.0%;background:#1d9e75"></i></div><span class="v">2,5%</span></div><div class="linha-b"><span class="nm">Datas comemorativas (flags)</span><div class="trilho"><i style="width:4.2%;background:#1d9e75"></i></div><span class="v">2,1%</span></div><div class="linha-b"><span class="nm">Dia do mês</span><div class="trilho"><i style="width:3.2%;background:#1d9e75"></i></div><span class="v">1,6%</span></div><div class="linha-b"><span class="nm"><code>dias_desde_evento</code></span><div class="trilho"><i style="width:2.0%;background:#1d9e75"></i></div><span class="v">1,0%</span></div></div>
       <div class="leg"><span><i style="background:#9fd8c3"></i>define o nível de cada série</span><span><i style="background:#1d9e75"></i>explica a variação ao longo do tempo</span></div>
     </div>
     <div class="lado">
       <div class="card a"><span class="t">Nível da série</span><b>Categoria e canal</b> somam ~68%: dizem <b>quanto</b> cada série vende normalmente.</div>
-      <div class="card b"><span class="t">Variação no tempo</span>Entre o que muda no dia a dia, o <b>desconto</b> lidera (15%), seguido da <b>Black November</b> e das <b>datas comemorativas</b>. Por isso a premissa do plano de desconto é a peça mais importante.</div>
+      <div class="card b"><span class="t">Variação no tempo</span>Entre o que muda no dia a dia, o <b>desconto</b> lidera (15%), seguido da <b>Black November</b> e da proximidade das <b>datas comemorativas</b> (dias até e desde a data somam 3,5%). Por isso a premissa do plano de desconto é a peça mais importante.</div>
     </div>
   </div>
 </div>
