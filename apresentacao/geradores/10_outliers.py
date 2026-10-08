@@ -48,7 +48,7 @@ pts = " ".join(f"{px(i):.1f},{py(v):.1f}" for i, v in d["qt"].items())
 p.append(f'<polyline points="{pts}" class="serie"/>')
 for i, r in d[flags["qt"]].iterrows():
     p.append(f'<circle cx="{px(i):.1f}" cy="{py(r["qt"]):.1f}" r="4.5" class="pt {r["tipo"]}"/>')
-rot = [("2025-12-01", "Cyber Monday", "start", 6), ("2025-12-12", "12/12", "start", 6),
+rot = [("2025-12-01", "Pré-Natal", "start", 6), ("2025-12-12", "12/12", "start", 6),
        ("2026-05-08", "Dia das Mães", "end", -8), ("2026-05-21", "20–21/05", "start", 8), ("2026-06-30", "30/06", "end", -8)]
 for dia, txt, anc, dx in rot:
     i = d.index[d["dia"] == pd.Timestamp(dia)][0]
