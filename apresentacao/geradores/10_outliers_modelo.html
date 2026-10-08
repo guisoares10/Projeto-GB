@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Outliers</title>
+<style>
+  :root { --verde: #1d9e75; --verde-escuro: #137a5a; --verde-claro: #e3f5ee; --laranja: #b5562b; --laranja-claro: #fbeee6;
+          --tinta: #1a1a1a; --tinta-2: #4a4a4a; --tinta-3: #7a7a7a; --linha: #e3e3dc; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 1040px; height: 480px; background: #fff; font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; color: var(--tinta); }
+  .widget { height: 100%; padding: 6px 4px; display: flex; flex-direction: column; }
+  .rotulo { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--verde);
+            margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .rotulo::after { content: ""; flex: 1; height: 1px; background: var(--linha); }
+  h3 { font-size: 19px; line-height: 1.25; margin-bottom: 12px; }
+  h3 span { color: var(--verde); }
+  .colunas { display: grid; grid-template-columns: 660px 1fr; gap: 22px; flex: 1; }
+  .bloco-tit { font-size: 13px; font-weight: 700; color: var(--tinta-2); }
+  .bloco-tit span { display: block; font-size: 10.5px; font-weight: 400; color: var(--tinta-3); margin-top: 2px; }
+  svg { display: block; margin-top: 6px; }
+  svg text { font-family: Arial, sans-serif; }
+  .grade { stroke: #eeeeea; } .tick { stroke: #c9c9c0; }
+  .eixo { font-size: 10.5px; fill: var(--tinta-3); }
+  .faixa { fill: #e9ecea; }
+  .lim { stroke: var(--laranja); stroke-dasharray: 4 3; stroke-width: 1.5; }
+  .lim-t { font-size: 10.5px; fill: var(--laranja); font-weight: 700; }
+  .serie { fill: none; stroke: #8c9690; stroke-width: 1.4; stroke-linejoin: round; }
+  .pt.data { fill: var(--verde); } .pt.desconto { fill: var(--laranja); }
+  .rot { font-size: 10.5px; font-weight: 700; fill: var(--tinta-2); }
+  .legenda { display: flex; gap: 16px; font-size: 11px; color: var(--tinta-2); margin: 4px 0 0 46px; }
+  .legenda i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 5px; vertical-align: -1px; }
+  .legenda i.q { border-radius: 2px; background: #e9ecea; width: 14px; }
+
+  .lado { display: flex; flex-direction: column; gap: 8px; }
+  .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .tile { background: #f7f7f4; border-radius: 8px; padding: 9px 10px; }
+  .tile .v { font-size: 24px; font-weight: 700; line-height: 1; }
+  .tile .v small { font-size: 11.5px; font-weight: 400; color: var(--tinta-3); margin-left: 2px; }
+  .tile .n { font-size: 11.5px; font-weight: 700; color: var(--tinta-2); margin-top: 4px; }
+  .tile .m { font-size: 10.5px; color: var(--tinta-3); }
+  .tipo { border-radius: 8px; padding: 9px 12px; font-size: 11.5px; line-height: 1.4; color: var(--tinta-2); }
+  .tipo b { color: var(--tinta); }
+  .tipo .t { display: block; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 2px; }
+  .tipo.data { background: var(--verde-claro); } .tipo.data .t { color: var(--verde-escuro); }
+  .tipo.desc { background: var(--laranja-claro); } .tipo.desc .t { color: var(--laranja); }
+  .conclusao { margin-top: auto; border-left: 3px solid var(--verde); padding: 3px 0 3px 10px; font-size: 12px; line-height: 1.45; color: var(--tinta-2); }
+  .conclusao b { color: var(--tinta); }
+</style>
+</head>
+<body>
+<div class="widget">
+  <div class="rotulo">Qualidade dos dados · outliers (sem novembro)</div>
+  <h3>Os dias extremos são <span>datas comerciais ou picos de desconto</span>, não erros</h3>
+  <div class="colunas">
+    <div>
+      <div class="bloco-tit">Itens vendidos por dia, dezembro a junho<span>limites do IQR calculados sem novembro, que é fora da curva (Black November)</span></div>
+      {{SVG}}
+      <div class="legenda"><span><i class="q"></i>faixa Q1–Q3</span><span><i style="background:#1d9e75"></i>data comercial</span><span><i style="background:#b5562b"></i>pico de desconto</span></div>
+    </div>
+    <div class="lado">
+      <div class="bloco-tit">Fora do limite<span>de {{N}} dias (dez–jun)</span></div>
+      <div class="tiles">
+        <div class="tile"><div class="v">{{QT}}<small>dias</small></div><div class="n">Itens</div><div class="m">{{QT_P}}</div></div>
+        <div class="tile"><div class="v">{{PED}}<small>dias</small></div><div class="n">Pedidos</div><div class="m">{{PED_P}}</div></div>
+        <div class="tile"><div class="v">{{REC}}<small>dias</small></div><div class="n">Receita</div><div class="m">{{REC_P}}</div></div>
+        <div class="tile"><div class="v">37<small>de 1.696</small></div><div class="n">Desconto por categoria</div><div class="m">2,2% dos dias × categoria</div></div>
+      </div>
+      <div class="tipo data"><span class="t">Datas comerciais</span><b>Cyber Monday</b> (01/12) e semana do <b>Dia das Mães</b> (05 a 09/05), com desconto <b>na média</b> (~31%).</div>
+      <div class="tipo desc"><span class="t">Picos de desconto</span><b>12/12</b>, <b>20–21/05</b> e <b>30/06</b>: desconto de <b>45% a 56%</b>, contra {{TX_MED}} num dia típico.</div>
+      <div class="conclusao">São <b>vendas reais</b>: não são removidos. O modelo precisa do <b>calendário comercial</b> e do <b>plano de desconto</b> para explicá-los.</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
