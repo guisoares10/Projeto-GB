@@ -46,18 +46,18 @@
   <h3>Começar pequeno com o que já temos: <span>cada fase só avança se o número provar</span></h3>
   <div class="fases">
     <div class="fase mvp"><div class="n">Fase 1 · MVP</div><h4>Score em criativos passados</h4>
-      <p><b>Gemini + BigQuery</b> dão nota às imagens de campanhas que já rodaram.</p></div>
-    <div class="gate"><div class="losango"></div><div class="t">Go / no-go</div><div class="c">Nota alta converte mais?</div></div>
+      <p><b>Embeddings</b> geram um score aprendido com as conversões; o <b>Gemini</b> dá a nota pelas regras do time.</p></div>
+    <div class="gate"><div class="losango"></div><div class="t">Go / no-go</div><div class="c">Score alto converte mais?</div></div>
     <div class="fase"><div class="n">Fase 2 · Piloto</div><h4>Score antes de publicar</h4>
-      <p>Time usa a nota em <b>campanhas reais</b> e comparamos com um grupo controle.</p></div>
+      <p>Time usa o score em <b>campanhas reais</b> e comparamos com um grupo controle.</p></div>
     <div class="gate"><div class="losango"></div><div class="t">Go / no-go</div><div class="c">Ganho de conversão no teste?</div></div>
     <div class="fase"><div class="n">Fase 3 · Escala</div><h4>Todos os criativos</h4>
-      <p>Entra <b>Embeddings</b> (imagens parecidas) e painel no <b>Looker</b> para todos os times.</p></div>
+      <p>Rotina automática a cada lote de criativos novos e painel no <b>Looker</b> para todos os times.</p></div>
   </div>
   <div class="balanca">
     <div class="lado custo"><h4>Custo</h4><ul>
       <li><b>Sem ferramenta nova</b>: Google Cloud e BigQuery já são homologados.</li>
-      <li>IA <b>paga por uso</b>, sem licença: o MVP roda só sobre uma amostra.</li>
+      <li>IA <b>paga por imagem processada</b>, sem máquina ligada: roda em lote só quando entram criativos novos.</li>
       <li>Principal custo é o <b>tempo do time de dados</b>, em entregas curtas.</li>
     </ul></div>
     <div class="lado retorno"><h4>Retorno</h4><ul>
