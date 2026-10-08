@@ -14,7 +14,7 @@
   .rotulo::after { content: ""; flex: 1; height: 1px; background: var(--linha); }
   h3 { font-size: 19px; line-height: 1.25; margin-bottom: 12px; }
   h3 span { color: var(--verde); }
-  .colunas { display: grid; grid-template-columns: 1.15fr 1fr; gap: 22px; flex: 1; }
+  .colunas { display: grid; grid-template-columns: 1.35fr 1fr; gap: 22px; flex: 1; }
   .tit { font-size: 11px; font-weight: 700; color: var(--verde-escuro); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
   .tit small { font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--tinta-3); font-size: 11px; margin-left: 6px; }
 
@@ -29,7 +29,8 @@
   .comp td.na { color: #c4c4bc; }
   .nota { font-size: 10.5px; color: var(--tinta-3); margin-top: 6px; }
 
-  .ruido { display: flex; flex-direction: column; }
+  .ruido { display: flex; flex-direction: column; justify-content: center; }
+  .comp td small.sub { display: block; font-size: 10.5px; color: var(--tinta-3); margin-top: 1px; }
   .barras { display: flex; flex-direction: column; gap: 14px; margin-top: 4px; }
   .linha-b { display: grid; grid-template-columns: 150px 1fr 48px; align-items: center; gap: 8px; font-size: 12px; color: var(--tinta-2); }
   .linha-b b { color: var(--tinta); }
@@ -38,16 +39,17 @@
   .trilho i.r { background: var(--laranja); }
   .val { font-weight: 700; font-size: 13px; text-align: right; color: var(--verde-escuro); }
   .val.r { color: var(--laranja); }
-  .msg { margin-top: auto; border-left: 3px solid var(--laranja); background: var(--laranja-claro); border-radius: 0 8px 8px 0; padding: 9px 12px; font-size: 12px; line-height: 1.45; color: var(--tinta-2); }
+  .msg { margin-bottom: 12px; border-left: 3px solid var(--laranja); background: var(--laranja-claro); border-radius: 0 8px 8px 0; padding: 9px 12px; font-size: 12px; line-height: 1.45; color: var(--tinta-2); }
   .msg b { color: var(--tinta); }
-  .decisao { margin-top: 12px; background: var(--verde-claro); border-left: 3px solid var(--verde); border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 12.5px; line-height: 1.45; color: var(--tinta-2); }
+  .msg.neutro { background: #f7f7f4; border-left-color: #9a9a90; }
+  .decisao { margin-top: 0; background: var(--verde-claro); border-left: 3px solid var(--verde); border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 12.5px; line-height: 1.45; color: var(--tinta-2); }
   .decisao b { color: var(--verde-escuro); }
 </style>
 </head>
 <body>
 <div class="widget">
   <div class="rotulo">Modelo de machine learning · escolha do grão</div>
-  <h3>Por categoria e por hora erram igual no dia; <span>por hora o resultado é ruído</span></h3>
+  <h3>Categoria e hora empatam em todos os níveis; <span>a hora só acrescenta ruído e custo</span></h3>
   <div class="colunas">
     <div>
       <div class="tit">Três grãos testados<small>teste faseado de 01/04 a 30/06, 14 dias à frente</small></div>
@@ -56,22 +58,16 @@
         <tr><td>Erro no total do dia (WAPE)</td><td>26,1%</td><td class="esc">24,2%</td><td>24,2%</td></tr>
         <tr><td>Viés</td><td class="ruim">−12,0%</td><td class="esc">−6,8%</td><td>−5,9%</td></tr>
         <tr><td>Erro no total da semana</td><td>19,1%</td><td class="esc">17,9%</td><td>19,0%</td></tr>
-        <tr><td>Erro de cada série na hora</td><td class="na">—</td><td class="na esc">—</td><td class="ruim">48,4%</td></tr>
+        <tr><td>Erro no dia × série<small class="sub">cada canal × categoria por dia</small></td><td class="na">—</td><td class="esc">38,0%</td><td>38,4%</td></tr>
         <tr><td>Abre por canal e categoria</td><td class="ruim">não</td><td class="esc">sim</td><td>sim</td></tr>
         <tr><td>Linhas de treino</td><td>242</td><td class="esc">~4 mil</td><td>~104 mil</td></tr>
       </table>
       <div class="nota">Limite de viés: ±10%. Modelo vencedor em cada grão: geral = regressão linear; categoria e hora = LightGBM.</div>
     </div>
     <div class="ruido">
-      <div class="tit">Erro do modelo por hora, em cada nível</div>
-      <div class="barras">
-        <div class="linha-b"><span><b>Total da semana</b></span><div class="trilho"><i style="width:39%"></i></div><span class="val">19,0%</span></div>
-        <div class="linha-b"><span><b>Total do dia</b></span><div class="trilho"><i style="width:50%"></i></div><span class="val">24,2%</span></div>
-        <div class="linha-b"><span><b>Total da hora</b></span><div class="trilho"><i style="width:61%"></i></div><span class="val">29,4%</span></div>
-        <div class="linha-b"><span><b>Hora × série</b></span><div class="trilho"><i class="r" style="width:100%"></i></div><span class="val r">48,4%</span></div>
-      </div>
-      <div class="msg" style="margin-top:14px"><b>Muito ruído na hora:</b> com poucas features que mudam dentro do dia, uma hora de uma categoria erra quase <b>metade do volume</b>. Somando as horas o ruído se compensa, e o dia fica igual ao modelo diário, com <b>24× mais linhas</b>.</div>
-      <div class="decisao"><b>Decisão: modelo por categoria.</b> Mesmo erro no dia, viés dentro do limite e abre por canal e categoria. Se o negócio precisar da hora, a previsão diária é repartida pelo perfil horário recente: erro de 28,6% no total da hora, menor que o do modelo horário (29,4%).</div>
+      <div class="msg neutro"><b>Mesmo resultado em todos os níveis:</b> no dia, na semana e no dia × série, categoria e hora ficam a cerca de 1 p.p. A hora não traz informação nova: o que move a venda (desconto, datas, dia da semana) é diário.</div>
+      <div class="msg"><b>Muito ruído na hora:</b> descendo para cada série em cada hora, qualquer abordagem erra quase <b>metade do volume</b> (48%), e o modelo horário treina com <b>24× mais linhas</b>.</div>
+      <div class="decisao"><b>Decisão: modelo por categoria.</b> Mesmo erro, viés dentro do limite, abre por canal e categoria e é bem mais leve. Se o negócio precisar da hora, a previsão diária é repartida pelo perfil horário recente.</div>
     </div>
   </div>
 </div>
