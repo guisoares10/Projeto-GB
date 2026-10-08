@@ -27,6 +27,8 @@
   .eixo { font-size: 10.5px; fill: var(--tinta-3); }
   .nome { font-size: 12.5px; font-weight: 700; }
   .un { font-size: 10px; fill: var(--tinta-3); }
+  .fundo-d { fill: #fbf4dd; }
+  .txt-lane { font-size: 12px; fill: var(--amarelo); }
   .tot { font-size: 13px; font-weight: 700; }
   .erro { fill: var(--laranja); } .outlier { fill: var(--azul); } .desconto { fill: var(--amarelo); }
   .b.erro { fill: var(--laranja); fill-opacity: .55; } .b.outlier { fill: var(--azul); } .b.desconto { fill: var(--amarelo); fill-opacity: .8; }
@@ -56,7 +58,7 @@
   <div class="lead">Uma <b>consulta SQL</b> roda a cada carga. Em produção, cada dia <b>só conhece o passado</b>: a mesma regra estatística da análise, o <b>IQR</b>, é recalculada todo dia com <b>todo o histórico anterior</b> (IQR expansivo, sem novembro). Avisa picos <b>e quedas</b>.</div>
   <div class="colunas">
     <div>
-      <div class="bloco-tit">Avisos por dia<span>dez–jun, novembro fora também da janela · volume e desconto só são avaliados após 21 dias de histórico</span></div>
+      <div class="bloco-tit">Avisos por dia<span>dez–jun, novembro fora também da janela · volume só é avaliado após 21 dias de histórico</span></div>
       {{SVG}}
     </div>
     <div class="ok">
@@ -75,7 +77,7 @@
   <div class="acoes">
     <div class="acao erro"><span class="t">Erros · avisar o time de origem</span>Categoria inválida e receita negativa aparecem <b>todos os dias</b>: são falhas a <b>corrigir na origem</b>, não a tolerar.</div>
     <div class="acao outlier"><span class="t">Volume · investigar</span>Itens do dia fora de <b>Q1 − 1,5 × IQR</b> ou <b>Q3 + 1,5 × IQR</b> do histórico: é <b>dado duplicado</b> ou <b>venda forte</b> de verdade?</div>
-    <div class="acao desconto"><span class="t">Desconto · validar com o negócio</span>Desconto da categoria fora da <b>faixa IQR do seu próprio histórico</b>: confirmar se a <b>promoção</b> era planejada.</div>
+    <div class="acao desconto"><span class="t">Desconto · validar com o negócio</span>Taxa realizada diferente do <b>desconto planejado pelo time</b>: confirmar se a <b>promoção</b> era planejada.</div>
   </div>
 </div>
 </body>

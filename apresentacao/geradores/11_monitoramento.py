@@ -16,7 +16,7 @@ faixas = [
     ("categoria_invalida", "Categoria inválida", "erro", "horas/dia"),
     ("receita_negativa", "Receita negativa", "erro", "horas/dia"),
     ("volume_outlier_iqr", "Volume diário", "outlier", "outlier IQR"),
-    ("desconto_outlier_iqr", "Desconto por categoria", "desconto", "categorias/dia"),
+    ("desconto_outlier_iqr", "Desconto por categoria", "desconto", "vs. plano do time"),
 ]
 
 L, T, W, FH, GAP = 172, 6, 540, 50, 10
@@ -30,6 +30,9 @@ for k, (check, nome, tipo, un) in enumerate(faixas):
     p.append(f'<rect x="{L}" y="{y0}" width="{W}" height="{FH}" rx="4" class="fundo"/>'
              f'<text x="{L - 10}" y="{y0 + FH / 2 - 2:.1f}" text-anchor="end" class="nome {tipo}">{nome}</text>'
              f'<text x="{L - 10}" y="{y0 + FH / 2 + 12:.1f}" text-anchor="end" class="un">{un}</text>')
+    if tipo == "desconto":
+        texto_desconto = y0
+        continue
     for i, v in enumerate(s):
         if v > 0:
             h = max(3, (FH - 6) * v / vmax)
@@ -43,6 +46,10 @@ for i, d in enumerate(dias):
     if d.day == 1:
         p.append(f'<line x1="{x(i):.1f}" x2="{x(i):.1f}" y1="{T}" y2="{yb + 4}" class="mes"/>'
                  f'<text x="{x(i) + 3:.1f}" y="{yb + 15}" class="eixo">{meses[d.month]}</text>')
+y0 = texto_desconto
+p.append(f'<rect x="{L}" y="{y0}" width="{W}" height="{FH}" rx="4" class="fundo-d"/>'
+         f'<text x="{L + W / 2}" y="{y0 + FH / 2 + 4:.1f}" text-anchor="middle" class="txt-lane">comparar a taxa realizada de cada categoria com o '
+         f'<tspan font-weight="700">desconto planejado pelo time</tspan></text>')
 svg = f'<svg width="{L + W + 70}" height="{yb + 20}">{"".join(p)}</svg>'
 
 html = Path(__file__).with_name("11_monitoramento_modelo.html").read_text(encoding="utf-8")
