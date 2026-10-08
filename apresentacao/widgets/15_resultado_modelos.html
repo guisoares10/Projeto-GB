@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Resultado dos modelos</title>
+<style>
+  :root { --verde: #1d9e75; --verde-escuro: #137a5a; --verde-claro: #e3f5ee; --laranja: #b5562b; --laranja-claro: #fbeee6;
+          --tinta: #1a1a1a; --tinta-2: #4a4a4a; --tinta-3: #7a7a7a; --linha: #e3e3dc; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 1040px; height: 480px; background: #fff; font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; color: var(--tinta); }
+  .widget { height: 100%; padding: 6px 4px; display: flex; flex-direction: column; }
+  .rotulo { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--verde);
+            margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .rotulo::after { content: ""; flex: 1; height: 1px; background: var(--linha); }
+  h3 { font-size: 19px; line-height: 1.25; margin-bottom: 12px; }
+  h3 span { color: var(--verde); }
+  .tit { font-size: 11px; font-weight: 700; color: var(--verde-escuro); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+  .tit small { font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--tinta-3); font-size: 11px; margin-left: 6px; }
+
+  .modelos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .m { border: 1px solid var(--linha); border-radius: 10px; padding: 10px 13px; }
+  .m.vence { border: 1.5px solid var(--verde); background: var(--verde-claro); }
+  .m h4 { font-size: 14px; display: flex; justify-content: space-between; align-items: baseline; }
+  .m h4 span { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #fff; background: var(--verde); border-radius: 4px; padding: 2px 6px; }
+  .m p { font-size: 11.5px; color: var(--tinta-2); line-height: 1.4; margin-top: 4px; }
+  .m p b { color: var(--tinta); }
+
+  .baixo { display: grid; grid-template-columns: 1.15fr 1fr; gap: 22px; margin-top: 16px; flex: 1; }
+  .graf { display: flex; flex-direction: column; gap: 14px; }
+  .linha-b { display: grid; grid-template-columns: 130px 1fr 52px; align-items: center; gap: 8px; font-size: 12px; color: var(--tinta-2); margin-bottom: 6px; }
+  .linha-b b { color: var(--tinta); }
+  .trilho { height: 20px; background: #f3f3ef; border-radius: 4px; position: relative; }
+  .trilho i { position: absolute; top: 0; bottom: 0; border-radius: 4px; }
+  .v { font-weight: 700; font-size: 13px; text-align: right; }
+  .ok { color: var(--verde-escuro); } .ruim { color: var(--laranja); } .neu { color: var(--tinta-3); }
+  .gate { position: absolute; top: -4px; bottom: -4px; border-left: 2px dashed var(--laranja); }
+  .linha-b.eixo { margin-top: 2px; }
+  .escala { position: relative; height: 12px; font-size: 10px; color: var(--tinta-3); }
+  .escala span { position: absolute; top: 0; white-space: nowrap; }
+  .eixo-n { font-size: 10px; color: var(--tinta-3); margin: -2px 0 0 138px; }
+
+  .lado { display: flex; flex-direction: column; gap: 9px; }
+  .card { flex: 1; border-radius: 0 8px 8px 0; border-left: 3px solid; padding: 8px 12px; font-size: 12px; line-height: 1.45; color: var(--tinta-2); display: flex; flex-direction: column; justify-content: center; }
+  .card p { margin: 0; }
+  .card b { color: var(--tinta); }
+  .card .t { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 2px; }
+  .card.ok { background: var(--verde-claro); border-color: var(--verde); } .card.ok .t { color: var(--verde-escuro); }
+  .card.neu { background: #f7f7f4; border-color: #9a9a90; } .card.neu .t { color: var(--tinta-2); }
+</style>
+</head>
+<body>
+<div class="widget">
+  <div class="rotulo">Modelo de machine learning · resultado</div>
+  <h3>LightGBM vence: <span>menor erro e o único dentro do limite de viés</span></h3>
+
+  <div class="tit">Por que esses três modelos</div>
+  <div class="modelos">
+    <div class="m"><h4>Regressão Linear</h4><p><b>Referência interpretável:</b> cada efeito vira um número com intervalo de confiança (“+10 p.p. de desconto ≈ +49% de volume”), bom para conversar com o negócio.</p></div>
+    <div class="m vence"><h4>LightGBM <span>vencedor</span></h4><p><b>Árvores em sequência (boosting):</b> captam interações como desconto × categoria × data, sem precisar desenhá-las. Rápido e leve.</p></div>
+    <div class="m"><h4>XGBoost</h4><p><b>Outro boosting de árvores</b>, que cresce cada árvore de forma diferente: confirma se o resultado vem do método e não de uma biblioteca.</p></div>
+  </div>
+
+  <div class="baixo">
+    <div class="graf">
+      <div>
+        <div class="tit">Erro no total do dia (WAPE)<small>teste de 01/04 a 30/06 · parâmetros padrão</small></div>
+        <div class="linha-b"><b>LightGBM</b><div class="trilho"><i style="left:0;width:60.5%;background:var(--verde)"></i></div><span class="v ok">24,2%</span></div>
+        <div class="linha-b"><span>XGBoost</span><div class="trilho"><i style="left:0;width:61.3%;background:#9fd8c3"></i></div><span class="v neu">24,5%</span></div>
+        <div class="linha-b"><span>Regressão Linear</span><div class="trilho"><i style="left:0;width:68%;background:#9fd8c3"></i></div><span class="v neu">27,2%</span></div>
+        <div class="linha-b"><span>Baseline (média 7 dias)</span><div class="trilho"><i style="left:0;width:89.5%;background:#d3d6d4"></i></div><span class="v neu">35,8%</span></div>
+      </div>
+      <div>
+        <div class="tit">Viés<small>negativo = subestima · limite de ±10%</small></div>
+        <div class="linha-b"><b>LightGBM</b><div class="trilho"><i style="left:calc(100% - 34%);width:34%;background:var(--verde)"></i><span class="gate" style="left:50%"></span></div><span class="v ok">−6,8%</span></div>
+        <div class="linha-b"><span>XGBoost</span><div class="trilho"><i style="left:calc(100% - 51.5%);width:51.5%;background:var(--laranja)"></i><span class="gate" style="left:50%"></span></div><span class="v ruim">−10,3%</span></div>
+        <div class="linha-b"><span>Regressão Linear</span><div class="trilho"><i style="left:calc(100% - 80.5%);width:80.5%;background:var(--laranja)"></i><span class="gate" style="left:50%"></span></div><span class="v ruim">−16,1%</span></div>
+        <div class="linha-b eixo"><span></span><div class="escala"><span style="left:0">−20%</span><span style="left:50%;transform:translateX(-50%)">−10% (limite)</span><span style="right:0">0</span></div><span></span></div>
+      </div>
+    </div>
+    <div class="lado">
+      <div class="card ok"><span class="t">Por que o LightGBM</span><p>Erra menos no dia (<b>24,2%</b>, 32% melhor que o baseline) e é o <b>único com viés dentro do limite</b>. O XGBoost fica perto no erro, mas subestima mais (−10,3%).</p></div>
+      <div class="card neu"><span class="t">Regressão Linear fica como apoio</span><p>Erra mais e subestima (−16%), mas explica cada efeito: é a ferramenta para conversar com o negócio.</p></div>
+      <div class="card neu"><span class="t">Ajuste fino não ajudou</span><p>Testar parâmetros a cada rodada piorou o LightGBM (24,2% → 25,9%): com só 42 dias de janela, ele se adapta ao período recente. Fica com os <b>parâmetros padrão</b>.</p></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
