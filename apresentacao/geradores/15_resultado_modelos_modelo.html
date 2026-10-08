@@ -51,6 +51,10 @@
   .picos { display: flex; gap: 14px; margin: 6px 0 0 44px; font-size: 11px; color: var(--tinta-2); }
   .picos span { background: #fbf1cf; border-radius: 6px; padding: 4px 8px; }
   .picos b { color: var(--laranja); }
+  .corrige { margin-top: auto; position: relative; background: #fbf1cf; border-radius: 8px; padding: 8px 11px; font-size: 11.5px; line-height: 1.4; color: var(--tinta-2); }
+  .corrige b { color: #a07a12; }
+  .corrige::before { content: ""; position: absolute; left: -26px; top: 50%; width: 22px; border-top: 2px solid #e0b23a; }
+  .corrige::after { content: ""; position: absolute; left: -30px; top: calc(50% - 5px); border: 5px solid transparent; border-right: 7px solid #e0b23a; border-left: 0; }
   .msg { margin-top: auto; background: var(--verde-claro); border-left: 3px solid var(--verde); border-radius: 0 8px 8px 0; padding: 8px 11px; font-size: 11.5px; line-height: 1.4; color: var(--tinta-2); }
   .msg b { color: var(--verde-escuro); }
 </style>
@@ -83,6 +87,7 @@
       <div class="linha-b"><b>LightGBM</b><div class="trilho"><i style="right:0;width:34%;background:var(--verde)"></i><span class="gate" style="left:50%"></span></div><span class="v ok">−6,8%</span></div>
       <div class="linha-b"><span>XGBoost</span><div class="trilho"><i style="right:0;width:51.5%;background:var(--laranja)"></i><span class="gate" style="left:50%"></span></div><span class="v ruim">−10,3%</span></div>
       <div class="linha-b"><span>Reg. Linear</span><div class="trilho"><i style="right:0;width:80.5%;background:var(--laranja)"></i><span class="gate" style="left:50%"></span></div><span class="v ruim">−16,1%</span></div>
+      <div class="corrige"><b>Como corrigir:</b> com uma base maior, em que campanhas mapeadas e eventos já aparecem no treino, a curva se repete e o modelo aprende a prevê-la.</div>
     </div>
   </div>
 </div>
