@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 08_sql_weekday.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: 1.5 Potencial de vendas por dia da semana
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 45_sql_dq_monitoramento.sql
 -- Monitoramento da ingestão: checks estruturais por carga horária (como na 41_sql_dq_checks.sql) e,
 -- no fechamento do dia, outliers pelo IQR expansivo (Q1 − 1,5 × IQR e Q3 + 1,5 × IQR calculados só com os dias

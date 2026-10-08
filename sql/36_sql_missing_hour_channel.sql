@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 36_sql_missing_hour_channel.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: Combinações hora × canal ausentes
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, END_DATE, START_DATE, TABLE_ID

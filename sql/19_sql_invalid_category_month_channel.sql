@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 19_sql_invalid_category_month_channel.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: 2.3.2 A concentração muda ao longo dos meses?
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

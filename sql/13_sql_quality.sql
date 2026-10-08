@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 13_sql_quality.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: 2.1 Nulos, domínios e valores impossíveis
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

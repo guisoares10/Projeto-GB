@@ -8,7 +8,6 @@ from typing import Iterable
 import numpy as np
 import pandas as pd
 
-
 def _safe_json(value: object) -> str:
     return json.dumps(value, ensure_ascii=False, default=str)
 

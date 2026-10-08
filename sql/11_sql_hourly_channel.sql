@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 11_sql_hourly_channel.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: Participação por hora — App × Site
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

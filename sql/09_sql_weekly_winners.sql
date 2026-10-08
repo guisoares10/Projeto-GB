@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 09_sql_weekly_winners.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: Qual dia vence em cada semana?
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

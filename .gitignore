@@ -1,4 +1,4 @@
-# Dados do case: NUNCA versionar
+# Dados do case: NUNCA versionar git
 data/*
 !data/.gitkeep
 *.csv

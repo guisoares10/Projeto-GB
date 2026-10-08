@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 10_sql_hourly.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: 1.6 Horários — flutuação ao longo do dia
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

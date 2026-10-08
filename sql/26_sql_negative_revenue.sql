@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 26_sql_negative_revenue.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: 2.4 Receita negativa
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

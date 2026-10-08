@@ -24,7 +24,7 @@ Campos:
 3. Avaliar potencial de vendas por dia da semana.
 4. Entender flutuações de comportamento ao longo do dia.
 5. Construir uma previsão diária e explicar:
-   - escolha do(s) algoritmo(s);
+   - escolha do algoritmo;
    - estratégia de construção e validação;
    - variáveis/features mais importantes.
 

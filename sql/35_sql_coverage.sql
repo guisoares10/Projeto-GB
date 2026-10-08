@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 35_sql_coverage.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: 2.5 Cobertura temporal
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, END_DATE, START_DATE, TABLE_ID

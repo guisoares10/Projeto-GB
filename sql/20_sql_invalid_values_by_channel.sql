@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 20_sql_invalid_values_by_channel.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: 2.3.3 Quais valores inválidos aparecem em cada canal?
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

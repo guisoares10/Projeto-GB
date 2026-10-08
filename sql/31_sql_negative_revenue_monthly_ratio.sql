@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 31_sql_negative_revenue_monthly_ratio.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: 2.4.5 Receita negativa ao longo dos meses — normalizada pela receita
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

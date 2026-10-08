@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 03_sql_base_kpi.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: Base dos KPIs e funções de visualização
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

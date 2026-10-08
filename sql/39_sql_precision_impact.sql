@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 39_sql_precision_impact.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: 2.6.1 Impacto financeiro da normalização para 2 casas
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, STG_TABLE_ID

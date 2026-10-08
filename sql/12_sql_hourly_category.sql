@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 12_sql_hourly_category.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: Participação por hora por categoria — App × Site
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

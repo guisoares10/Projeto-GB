@@ -6,7 +6,6 @@ from typing import Iterable
 
 import pandas as pd
 
-
 def _client(
     project_id: str | None = None,
     *,

@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 30_sql_negative_timeline.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: 2.4.4 Quando a receita negativa aparece na linha do tempo?
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

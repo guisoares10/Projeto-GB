@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 02_sql_daily.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: Série diária (base para as seções 3 e 4)
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

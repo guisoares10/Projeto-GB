@@ -8,7 +8,6 @@ import pandas as pd
 
 from .bigquery import estimate_query_bytes, read_query
 
-
 def encontrar_pasta_sql(inicio: str | Path | None = None) -> Path:
     """Sobe a partir de `inicio` (padrão: diretório atual) até achar a pasta sql/ do projeto."""
     inicio = Path(inicio or Path.cwd()).resolve()

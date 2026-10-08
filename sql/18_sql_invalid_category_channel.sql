@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 18_sql_invalid_category_channel.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: 2.3.1 A categoria inválida se concentra em App ou Site?
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, TABLE_ID

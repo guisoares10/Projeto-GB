@@ -2,7 +2,7 @@
 
 As datas comemorativas e a Black November são calculadas por regra, para
 qualquer ano. Assim, quando a próxima Black Friday chegar, as flags já existem
-sem precisar de ajuste. As demais campanhas não seguem regra fixa: são
+sem precisar de ajuste! As demais campanhas não seguem regra fixa: são
 informadas pelo negócio (premissa).
 """
 

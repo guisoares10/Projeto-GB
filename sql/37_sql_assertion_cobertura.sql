@@ -1,3 +1,4 @@
+-- case projeto GB
 -- 37_sql_assertion_cobertura.sql
 -- Usada no notebook analise_exploratoria.ipynb, seção: Assertion de cobertura: horas sem informação
 -- Parâmetros preenchidos por carregar_sql(): DATE_FILTER, END_DATE, START_DATE, TABLE_ID
