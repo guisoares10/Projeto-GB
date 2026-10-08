@@ -22,8 +22,8 @@
   .txt b { color: var(--tinta); }
   code { font-family: "Courier New", monospace; font-weight: 700; }
 
-  .hip { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 10px 0 8px; }
-  .h { border-radius: 8px; padding: 10px 11px; background: #f7f7f4; }
+  .hip { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0 16px; }
+  .h { border-radius: 8px; padding: 13px 14px; background: #f7f7f4; }
   .h.sim { background: var(--verde-claro); box-shadow: inset 0 0 0 1.5px var(--verde); }
   .h .sel { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--tinta-3); }
   .h.sim .sel { color: var(--verde-escuro); }
@@ -38,7 +38,7 @@
   .comp { width: 100%; border-collapse: collapse; font-size: 12px; }
   .comp th { text-align: right; font-size: 10.5px; color: var(--tinta-3); padding: 0 6px 4px; font-weight: 700; }
   .comp th:first-child, .comp td:first-child { text-align: left; padding-left: 0; }
-  .comp td { padding: 3px 6px; border-top: 1px solid var(--linha); text-align: right; color: var(--tinta-2); }
+  .comp td { padding: 7px 6px; border-top: 1px solid var(--linha); text-align: right; color: var(--tinta-2); }
   .comp td.n { color: var(--verde-escuro); font-weight: 700; }
 
   .acao { margin-top: auto; background: var(--verde-claro); border-radius: 8px; padding: 9px 12px; font-size: 11.5px; color: var(--tinta-2); line-height: 1.45; }
@@ -60,11 +60,9 @@
   <div class="colunas">
     <div class="bloco">
       <div class="tit">Receita negativa <small>3.513 linhas · 3,92% da base</small></div>
-      <div class="txt">Três hipóteses testadas. Exemplo real: Perf. Feminina, Site, 04/12 17h: receita <b>−R$&nbsp;4.213</b>, desconto <b>R$&nbsp;1.965</b>, 63 itens.</div>
       <div class="hip">
-        <div class="h"><div class="sel">Pouco provável</div><h4>Devolução</h4><p>Teriam que <b>superar as vendas</b> da hora, mas as linhas negativas têm o volume de uma hora normal (<b>~44 itens</b>).</p></div>
-        <div class="h"><div class="sel">Descartada</div><h4>Prejuízo</h4><p>Preço cheio = receita + desconto.<br><span class="ex">−4.213 + 1.965 = <b>−R$&nbsp;2.248</b></span><br>Preço de tabela <b>negativo</b> em <b>86% das linhas</b>.</p></div>
-        <div class="h sim"><div class="sel">Mais provável</div><h4>Erro de sinal</h4><p>Com <code>ABS()</code>, a mesma linha:<br><span class="ex">4.213 + 1.965 = <b>R$&nbsp;6.178</b></span><br>R$ 98 por item e 32% de desconto: <b>venda normal</b>.</p></div>
+        <div class="h"><div class="sel">Descartada</div><h4>Prejuízo</h4><p>Linha real (Perf. Feminina, 04/12 17h).<br>Preço cheio = receita + desconto:<br><span class="ex">−4.213 + 1.965 = <b>−R$&nbsp;2.248</b></span><br>Preço de tabela <b>negativo</b> em <b>86% das linhas</b>.</p></div>
+        <div class="h sim"><div class="sel">Mais provável</div><h4>Erro de sinal</h4><p>Mesma linha, com <code>ABS()</code> na receita:<br>Preço cheio = receita + desconto:<br><span class="ex">4.213 + 1.965 = <b>R$&nbsp;6.178</b></span><br>R$ 98 por item e 32% de desconto: <b>venda normal</b>.</p></div>
       </div>
       <table class="comp">
         <tr><th>com o sinal corrigido</th><th>linhas negativas</th><th>linhas positivas</th></tr>
