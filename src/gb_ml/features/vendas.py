@@ -21,8 +21,6 @@ JANELAS_MEDIA = [7, 28]
 COLUNAS_EVENTO = [f"evento_{e}" for e in EVENTOS] + ["black_november", "campanha"]
 # Premissa: taxa média de desconto da semana por canal × categoria, informada pelo time de desconto
 COLUNA_DESCONTO = "taxa_desconto_semana_canal_categoria"
-# Versão anterior (só por categoria), ainda usada pela base horária (44_sql_base_modelagem_hora.sql)
-COLUNA_DESCONTO_CATEGORIA = "taxa_desconto_semana_categoria"
 # No modelo geral (sem categoria) a premissa é a taxa média da semana do total
 COLUNA_DESCONTO_GERAL = "taxa_desconto_semana"
 COLUNAS_LAG = [f"lag_{l}" for l in LAGS] + [f"mm{j}_lag{HORIZONTE}" for j in JANELAS_MEDIA]
@@ -70,7 +68,7 @@ def _dummies(df: pd.DataFrame, coluna: str, prefixo: str, remover_primeira: bool
 
 def colunas_desconto(df: pd.DataFrame) -> list[str]:
     """Coluna de desconto presente na base (por categoria ou do total)."""
-    return [c for c in (COLUNA_DESCONTO, COLUNA_DESCONTO_CATEGORIA, COLUNA_DESCONTO_GERAL) if c in df.columns]
+    return [c for c in (COLUNA_DESCONTO, COLUNA_DESCONTO_GERAL) if c in df.columns]
 
 
 def matriz_linear(df: pd.DataFrame, interacao: bool = False, usar_lags: bool = False) -> pd.DataFrame:

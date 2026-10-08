@@ -20,7 +20,7 @@ def base_sintetica(dias: int = 60) -> pd.DataFrame:
                         "des_canal_venda_final_agrup": canal,
                         "des_categoria_material": categoria,
                         "qt_material": float(i + (100 if canal == "App" else 0)),
-                        "taxa_desconto_semana_categoria": 0.3,
+                        "taxa_desconto_semana_canal_categoria": 0.3,
                     }
                 )
     return pd.DataFrame(linhas)
@@ -158,7 +158,7 @@ def base_horaria(dias: int = 35) -> pd.DataFrame:
         for i, hora in enumerate(horas):
             linhas.append({
                 "hora": hora, "data": hora.normalize(), "des_canal_venda_final_agrup": canal,
-                "des_categoria_material": "A", "qt_material": float(i), "taxa_desconto_semana_categoria": 0.3,
+                "des_categoria_material": "A", "qt_material": float(i), "taxa_desconto_semana_canal_categoria": 0.3,
             })
     return pd.DataFrame(linhas)
 
