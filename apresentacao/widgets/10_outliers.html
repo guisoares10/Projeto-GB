@@ -42,7 +42,11 @@
   .tipo b { color: var(--tinta); }
   .tipo .t { display: block; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 2px; }
   .tipo.data { background: var(--verde-claro); } .tipo.data .t { color: var(--verde-escuro); }
-  .tipo.desc { background: var(--laranja-claro); } .tipo.desc .t { color: var(--laranja); }
+  .tipo.desc { background: var(--laranja-claro); }
+  .pico { display: grid; grid-template-columns: 62px 1fr; gap: 6px; padding: 3px 0; border-top: 1px solid #f0d6c6; }
+  .pico:first-of-type { border-top: none; }
+  .pico b { color: var(--laranja); }
+  .leg-p { font-size: 10px; color: var(--tinta-3); margin-top: 3px; } .tipo.desc .t { color: var(--laranja); }
   .conclusao { margin-top: auto; border-left: 3px solid var(--verde); padding: 3px 0 3px 10px; font-size: 12px; line-height: 1.45; color: var(--tinta-2); }
   .conclusao b { color: var(--tinta); }
 </style>
@@ -65,9 +69,12 @@
         <div class="tile"><div class="v">6<small>dias</small></div><div class="n">Receita</div><div class="m">2,8%</div></div>
         <div class="tile"><div class="v">37<small>de 1.696</small></div><div class="n">Desconto por categoria</div><div class="m">2,2% dos dias × categoria</div></div>
       </div>
-      <div class="tipo data"><span class="t">Datas comerciais</span><b>Pré-Natal</b> (01/12) e semana do <b>Dia das Mães</b> (05 a 09/05), com desconto <b>na média</b> (~31%).</div>
-      <div class="tipo desc"><span class="t">Picos de desconto</span><b>12/12</b>, <b>20–21/05</b> e <b>30/06</b>: desconto de <b>45% a 56%</b>, contra 35% num dia típico.</div>
-      <div class="conclusao">São <b>vendas reais</b>: não são removidos. O modelo precisa do <b>calendário comercial</b> e do <b>plano de desconto</b> para explicá-los.</div>
+      <div class="tipo data"><span class="t">Datas comerciais · desconto na média</span><b>Pré-Natal</b> (01/12) e <b>Dia das Mães</b> (05–09/05). Nas Mães quem puxa é <b>Corpo e Banho</b> (4×), <b>Gifts</b> (5×) e Perf. Feminina, com desconto <b>na mediana ou abaixo</b>: a data vende sozinha.</div>
+      <div class="tipo desc"><span class="t">Picos de desconto · categorias em promoção</span>
+        <div class="pico"><b>12/12</b><span>Perf. Feminina · 4,4× itens · 63% vs 42%</span></div>
+        <div class="pico"><b>20–21/05</b><span>Perfumarias e Facial (até 17×) · 74% vs 38%</span></div>
+        <div class="pico"><b>30/06</b><span>Perf. Masculina (½ do extra) · 6,8× · 71% vs 29%</span></div>
+        <div class="leg-p">itens × dia típico da categoria · desconto do dia vs mediana</div></div>
     </div>
   </div>
 </div>
