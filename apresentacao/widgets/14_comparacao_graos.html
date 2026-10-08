@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Comparação dos modelos</title>
+<style>
+  :root { --verde: #1d9e75; --verde-escuro: #137a5a; --verde-claro: #e3f5ee; --laranja: #b5562b; --laranja-claro: #fbeee6;
+          --tinta: #1a1a1a; --tinta-2: #4a4a4a; --tinta-3: #7a7a7a; --linha: #e3e3dc; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 1040px; height: 480px; background: #fff; font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; color: var(--tinta); }
+  .widget { height: 100%; padding: 6px 4px; display: flex; flex-direction: column; }
+  .rotulo { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--verde);
+            margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .rotulo::after { content: ""; flex: 1; height: 1px; background: var(--linha); }
+  h3 { font-size: 19px; line-height: 1.25; margin-bottom: 12px; }
+  h3 span { color: var(--verde); }
+  .colunas { display: grid; grid-template-columns: 1.15fr 1fr; gap: 22px; flex: 1; }
+  .tit { font-size: 11px; font-weight: 700; color: var(--verde-escuro); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
+  .tit small { font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--tinta-3); font-size: 11px; margin-left: 6px; }
+
+  .comp { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .comp th { font-size: 12px; color: var(--tinta-2); text-align: center; padding: 6px 4px; font-weight: 700; }
+  .comp th small { display: block; font-weight: 400; color: var(--tinta-3); font-size: 10px; }
+  .comp th.esc { background: var(--verde-claro); color: var(--verde-escuro); border-radius: 6px 6px 0 0; }
+  .comp td { padding: 12px 4px; border-top: 1px solid var(--linha); text-align: center; color: var(--tinta-2); }
+  .comp td:first-child { text-align: left; color: var(--tinta); }
+  .comp td.esc { background: var(--verde-claro); color: var(--verde-escuro); font-weight: 700; }
+  .comp td.ruim { color: var(--laranja); font-weight: 700; }
+  .comp td.na { color: #c4c4bc; }
+  .nota { font-size: 10.5px; color: var(--tinta-3); margin-top: 6px; }
+
+  .ruido { display: flex; flex-direction: column; }
+  .barras { display: flex; flex-direction: column; gap: 14px; margin-top: 4px; }
+  .linha-b { display: grid; grid-template-columns: 150px 1fr 48px; align-items: center; gap: 8px; font-size: 12px; color: var(--tinta-2); }
+  .linha-b b { color: var(--tinta); }
+  .trilho { height: 22px; background: #f1f1ec; border-radius: 4px; overflow: hidden; }
+  .trilho i { display: block; height: 100%; border-radius: 4px; background: #9fd8c3; }
+  .trilho i.r { background: var(--laranja); }
+  .val { font-weight: 700; font-size: 13px; text-align: right; color: var(--verde-escuro); }
+  .val.r { color: var(--laranja); }
+  .msg { margin-top: auto; border-left: 3px solid var(--laranja); background: var(--laranja-claro); border-radius: 0 8px 8px 0; padding: 9px 12px; font-size: 12px; line-height: 1.45; color: var(--tinta-2); }
+  .msg b { color: var(--tinta); }
+  .decisao { margin-top: 12px; background: var(--verde-claro); border-left: 3px solid var(--verde); border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 12.5px; line-height: 1.45; color: var(--tinta-2); }
+  .decisao b { color: var(--verde-escuro); }
+</style>
+</head>
+<body>
+<div class="widget">
+  <div class="rotulo">Modelo de machine learning · escolha do grão</div>
+  <h3>Por categoria e por hora erram igual no dia; <span>por hora o resultado é ruído</span></h3>
+  <div class="colunas">
+    <div>
+      <div class="tit">Três grãos testados<small>teste faseado de 01/04 a 30/06, 14 dias à frente</small></div>
+      <table class="comp">
+        <tr><th></th><th>Geral<small>total do dia</small></th><th class="esc">Categoria<small>dia × canal × categoria</small></th><th>Hora<small>hora × canal × categoria</small></th></tr>
+        <tr><td>Erro no total do dia (WAPE)</td><td>26,1%</td><td class="esc">24,2%</td><td>24,2%</td></tr>
+        <tr><td>Viés</td><td class="ruim">−12,0%</td><td class="esc">−6,8%</td><td>−5,9%</td></tr>
+        <tr><td>Erro no total da semana</td><td>19,1%</td><td class="esc">17,9%</td><td>19,0%</td></tr>
+        <tr><td>Erro de cada série na hora</td><td class="na">—</td><td class="na esc">—</td><td class="ruim">48,4%</td></tr>
+        <tr><td>Abre por canal e categoria</td><td class="ruim">não</td><td class="esc">sim</td><td>sim</td></tr>
+        <tr><td>Linhas de treino</td><td>242</td><td class="esc">~4 mil</td><td>~104 mil</td></tr>
+      </table>
+      <div class="nota">Limite de viés: ±10%. Modelo vencedor em cada grão: geral = regressão linear; categoria e hora = LightGBM.</div>
+    </div>
+    <div class="ruido">
+      <div class="tit">Erro do modelo por hora, em cada nível</div>
+      <div class="barras">
+        <div class="linha-b"><span><b>Total da semana</b></span><div class="trilho"><i style="width:39%"></i></div><span class="val">19,0%</span></div>
+        <div class="linha-b"><span><b>Total do dia</b></span><div class="trilho"><i style="width:50%"></i></div><span class="val">24,2%</span></div>
+        <div class="linha-b"><span><b>Total da hora</b></span><div class="trilho"><i style="width:61%"></i></div><span class="val">29,4%</span></div>
+        <div class="linha-b"><span><b>Hora × série</b></span><div class="trilho"><i class="r" style="width:100%"></i></div><span class="val r">48,4%</span></div>
+      </div>
+      <div class="msg" style="margin-top:14px"><b>Muito ruído na hora:</b> com poucas features que mudam dentro do dia, uma hora de uma categoria erra quase <b>metade do volume</b>. Somando as horas o ruído se compensa, e o dia fica igual ao modelo diário, com <b>24× mais linhas</b>.</div>
+      <div class="decisao"><b>Decisão: modelo por categoria.</b> Mesmo erro no dia, viés dentro do limite e abre por canal e categoria. Se o negócio precisar da hora, a previsão diária é repartida pelo perfil horário recente: erro de 28,6% no total da hora, menor que o do modelo horário (29,4%).</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
