@@ -22,6 +22,8 @@
   .card p { font-size: 14px; color: var(--tinta-2); line-height: 1.42; }
   .card p b { color: var(--tinta); }
   .card + .card { margin-top: 8px; }
+  .card.apoio { background: #fff; border-style: dashed; }
+  .desce { text-align: center; color: var(--verde); font-size: 20px; font-weight: 700; line-height: 1; margin: -2px 0; }
   .seta { display: flex; align-items: center; justify-content: center; color: var(--verde); font-size: 26px; font-weight: 700; padding-top: 22px; }
   .saida { margin-top: 18px; background: #f5f5f2; border-radius: 10px; padding: 12px 16px; font-size: 13px; color: var(--tinta-2); line-height: 1.45; }
   .saida b { color: var(--tinta); }
@@ -30,26 +32,27 @@
 <body>
 <div class="widget">
   <div class="rotulo">Inovação e arquitetura de IA · 2. implementação técnica</div>
-  <h3>Pipeline 100% Google Cloud: <span>da imagem ao score ligado à conversão</span></h3>
+  <h3>Pipeline 100% Google Cloud: <span>da imagem ao score com as regras do time</span></h3>
   <div class="fluxo">
     <div class="etapa"><span class="n">1 · Guardar</span>
       <div class="card"><h4>Cloud Storage</h4><p>Repositório das <b>imagens e banners</b> do site.</p></div>
     </div>
     <div class="seta">→</div>
     <div class="etapa"><span class="n">2 · Analisar com IA</span>
-      <div class="card ia"><h4>Vertex AI · Embeddings</h4><p>Transforma cada imagem em uma <b>“impressão digital”</b> numérica: acha imagens parecidas.</p></div>
-      <div class="card ia"><h4>Gemini</h4><p>Dá a <b>nota qualitativa</b> com justificativa, seguindo os critérios do time.</p></div>
+      <div class="card ia apoio"><h4>Vertex AI · Embeddings</h4><p>Cria a <b>“impressão digital”</b> da imagem e busca criativos <b>parecidos já avaliados</b> como referência.</p></div>
+      <div class="desce">↓</div>
+      <div class="card ia"><h4>Gemini · gera o score</h4><p>Lê a imagem + <b>regras do time</b> + referências e dá o <b>score com justificativa</b>.</p></div>
     </div>
     <div class="seta">→</div>
-    <div class="etapa"><span class="n">3 · Cruzar</span>
-      <div class="card"><h4>BigQuery</h4><p>Junta <b>nota + cliques + conversões</b> numa tabela só.</p></div>
+    <div class="etapa"><span class="n">3 · Consolidar</span>
+      <div class="card"><h4>BigQuery</h4><p>Tabela final com <b>score + justificativa</b>; cliques e conversões entram como informação extra.</p></div>
     </div>
     <div class="seta">→</div>
     <div class="etapa"><span class="n">4 · Usar</span>
-      <div class="card"><h4>Looker Studio</h4><p>Painel para o time de negócio <b>sem programar</b>.</p></div>
+      <div class="card"><h4>Looker Studio</h4><p>Painel para o time <b>sem programar</b>, com <b>filtro de imagens parecidas</b>.</p></div>
     </div>
   </div>
-  <div class="saida"><b>Resultado:</b> além de gerar o <b>score de cada criativo</b> para o time, cruzamos com as <b>conversões que já estão no BigQuery</b> para ver se a nota acompanha a venda.</div>
+  <div class="saida"><b>Ganho do Embeddings:</b> com referências parecidas, o Gemini dá <b>notas mais consistentes, com menos risco de alucinar</b>, e o time ganha o <b>filtro de parecidas</b>.</div>
 </div>
 </body>
 </html>
