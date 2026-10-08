@@ -10,13 +10,12 @@ requires-python = ">=3.10"
 dependencies = [
   "pandas>=2.0",
   "numpy>=1.26",
-  "pyyaml>=6.0",
+  "matplotlib>=3.8",
 ]
 
 [project.optional-dependencies]
 bq = ["google-cloud-bigquery>=3.0", "db-dtypes", "bigframes"]
-ml = ["scikit-learn>=1.4", "lightgbm>=4.0", "shap>=0.44"]
-dev = ["pytest>=8.0"]
+ml = ["scikit-learn>=1.4", "lightgbm>=4.0", "xgboost>=2.0", "statsmodels>=0.14", "shap>=0.44"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
