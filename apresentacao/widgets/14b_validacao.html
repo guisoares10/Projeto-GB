@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Como foi o treinamento</title>
+<style>
+  :root { --verde: #1d9e75; --verde-escuro: #137a5a; --tinta: #1a1a1a; --tinta-2: #4a4a4a; --tinta-3: #7a7a7a; --linha: #e3e3dc; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 1040px; height: 150px; background: #fff; font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; color: var(--tinta); }
+  .faixa { margin: 4px; height: 142px; background: #f5f5f2; border-radius: 10px; padding: 12px 16px; display: grid; grid-template-columns: 1.55fr 1fr; gap: 22px; }
+  .tit { font-size: 11px; font-weight: 700; color: var(--tinta-2); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+  .rodadas { display: flex; flex-direction: column; gap: 3px; }
+  .r { display: grid; grid-template-columns: 58px 1fr; align-items: center; gap: 6px; font-size: 10px; color: var(--tinta-3); }
+  .barra { display: flex; height: 9px; }
+  .barra .tr { background: #b9bdb9; border-radius: 3px 0 0 3px; }
+  .barra .te { background: var(--verde); }
+  .barra .fu { background: #e6e6e1; border-radius: 0 3px 3px 0; }
+  .leg { display: flex; gap: 14px; font-size: 10.5px; color: var(--tinta-2); margin-top: 6px; }
+  .leg i { display: inline-block; width: 12px; height: 8px; border-radius: 2px; margin-right: 4px; vertical-align: 0; }
+  .txt { font-size: 11.5px; color: var(--tinta-2); line-height: 1.45; display: flex; flex-direction: column; gap: 6px; justify-content: center; }
+  .txt b { color: var(--tinta); }
+</style>
+</head>
+<body>
+<div class="faixa">
+  <div>
+    <div class="tit">Como foi o treinamento · validação faseada (janela expansível)</div>
+    <div class="rodadas" id="r"></div>
+    <div class="leg"><span><i style="background:#b9bdb9"></i>treino (tudo até a véspera)</span><span><i style="background:#1d9e75"></i>14 dias previstos e anotados</span><span><i style="background:#e6e6e1"></i>ainda não usado</span></div>
+  </div>
+  <div class="txt">
+    <div>O primeiro treino usa <b>62% da base</b> (nov a mar). O modelo prevê os <b>próximos 14 dias</b>, o resultado é anotado, esses dias entram no treino e o ciclo se repete: <b>7 rodadas</b> até 30/06.</div>
+    <div>É uma <b>boa prática</b> para séries temporais: o modelo nunca vê o futuro que precisa acertar. Antes de cada rodada, uma <b>função testa a melhor combinação de parâmetros</b> só com o passado.</div>
+  </div>
+</div>
+<script>
+const total=242, inicio=151, h=14, el=document.getElementById('r');
+for(let k=0;k<7;k++){const tr=inicio+k*h, te=Math.min(h,total-tr), fu=total-tr-te;
+ el.insertAdjacentHTML('beforeend',`<div class="r"><span>rodada ${k+1}</span><div class="barra"><div class="tr" style="width:${tr/total*100}%"></div><div class="te" style="width:${te/total*100}%"></div><div class="fu" style="width:${fu/total*100}%"></div></div></div>`)}
+</script>
+</body>
+</html>
