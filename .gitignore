@@ -20,3 +20,6 @@ venv/
 .ipynb_checkpoints/
 dist/
 build/
+
+# Apresentação (slides e widgets) fica fora do repositório
+apresentacao/

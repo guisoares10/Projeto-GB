@@ -93,8 +93,10 @@ Essa seção será estruturada após a conclusão da modelagem da Seção 1.
 notebooks/
   analise_exploratoria.ipynb      análise exploratória e data quality
   modelo_machine_learning_categorias.ipynb  previsão diária por canal × categoria (modelo recomendado)
-  modelo_machine_learning_geral.ipynb       comparação: previsão diária do total (uma série)
-  modelo_machine_learning_hora.ipynb        comparação: previsão por hora × canal × categoria
+  modelos_teste/                  modelos testados e comparados com o recomendado
+    modelo_machine_learning_geral.ipynb         previsão diária do total (uma série)
+    modelo_machine_learning_hora.ipynb          previsão por hora × canal × categoria
+    modelo_machine_learning_sem_novembro.ipynb  treino sem novembro (Black November)
 sql/                              consultas numeradas na ordem de uso nos notebooks
 src/gb_ml/
   case_espec_i.py                 preparação e agregações específicas do arquivo
@@ -102,8 +104,6 @@ src/gb_ml/
   profiling/                      utilitários de profiling/visualização
   features/                       calendário comercial (eventos, campanhas) e features da previsão
   model/                          validação faseada, métricas, baselines e modelos
-tests/
-data/                              dados locais — não versionados
 ```
 
 ## Dados
@@ -131,13 +131,7 @@ Os dados do case **não são versionados no repositório**.
 ```bash
 python -m venv .venv
 source .venv/Scripts/activate   # Git Bash no Windows
-python -m pip install -e ".[bq,ml,dev]"
-```
-
-Para executar os testes:
-
-```bash
-pytest -v
+python -m pip install -e ".[bq,ml]"
 ```
 
 
