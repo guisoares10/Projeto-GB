@@ -15,7 +15,7 @@
   .rotulo::after { content: ""; flex: 1; height: 1px; background: var(--linha); }
   h3 { font-size: 19px; line-height: 1.25; margin-bottom: 4px; }
   h3 span { color: var(--verde); }
-  .lead { font-size: 12.5px; color: var(--tinta-2); margin-bottom: 12px; }
+  .lead { font-size: 12.5px; color: var(--tinta-2); margin-bottom: 10px; line-height: 1.45; background: var(--verde-claro); border-left: 3px solid var(--verde); border-radius: 0 8px 8px 0; padding: 7px 12px; }
   .lead b { color: var(--tinta); }
   .colunas { display: grid; grid-template-columns: 790px 1fr; gap: 18px; }
   .colunas .ok { align-self: stretch; }
@@ -36,7 +36,9 @@
   .ok b { color: var(--tinta); }
   .ok .linha { display: flex; justify-content: space-between; border-top: 1px solid #c8e8db; padding: 3px 0; }
   .ok .sub { font-size: 10px; color: var(--tinta-3); text-transform: uppercase; letter-spacing: .05em; margin: 8px 0 2px; }
-  .ok .nota { margin-top: 12px; font-size: 10.5px; color: var(--tinta-3); line-height: 1.4; }
+  .ref { margin-top: 12px; background: #fff; border-radius: 6px; padding: 8px 10px; font-size: 11px; line-height: 1.4; }
+  .ref .t { display: block; font-size: 10px; font-weight: 700; color: var(--verde-escuro); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 2px; }
+  .ok .nota { margin-top: 6px; font-size: 10.5px; color: var(--tinta-3); line-height: 1.4; }
 
   .acoes { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: auto; }
   .acao { border-radius: 8px; padding: 9px 12px; font-size: 11.5px; line-height: 1.4; color: var(--tinta-2); }
@@ -51,10 +53,10 @@
 <div class="widget">
   <div class="rotulo">Monitoramento da ingestão · backtest dez–jun</div>
   <h3>Modelo assertivo depende de dado confiável: <span>cada carga passa por checagens automáticas</span></h3>
-  <div class="lead">A mesma regra da análise exploratória vira uma <b>consulta SQL rodada a cada carga horária</b>. Abaixo, quantos avisos ela teria gerado de dezembro a junho.</div>
+  <div class="lead">Uma <b>consulta SQL roda a cada carga horária</b>. Em produção, cada carga <b>só conhece o passado</b>: não dá para usar o IQR do período inteiro, como na análise. A referência passa a ser uma <b>janela móvel das últimas 4 semanas</b>, que avisa picos <b>e quedas</b>.</div>
   <div class="colunas">
     <div>
-      <div class="bloco-tit">Avisos por dia<span>novembro fora, inclusive do histórico de comparação</span></div>
+      <div class="bloco-tit">Avisos por dia<span>dez–jun, novembro fora também da janela · volume e desconto só são avaliados após 2–3 semanas de histórico</span></div>
       {{SVG}}
     </div>
     <div class="ok">
@@ -66,13 +68,12 @@
       <div class="sub">aviso</div>
       <div class="linha"><span>Hora sem dados</span><b>0</b></div>
       <div class="linha"><span>Canal ausente na hora</span><b>2</b></div>
-      <div class="nota">Volume e desconto precisam de histórico: começam a ser avaliados após 2 a 3 semanas de dezembro.</div>
     </div>
   </div>
   <div class="acoes">
     <div class="acao erro"><span class="t">Erros · avisar o time de origem</span>Categoria inválida e receita negativa aparecem <b>todos os dias</b>: são falhas a <b>corrigir na origem</b>, não a tolerar.</div>
-    <div class="acao outlier"><span class="t">Volume · investigar</span>Hora fora do esperado por 3h seguidas: é <b>dado duplicado/repetido</b> ou um <b>dia de venda forte</b> de verdade?</div>
-    <div class="acao desconto"><span class="t">Desconto · validar com o negócio</span>Desconto da categoria a mais de <b>±22 p.p.</b> da sua mediana de 28 dias: confirmar se a <b>promoção</b> era planejada.</div>
+    <div class="acao outlier"><span class="t">Volume · investigar</span>Hora a 3× acima (ou 70% abaixo) da <b>mesma hora e dia da semana nas 4 semanas anteriores</b>, por 3h seguidas: <b>dado duplicado</b> ou <b>venda forte</b> de verdade?</div>
+    <div class="acao desconto"><span class="t">Desconto · validar com o negócio</span>Desconto da categoria a mais de <b>±22 p.p.</b> da sua <b>mediana dos 28 dias anteriores</b>: confirmar se a <b>promoção</b> era planejada.</div>
   </div>
 </div>
 </body>

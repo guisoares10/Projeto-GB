@@ -19,7 +19,7 @@ faixas = [
     ("taxa_desconto_categoria", "Desconto por categoria", "desconto", "categorias/dia"),
 ]
 
-L, T, W, FH, GAP = 172, 6, 540, 56, 12
+L, T, W, FH, GAP = 172, 6, 540, 50, 10
 x = lambda i: L + i * W / len(dias)
 bw = W / len(dias)
 p = []
