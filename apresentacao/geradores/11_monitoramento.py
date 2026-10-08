@@ -15,8 +15,8 @@ dias = pd.date_range("2025-12-01", "2026-06-30")
 faixas = [
     ("categoria_invalida", "Categoria inválida", "erro", "horas/dia"),
     ("receita_negativa", "Receita negativa", "erro", "horas/dia"),
-    ("volume_anomalo_3h", "Volume anômalo", "outlier", "horas/dia"),
-    ("taxa_desconto_categoria", "Desconto por categoria", "desconto", "categorias/dia"),
+    ("volume_outlier_iqr", "Volume diário", "outlier", "outlier IQR"),
+    ("desconto_outlier_iqr", "Desconto por categoria", "desconto", "categorias/dia"),
 ]
 
 L, T, W, FH, GAP = 172, 6, 540, 50, 10

@@ -53,10 +53,10 @@
 <div class="widget">
   <div class="rotulo">Monitoramento da ingestão · backtest dez–jun</div>
   <h3>Modelo assertivo depende de dado confiável: <span>cada carga passa por checagens automáticas</span></h3>
-  <div class="lead">Uma <b>consulta SQL roda a cada carga horária</b>. Em produção, cada carga <b>só conhece o passado</b>: não dá para usar o IQR do período inteiro, como na análise. A referência passa a ser uma <b>janela móvel das últimas 4 semanas</b>, que avisa picos <b>e quedas</b>.</div>
+  <div class="lead">Uma <b>consulta SQL</b> roda a cada carga. Em produção, cada dia <b>só conhece o passado</b>: a mesma regra estatística da análise, o <b>IQR</b>, é recalculada todo dia com <b>todo o histórico anterior</b> (IQR expansivo, sem novembro). Avisa picos <b>e quedas</b>.</div>
   <div class="colunas">
     <div>
-      <div class="bloco-tit">Avisos por dia<span>dez–jun, novembro fora também da janela · volume e desconto só são avaliados após 2–3 semanas de histórico</span></div>
+      <div class="bloco-tit">Avisos por dia<span>dez–jun, novembro fora também da janela · volume e desconto só são avaliados após 21 dias de histórico</span></div>
       {{SVG}}
     </div>
     <div class="ok">
@@ -72,8 +72,8 @@
   </div>
   <div class="acoes">
     <div class="acao erro"><span class="t">Erros · avisar o time de origem</span>Categoria inválida e receita negativa aparecem <b>todos os dias</b>: são falhas a <b>corrigir na origem</b>, não a tolerar.</div>
-    <div class="acao outlier"><span class="t">Volume · investigar</span>Hora a 3× acima (ou 70% abaixo) da <b>mesma hora e dia da semana nas 4 semanas anteriores</b>, por 3h seguidas: <b>dado duplicado</b> ou <b>venda forte</b> de verdade?</div>
-    <div class="acao desconto"><span class="t">Desconto · validar com o negócio</span>Desconto da categoria a mais de <b>±22 p.p.</b> da sua <b>mediana dos 28 dias anteriores</b>: confirmar se a <b>promoção</b> era planejada.</div>
+    <div class="acao outlier"><span class="t">Volume · investigar</span>Itens do dia fora de <b>Q1 − 1,5 × IQR</b> ou <b>Q3 + 1,5 × IQR</b> do histórico: é <b>dado duplicado</b> ou <b>venda forte</b> de verdade?</div>
+    <div class="acao desconto"><span class="t">Desconto · validar com o negócio</span>Desconto da categoria fora da <b>faixa IQR do seu próprio histórico</b>: confirmar se a <b>promoção</b> era planejada.</div>
   </div>
 </div>
 </body>
