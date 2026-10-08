@@ -58,14 +58,14 @@
         <tr><td>Erro no total do dia (WAPE)</td><td>26,1%</td><td class="esc">24,2%</td><td>24,2%</td></tr>
         <tr><td>Viés</td><td class="ruim">−12,0%</td><td class="esc">−6,8%</td><td>−5,9%</td></tr>
         <tr><td>Erro no total da semana</td><td>19,1%</td><td class="esc">17,9%</td><td>19,0%</td></tr>
+        <tr><td>Erro no total do mês<small class="sub">abril, maio e junho</small></td><td>12,0%</td><td class="esc">8,3%</td><td>7,6%</td></tr>
         <tr><td>Erro no dia × série<small class="sub">cada canal × categoria por dia</small></td><td class="na">—</td><td class="esc">38,0%</td><td>38,4%</td></tr>
-        <tr><td>Abre por canal e categoria</td><td class="ruim">não</td><td class="esc">sim</td><td>sim</td></tr>
         <tr><td>Linhas de treino</td><td>242</td><td class="esc">~4 mil</td><td>~104 mil</td></tr>
       </table>
       <div class="nota">Limite de viés: ±10%. Modelo vencedor em cada grão: geral = regressão linear; categoria e hora = LightGBM.</div>
     </div>
     <div class="ruido">
-      <div class="msg neutro"><b>Mesmo resultado em todos os níveis:</b> no dia, na semana e no dia × série, categoria e hora ficam a cerca de 1 p.p. A hora não traz informação nova: o que move a venda (desconto, datas, dia da semana) é diário.</div>
+      <div class="msg neutro"><b>Mesmo resultado em todos os níveis:</b> no dia, na semana, no mês e no dia × série, categoria e hora ficam a cerca de 1 p.p. A hora não traz informação nova: o que move a venda (desconto, datas, dia da semana) é diário.</div>
       <div class="msg"><b>Muito ruído na hora:</b> descendo para cada série em cada hora, qualquer abordagem erra quase <b>metade do volume</b> (48%), e o modelo horário treina com <b>24× mais linhas</b>.</div>
       <div class="decisao"><b>Decisão: modelo por categoria.</b> Mesmo erro, viés dentro do limite, abre por canal e categoria e é bem mais leve. Se o negócio precisar da hora, a previsão diária é repartida pelo perfil horário recente.</div>
     </div>
